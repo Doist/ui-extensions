@@ -1,0 +1,11 @@
+.adaptive-card-loading-container {
+    white-space: normal;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background: var(--framework-fill-elevated-alpha);
+    position: absolute;
+    z-index: 5;
+    overscroll-behavior: contain;
+    justify-content: center;
+}

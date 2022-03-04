@@ -1,0 +1,38 @@
+{
+    "name": "@doist/ui-extensions-core",
+    "version": "3.1.4",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Doist/ui-extensions"
+    },
+    "scripts": {
+        "watch": "npm run build && yalc push && chokidar src -c \"npm run build && yalc push\"",
+        "lint-fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+        "lint-check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+        "format-check": "prettier --check .",
+        "format-fix": "npx prettier --write .",
+        "test": "jest",
+        "clean": "rimraf dist",
+        "reset": "rimraf dist node_modules",
+        "prepare": "npm run build",
+        "build": "npm run clean && npx tsc -p tsconfig.build.json",
+        "ts-compile-check": "tsc --noEmit",
+        "integrity-check": "npm-run-all clean format-check lint-check ts-compile-check test",
+        "link:yalc": "yalc link",
+        "publish:yalc": "yalc push"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "prettier": "@doist/prettier-config",
+    "files": [
+        "dist/**/*",
+        "!dist/**/*.tsbuildinfo"
+    ],
+    "dependencies": {
+        "typescript-json-serializer": "^3.4.5"
+    }
+}
