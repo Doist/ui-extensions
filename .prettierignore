@@ -1,0 +1,5 @@
+packages/ui-extensions-core/dist/
+packages/ui-extensions-react/dist/
+packages/ui-extensions-react/es/
+packages/ui-extensions-react/lib/
+packages/ui-extensions-react/styles/

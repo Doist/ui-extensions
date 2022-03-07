@@ -1,0 +1,26 @@
+name: Core CI
+on:
+    pull_request:
+        paths:
+            - 'packages/ui-extensions-core/**'
+            - 'package.json'
+            - 'package-lock.json'
+
+jobs:
+    ci-core:
+        runs-on: ubuntu-latest
+        timeout-minutes: 60
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Configure doist package repository
+              uses: actions/setup-node@v2
+              with:
+                  node-version-file: '.nvmrc'
+
+            - name: Bootstrap
+              run: npm run bootstrap-ci:common
+
+            - name: Integrity Check
+              run: npm run integrity-check
+              working-directory: packages/ui-extensions-core

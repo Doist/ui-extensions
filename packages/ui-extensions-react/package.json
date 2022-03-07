@@ -1,0 +1,66 @@
+{
+    "name": "@doist/ui-extensions-react",
+    "version": "3.1.4",
+    "author": "Doist",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "styles"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Doist/ui-extensions"
+    },
+    "engines": {
+        "node": ">=16"
+    },
+    "scripts": {
+        "watch": "npm run build && yalc push && chokidar src -c \"npm run build && yalc push\"",
+        "build": "npm run clean && npx rollup -c && ./scripts/reorganize-styles.sh",
+        "test": "jest --passWithNoTests",
+        "lint-fix": "eslint \"{src,apps,libs,test}/**/*.{ts,tsx}\" --fix",
+        "lint-check": "eslint \"{src,apps,libs,test}/**/*.{ts,tsx}\"",
+        "format-check": "npx prettier --check .",
+        "format-fix": "npx prettier --write .",
+        "ts-compile-check": "tsc --noEmit",
+        "clean": "rimraf dist styles",
+        "reset": "rimraf dist styles node_modules",
+        "prepare": "npm run build",
+        "storybook": "start-storybook -p 6006 -s ./src/stories/public",
+        "build-storybook": "build-storybook",
+        "integrity-check": "npm-run-all clean format-check lint-check ts-compile-check test",
+        "link:yalc": "yalc link",
+        "publish:yalc": "yalc push"
+    },
+    "peerDependencies": {
+        "@doist/reactist": "^11.0.0",
+        "@doist/ui-extensions-core": "^3.1.4",
+        "adaptivecards": "^2.9.0",
+        "react": ">=16"
+    },
+    "prettier": "@doist/prettier-config",
+    "dependencies": {
+        "classnames": "^2.3.1",
+        "dayjs": "^1.9.1"
+    },
+    "devDependencies": {
+        "@storybook/addon-actions": "^6.3.12",
+        "@storybook/addon-essentials": "^6.3.12",
+        "@storybook/addon-links": "^6.3.12",
+        "@storybook/react": "^6.3.12",
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.5.0",
+        "@testing-library/react-hooks": "^3.3.0",
+        "eslint-config-react-app": "^7.0.0",
+        "msw": "^0.36.8",
+        "react": "^16.14.0",
+        "react-dom": "^16.14.0",
+        "react-is": "^16.13.1",
+        "react-test-renderer": "^16.13.1"
+    },
+    "msw": {
+        "workerDirectory": "src/stories/public"
+    }
+}

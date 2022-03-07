@@ -1,0 +1,33 @@
+name: Publish React package
+
+on:
+    push:
+        tags:
+            - 'react-v*'
+
+jobs:
+    # Publish to GitHub package registry
+    publish-github:
+        runs-on: ubuntu-latest
+        timeout-minutes: 60
+        steps:
+            - name: Git checkout
+              uses: actions/checkout@v2
+
+            - name: Configure Doist package repository
+              uses: actions/setup-node@v2
+              with:
+                  node-version-file: '.nvmrc'
+                  registry-url: https://npm.pkg.github.com/
+                  scope: '@doist'
+
+            - name: Install dependencies
+              run: npm run bootstrap-ci:react
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
+
+            - name: Publish package
+              working-directory: ./packages/ui-extensions-react
+              run: npm publish
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}

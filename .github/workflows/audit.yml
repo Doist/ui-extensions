@@ -1,0 +1,19 @@
+name: Audit
+on: pull_request
+
+jobs:
+    ci-core:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@v2
+
+            - uses: actions/setup-node@v2
+              with:
+                  node-version-file: '.nvmrc'
+
+            - name: Bootstrap
+              run: npm run bootstrap-ci:common
+
+            - name: Audit
+              run: npm run audit --production

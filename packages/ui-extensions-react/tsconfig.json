@@ -1,0 +1,13 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./dist",
+        "baseUrl": "./src",
+        "rootDir": "./src",
+        "declarationDir": "./dist",
+        "module": "CommonJS",
+        "jsx": "react"
+    },
+    "include": ["src", "test", "stories"],
+    "exclude": ["node_modules"]
+}
