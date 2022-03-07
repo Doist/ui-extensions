@@ -11,7 +11,7 @@ import type {
 import type { AdaptiveCardistCard } from './doist-rendering'
 
 // For details on the Data Exchange Format (DEF) versions, please see
-// https://handbook.doist.com/Engineering/Integrations/Specs/UI-Extensions-Technical.md
+// https://developer.twist.com/ui-extensions#handling-user-requests
 export type ExtensionVersion = 2
 
 export type ExtensionContext = DoistCardContext
