@@ -8,7 +8,7 @@ The monorepo is managed using [npm v7 workspaces](https://docs.npmjs.com/cli/v7/
 
 To install the dependencies run `npm install`.
 
-It comprises of two packages:
+This monorepo comprises of two packages:
 
 ### ui-extensions-core
 
