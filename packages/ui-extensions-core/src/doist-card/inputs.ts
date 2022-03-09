@@ -45,6 +45,9 @@ export class TextInput extends Input {
     @JsonProperty()
     inlineAction?: Action
 
+    @JsonProperty()
+    regex?: string
+
     getActionById(id: string): Action | undefined {
         let result = super.getActionById(id)
 
