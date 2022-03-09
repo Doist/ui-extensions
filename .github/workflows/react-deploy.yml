@@ -24,7 +24,7 @@ jobs:
             - name: Install dependencies
               run: npm run bootstrap-ci:react
               env:
-                  NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+                  NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
 
             - name: Publish package
               working-directory: ./packages/ui-extensions-react
