@@ -1,9 +1,13 @@
+:root {
+    --doist-card-loading-background: rgba(0, 0, 0, 0.4);
+}
+
 .adaptive-card-loading-container {
     white-space: normal;
     display: flex;
     height: 100%;
     width: 100%;
-    background: var(--framework-fill-elevated-alpha);
+    background: var(--doist-card-loading-background);
     position: absolute;
     z-index: 5;
     overscroll-behavior: contain;
