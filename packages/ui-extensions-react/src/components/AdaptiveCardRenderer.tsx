@@ -77,19 +77,16 @@ export function AdaptiveCardRenderer({
     }, [customMarkdownParse])
 
     const elementParser = useRefCallback(
-        (adaptiveCard: ExtensionCard) => (
-            element: CardElement,
-            source: unknown,
-            context: SerializationContext,
-        ) => {
-            if ('autoFocusId' in adaptiveCard) {
-                if (canSetAutoFocus(element)) {
-                    element.shouldAutoFocus = element.id === adaptiveCard.autoFocusId
+        (adaptiveCard: ExtensionCard) =>
+            (element: CardElement, source: unknown, context: SerializationContext) => {
+                if ('autoFocusId' in adaptiveCard) {
+                    if (canSetAutoFocus(element)) {
+                        element.shouldAutoFocus = element.id === adaptiveCard.autoFocusId
+                    }
                 }
-            }
 
-            customElementParse?.(element, source, context)
-        },
+                customElementParse?.(element, source, context)
+            },
     )
 
     const handleAction = useRefCallback((adaptiveCard: AdaptiveCard) => (action: Action) => {
