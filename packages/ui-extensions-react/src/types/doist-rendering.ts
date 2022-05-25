@@ -1,4 +1,3 @@
-import type { Orientation } from '@doist/ui-extensions-core'
 import {
     Action,
     ActionProperty,
@@ -14,6 +13,8 @@ import {
     TextInput,
     Versions,
 } from 'adaptivecards'
+
+import type { Orientation } from '@doist/ui-extensions-core'
 
 export type AdaptiveCardistVersion = '0.2' | '0.3' | '0.4'
 export type InputStyle = 'text' | 'tel' | 'url' | 'email' | 'search'

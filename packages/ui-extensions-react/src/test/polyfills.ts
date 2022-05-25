@@ -9,8 +9,8 @@ export function polyfillFetch(): void {
         return
     }
 
-    globalThis.fetch = (fetch as unknown) as (
-        input: RequestInfo,
+    globalThis.fetch = fetch as unknown as (
+        input: RequestInfo | URL,
         init?: RequestInit,
     ) => Promise<Response>
 }
