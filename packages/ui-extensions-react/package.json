@@ -46,6 +46,7 @@
         "dayjs": "^1.9.1"
     },
     "devDependencies": {
+        "@doist/reactist": "^12.0.1",
         "@storybook/addon-actions": "^6.3.12",
         "@storybook/addon-essentials": "^6.3.12",
         "@storybook/addon-links": "^6.3.12",
