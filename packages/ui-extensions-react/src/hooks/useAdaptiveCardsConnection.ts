@@ -5,6 +5,7 @@ import { processRequest } from '../api/adaptive-cards-server'
 import type {
     DoistCardAction,
     DoistCardActionParams,
+    DoistCardBridge,
     DoistCardError,
     DoistCardExtensionType,
     DoistCardRequest,
@@ -77,7 +78,7 @@ export function useAdaptiveCardsConnection({
                 const { card, bridge, bridges } = response
 
                 if (bridges) {
-                    bridges.forEach((bridge) => {
+                    bridges.forEach((bridge: DoistCardBridge) => {
                         const callback = bridgeActionCallbacks[bridge.bridgeActionType]
                         callback?.(bridge)
                     })
@@ -110,6 +111,7 @@ export function useAdaptiveCardsConnection({
         [context, bridgeActionCallbacks, endpointUrl, extensionType, params, version, token],
     )
 
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     return { result, onAction }
 }
 

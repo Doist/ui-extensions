@@ -10,7 +10,7 @@ export function polyfillFetch(): void {
     }
 
     globalThis.fetch = fetch as unknown as (
-        input: RequestInfo,
+        input: RequestInfo | URL,
         init?: RequestInit,
     ) => Promise<Response>
 }
