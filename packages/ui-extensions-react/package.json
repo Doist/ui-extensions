@@ -35,10 +35,10 @@
         "publish:yalc": "yalc push"
     },
     "peerDependencies": {
-        "@doist/reactist": "^11.0.0",
+        "@doist/reactist": "^12.0.0",
         "@doist/ui-extensions-core": "^3.1.4",
         "adaptivecards": "^2.9.0",
-        "react": ">=16"
+        "react": ">=17"
     },
     "prettier": "@doist/prettier-config",
     "dependencies": {
@@ -46,6 +46,7 @@
         "dayjs": "^1.9.1"
     },
     "devDependencies": {
+        "@doist/reactist": "^12.0.1",
         "@storybook/addon-actions": "^6.3.12",
         "@storybook/addon-essentials": "^6.3.12",
         "@storybook/addon-links": "^6.3.12",
@@ -55,10 +56,10 @@
         "@testing-library/react-hooks": "^3.3.0",
         "eslint-config-react-app": "^7.0.0",
         "msw": "^0.36.8",
-        "react": "^16.14.0",
-        "react-dom": "^16.14.0",
-        "react-is": "^16.13.1",
-        "react-test-renderer": "^16.13.1"
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-is": "^17.0.2",
+        "react-test-renderer": "^17.0.2"
     },
     "msw": {
         "workerDirectory": "src/stories/public"
