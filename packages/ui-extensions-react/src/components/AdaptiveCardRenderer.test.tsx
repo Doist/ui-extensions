@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react'
 
-import { screen } from '@testing-library/dom'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import { getDefaultCard } from '../test/fixtures'
 
