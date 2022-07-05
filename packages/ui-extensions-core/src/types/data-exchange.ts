@@ -3,7 +3,7 @@ import type { DoistCard } from '../doist-card'
 /**
  * The types of actions that an adaptive card integration can request.
  */
-export type DoistCardActionType = 'initial' | 'submit' | 'error' | 'terminate'
+export type DoistCardActionType = 'initial' | 'submit'
 
 /**
  * Input field IDs along with their values that are sent as a part of the adaptive card action.
@@ -149,6 +149,23 @@ export type DoistCardContextConversation = {
     title: string
 }
 
+type IdAndName = { id: number; name: string }
+
+/**
+ * The current project in which the user is browsing content. Is not present in the data if the user is not currently browsing a project.
+ */
+export type DoistCardContextProject = IdAndName
+
+/**
+ * The current label in which the user is browsing content. Is not present in the data if the user is not currently browsing a label.
+ */
+export type DoistCardContextLabel = IdAndName
+
+/**
+ * The current filter in which the user is browsing content. Is not present in the data if the user is not currently browsing a filter.
+ */
+export type DoistCardContextFilter = IdAndName
+
 type Message = {
     id: number
     content: string
@@ -179,7 +196,12 @@ export type TwistContext = {
  * Context from Todoist on which interactions with the adaptive card integration happen.
  */
 export type TodoistContext = {
-    project: { id: number; name: string }
+    /**
+     * Project may not exist as Todoist could be on Today/Upcoming/Filters
+     */
+    project?: DoistCardContextProject
+    filter?: DoistCardContextFilter
+    label?: DoistCardContextLabel
 }
 
 export type DoistCardContext = {
