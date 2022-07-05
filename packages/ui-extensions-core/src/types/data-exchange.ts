@@ -71,8 +71,8 @@ export type ContextMenuData = {
           source: TodoistContextMenuSource
 
           /**
-           * The date the content was posted. For threads, this will be the
-           * date the thread was created.
+           * The date the content was posted. For projects, this will be null.
+           * For tasks this will be the date the task was created.
            */
           postedDate?: Date
       }
