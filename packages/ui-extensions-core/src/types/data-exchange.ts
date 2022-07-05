@@ -23,7 +23,9 @@ export type DoistCardActionData = Record<string, unknown>
 
 export type DoistCardExtensionType = 'composer' | 'context-menu' | `settings`
 
-export type ContextMenuSource = 'message' | 'thread' | 'comment'
+export type TwistContextMenuSource = 'message' | 'thread' | 'comment'
+
+export type TodoistContextMenuSource = 'project' | 'task'
 
 /**
  * When a context menu extension is triggered, the data will be sent in the
@@ -31,10 +33,6 @@ export type ContextMenuSource = 'message' | 'thread' | 'comment'
  * cast that data to something specific.
  */
 export type ContextMenuData = {
-    /**
-     * The source that made the request to the extension
-     */
-    source: ContextMenuSource
     /**
      * The deep link back to the source
      */
@@ -54,12 +52,31 @@ export type ContextMenuData = {
      * has been scrubbed of all markdown formatting.
      */
     contentPlain: string
-    /**
-     * The date the content was posted. For threads, this will be the
-     * date the thread was created.
-     */
-    postedDate: Date
-}
+} & (
+    | {
+          /**
+           * The source that made the request to the extension
+           */
+          source: TwistContextMenuSource
+          /**
+           * The date the content was posted. For threads, this will be the
+           * date the thread was created.
+           */
+          postedDate: Date
+      }
+    | {
+          /**
+           * The source that made the request to the extension
+           */
+          source: TodoistContextMenuSource
+
+          /**
+           * The date the content was posted. For threads, this will be the
+           * date the thread was created.
+           */
+          postedDate?: Date
+      }
+)
 
 /**
  * Represents an action that the user has done on the client.
@@ -158,10 +175,18 @@ export type TwistContext = {
     comment?: DoistCardContextComment
 }
 
+/**
+ * Context from Todoist on which interactions with the adaptive card integration happen.
+ */
+export type TodoistContext = {
+    project: { id: number; name: string }
+}
+
 export type DoistCardContext = {
     user: DoistCardContextUser
     theme: Theme
     twist?: TwistContext
+    todoist?: TodoistContext
     platform?: Platform
 }
 
@@ -226,9 +251,6 @@ export type DoistCardBridge = {
  */
 export type DoistCardResponse = {
     card?: DoistCard
-    // `bridge` is kept here for backward compatibility reasons. We should deprecate when
-    // `bridges` code is in production
-    bridge?: DoistCardBridge
     bridges?: DoistCardBridge[]
 }
 
