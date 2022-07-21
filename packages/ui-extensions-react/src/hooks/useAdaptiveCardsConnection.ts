@@ -75,23 +75,20 @@ export function useAdaptiveCardsConnection({
                     token,
                 )
 
-                const { card, bridge, bridges } = response
+                const { card, bridges } = response
 
                 if (bridges) {
                     bridges.forEach((bridge: DoistCardBridge) => {
                         const callback = bridgeActionCallbacks[bridge.bridgeActionType]
                         callback?.(bridge)
                     })
-                } else if (bridge) {
-                    const callback = bridgeActionCallbacks[bridge.bridgeActionType]
-                    callback?.(bridge)
                 }
 
                 if (card) {
                     setCardData(card)
                 }
 
-                if (!card && !bridge) {
+                if (!card && !bridges) {
                     setError(
                         createError(version, new Error('No card or bridge data returned'), request),
                     )
