@@ -140,11 +140,12 @@ describe('useAdaptiveCardsConnection tests', () => {
             const expected = 'hello'
             getProcessRequestMock().mockImplementationOnce(() => {
                 return Promise.resolve({
-                    card: {},
-                    bridge: {
-                        bridgeActionType: 'composer.append',
-                        text: expected,
-                    },
+                    bridges: [
+                        {
+                            bridgeActionType: 'composer.append',
+                            text: expected,
+                        },
+                    ],
                 } as DoistCardResponse)
             })
 
