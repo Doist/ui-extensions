@@ -20,6 +20,8 @@ jobs:
 
             - name: Bootstrap
               run: npm run bootstrap-ci:common
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
 
             - name: Integrity Check
               run: npm run integrity-check
