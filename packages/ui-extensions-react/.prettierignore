@@ -2,3 +2,6 @@ dist/
 es/
 lib/
 styles/
+
+# Parcel cache
+.parcel-cache/**
