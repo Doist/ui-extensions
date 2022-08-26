@@ -28,4 +28,6 @@ export default {
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 
     modulePathIgnorePatterns: ['<rootDir>/dist/'],
+
+    transformIgnorePatterns: ['/dist', '/node_modules'],
 }
