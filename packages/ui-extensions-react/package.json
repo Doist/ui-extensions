@@ -6,10 +6,9 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "source": "src/index.ts",
-    "styles": "dist/styles/index.css",
+    "styles": "dist/index.css",
     "files": [
-        "dist",
-        "styles"
+        "dist"
     ],
     "repository": {
         "type": "git",
@@ -20,7 +19,7 @@
     },
     "scripts": {
         "watch": "npm run build && yalc push && chokidar src -c \"npm run build && yalc push\"",
-        "build": "npm run clean && npm run build:dist && ./scripts/reorganize-styles.sh",
+        "build": "npm run clean && npm run build:dist",
         "build:dist": "parcel build",
         "test": "jest --passWithNoTests",
         "lint-fix": "eslint \"{src,apps,libs,test}/**/*.{ts,tsx}\" --fix",
