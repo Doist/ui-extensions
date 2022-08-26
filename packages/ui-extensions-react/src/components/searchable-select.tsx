@@ -91,10 +91,12 @@ type SearchableSelectProps = SelectProps<Option, boolean> & {
 type Option = { label: string; value: number }
 
 function isOption(value: OnChangeValue<Option, boolean>): value is Option {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     return (value as Option).label !== undefined
 }
 
 function isMultipleOptions(value: OnChangeValue<Option, boolean>): value is Option[] {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     return (value as Option[]).length !== undefined
 }
 
