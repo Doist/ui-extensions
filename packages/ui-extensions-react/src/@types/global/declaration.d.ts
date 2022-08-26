@@ -1,7 +1,10 @@
+declare type ReactSVGComponent = React.ForwardRefExoticComponent<
+    React.PropsWithoutRef<React.SVGProps<SVGSVGElement>> & React.RefAttributes<SVGSVGElement>
+>
 declare module '*.svg' {
-    const content: JSX.Element
+    const ReactComponent: ReactSVGComponent
     // eslint-disable-next-line import/no-default-export
-    export default content
+    export default ReactComponent
 }
 
 declare module '*.css' {
