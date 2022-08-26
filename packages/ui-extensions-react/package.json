@@ -36,7 +36,8 @@
         "link:yalc": "yalc link",
         "publish:yalc": "yalc push",
         "parcel:watch": "parcel watch",
-        "parcel:build": "parcel build"
+        "parcel:build": "parcel build",
+        "prepublishOnly": "npm run build"
     },
     "peerDependencies": {
         "@doist/reactist": "^14.0.0",
