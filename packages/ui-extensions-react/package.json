@@ -41,7 +41,6 @@
     "peerDependencies": {
         "@doist/reactist": "^14.0.0",
         "@doist/ui-extensions-core": "^3.2.1",
-        "@swc/helpers": "0.4.11",
         "classnames": "^2.3.1",
         "dayjs": "^1.11.0",
         "react": "^17.0.0 || ^18.0.0",
@@ -51,6 +50,7 @@
     "prettier": "@doist/prettier-config",
     "dependencies": {
         "@doist/ui-extensions-core": "^3.2.1",
+        "@swc/helpers": "0.4.11",
         "adaptivecards": "2.9.0"
     },
     "devDependencies": {

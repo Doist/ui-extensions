@@ -32,6 +32,7 @@
         "eslint": "^7.32.0",
         "eslint-config-prettier": "^6.15.0",
         "eslint-import-resolver-webpack": "^0.13.1",
+        "eslint-plugin-react": "7.31.1",
         "husky": "^4.2.5",
         "jest": "^27.5.1",
         "jest-svg-transformer": "1.0.0",

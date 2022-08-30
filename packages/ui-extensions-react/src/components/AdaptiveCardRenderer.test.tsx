@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React from 'react'
 
 import { ActionSet, ClipboardAction, DoistCard, TextBlock } from '@doist/ui-extensions-core'
 

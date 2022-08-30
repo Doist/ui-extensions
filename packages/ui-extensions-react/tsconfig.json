@@ -1,14 +1,15 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
+        "lib": ["DOM", "ES2020", "DOM.Iterable"],
         "outDir": "./dist",
         "baseUrl": "./src",
         "rootDir": "./src",
-        "declarationDir": "./dist",
-        "module": "CommonJS",
-        "jsx": "react",
+        "module": "ESNext",
+        "jsx": "react-jsx",
         "types": ["node", "jest", "@testing-library/jest-dom"],
-        "typeRoots": ["../../node_modules/@types", "node_modules/@types", "src/@types"]
+        "typeRoots": ["../../node_modules/@types", "node_modules/@types", "src/@types"],
+        "target": "ESNext"
     },
     "include": ["src", "test", "stories"],
     "exclude": ["node_modules"]
