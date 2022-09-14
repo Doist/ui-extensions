@@ -1,0 +1,86 @@
+:root {
+    --doist-card-color: rgba(0, 0, 0, 0.88);
+    --doist-card-background: rgb(255, 255, 255);
+
+    --doist-card-error-color: red;
+}
+
+.adaptive-card-container {
+    white-space: normal;
+
+    overflow: auto;
+    position: relative;
+}
+
+.adaptive-card-container option {
+    color: var(--doist-card-color) !important;
+    background: var(--doist-card-background);
+}
+
+.adaptive-card-content {
+    white-space: normal;
+
+    overflow: auto;
+    position: relative;
+    height: inherit;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.adaptive-card-content option {
+    color: var(--doist-card-color) !important;
+    background: var(--doist-card-background);
+}
+
+.adaptive-card-content p {
+    margin-bottom: var(--reactist-spacing-medium);
+}
+
+.adaptive-renderer-container {
+    position: relative;
+    height: inherit;
+    overflow: auto;
+}
+
+.input-inline-button {
+    margin-left: 0;
+    white-space: nowrap;
+}
+
+.ac-input-container {
+    width: 100%;
+}
+
+.ac-error {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: var(--doist-card-error-color);
+}
+
+.ac-anchor__attention {
+    text-decoration: underline;
+    color: var(--reactist-actionable-destructive-idle-fill);
+}
+
+.ac-anchor__attention:hover {
+    text-decoration: underline;
+    color: var(--reactist-actionable-destructive-hover-fill);
+}
+
+.ac-selectable {
+    cursor: pointer;
+}
+
+.ac-action-stretch {
+    width: 100%;
+}
+
+.ac-adaptiveCard {
+    padding: 0 !important;
+}
+
+.ac-textarea {
+    resize: vertical;
+}

@@ -5,9 +5,10 @@
     "license": "MIT",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "source": "src/index.ts",
+    "styles": "dist/index.css",
     "files": [
-        "dist",
-        "styles"
+        "dist"
     ],
     "repository": {
         "type": "git",
@@ -18,7 +19,8 @@
     },
     "scripts": {
         "watch": "npm run build && yalc push && chokidar src -c \"npm run build && yalc push\"",
-        "build": "npm run clean && npx rollup -c && ./scripts/reorganize-styles.sh",
+        "build": "npm run clean && npm run build:dist",
+        "build:dist": "parcel build",
         "test": "jest --passWithNoTests",
         "lint-fix": "eslint \"{src,apps,libs,test}/**/*.{ts,tsx}\" --fix",
         "lint-check": "eslint \"{src,apps,libs,test}/**/*.{ts,tsx}\"",
@@ -27,23 +29,30 @@
         "ts-compile-check": "tsc --noEmit",
         "clean": "rimraf dist styles",
         "reset": "rimraf dist styles node_modules",
-        "prepare": "npm run build",
         "storybook": "start-storybook -p 6006 -s ./src/stories/public",
         "build-storybook": "build-storybook",
         "integrity-check": "npm-run-all clean format-check lint-check ts-compile-check test",
         "link:yalc": "yalc link",
-        "publish:yalc": "yalc push"
+        "publish:yalc": "yalc push",
+        "parcel:watch": "parcel watch",
+        "parcel:build": "parcel build",
+        "prepublishOnly": "npm run build"
     },
     "peerDependencies": {
         "@doist/reactist": "^15.0.0",
         "@doist/ui-extensions-core": "^4.0.0",
         "adaptivecards": "^2.9.0",
-        "react": ">=17"
+        "classnames": "^2.3.1",
+        "dayjs": "^1.11.0",
+        "react": "^17.0.0 || ^18.0.0",
+        "react-dom": "^17.0.0 || ^18.0.0",
+        "react-select": "^5.3.0"
     },
     "prettier": "@doist/prettier-config",
     "dependencies": {
-        "classnames": "^2.3.1",
-        "dayjs": "^1.9.1"
+        "@doist/ui-extensions-core": "^3.2.1",
+        "@swc/helpers": "0.4.11",
+        "adaptivecards": "2.9.0"
     },
     "devDependencies": {
         "@doist/reactist": "^15.0.0",

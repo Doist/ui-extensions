@@ -21,3 +21,9 @@ export function canSetAutoFocus<T>(
 ): object is T & CanHaveAutoFocus {
     return 'shouldAutoFocus' in object
 }
+
+export function createInputContainer(): HTMLElement {
+    const div = document.createElement('div')
+    div.className = 'ac-input-container'
+    return div
+}

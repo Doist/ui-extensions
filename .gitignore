@@ -70,3 +70,6 @@ config.json
 **/es
 **/lib
 **/styles
+
+# Parcel cache
+.parcel-cache/**

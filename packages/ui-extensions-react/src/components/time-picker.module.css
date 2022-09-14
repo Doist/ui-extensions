@@ -1,0 +1,31 @@
+:root {
+    --time-picker-option-color: rgba(0, 0, 0, 0.88);
+    --time-picker-option-background: rgb(255, 255, 255);
+    --time-picker-clock-color: var(--reactist-content-secondary);
+}
+
+.time_picker {
+    position: relative;
+    width: 100%;
+}
+
+.time_picker .svg_icon {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 0;
+    margin-top: 0;
+    width: 24px;
+    color: var(--time-picker-clock-color);
+}
+
+.time_picker select {
+    width: 100%;
+    margin-top: 1px;
+    padding-left: 35px;
+}
+
+.time_picker option {
+    color: var(--time-picker-option-color) !important;
+    background: var(--time-picker-option-background);
+}
