@@ -319,4 +319,17 @@ export class ColumnSet extends ContainerBase {
 
         return result
     }
+
+    static fromWithColumns<T extends ColumnSet>(
+        this: new () => T,
+        props: Props<T> & { columns?: Column[] },
+    ): T {
+        const o = new this()
+        const { columns, ...rest } = props
+        Object.assign(o, rest)
+        if (columns && columns.length > 0) {
+            columns.forEach((column) => o.addColumn(column))
+        }
+        return o
+    }
 }
