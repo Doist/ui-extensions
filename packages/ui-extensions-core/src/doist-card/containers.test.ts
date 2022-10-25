@@ -1,4 +1,5 @@
 import { SubmitAction } from './actions'
+import { TextBlock } from './card-elements'
 import { ActionSet, Column, Container } from './containers'
 import { SizeAndUnit } from './shared'
 
@@ -47,6 +48,17 @@ describe('containers', () => {
                 type: 'Column',
                 items: [],
                 width: 'stretch',
+            })
+        })
+
+        it('serialises items when added via `fromWithItems()`', () => {
+            const column = Column.fromWithItems({
+                items: [TextBlock.from({ text: 'kwijibo' })],
+            })
+
+            expect(JSON.parse(JSON.stringify(column))).toMatchObject({
+                type: 'Column',
+                items: [{ text: 'kwijibo', type: 'TextBlock' }],
             })
         })
     })
@@ -102,6 +114,19 @@ describe('containers', () => {
 
                 const result = container.getActionById('TheId')
                 expect(result).not.toBeUndefined()
+            })
+        })
+    })
+
+    describe('ActionSet', () => {
+        it('serialises actions correctly when created using `fromWithActions()`', () => {
+            const actionSet = ActionSet.fromWithActions({
+                actions: [SubmitAction.from({ title: 'kwijibo' })],
+            })
+
+            expect(JSON.parse(JSON.stringify(actionSet))).toMatchObject({
+                type: 'ActionSet',
+                actions: [{ title: 'kwijibo', type: 'Action.Submit' }],
             })
         })
     })

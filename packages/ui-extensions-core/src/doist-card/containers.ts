@@ -4,6 +4,7 @@ import { Action } from './actions'
 import { CardElement } from './card-element'
 import { SerializableObject } from './serialization'
 
+import type { Props } from './props'
 import type {
     ColumnWidth,
     ContainerStyle,
@@ -162,6 +163,19 @@ export class Container extends ContainerWithNoItems {
     protected getJsonTypeName(): string {
         return 'Container'
     }
+
+    static fromWithItems<T extends Container>(
+        this: new () => T,
+        props: Props<T> & { items?: CardElement[] },
+    ): T {
+        const o = new this()
+        const { items, ...rest } = props
+        Object.assign(o, rest)
+        if (items && items.length > 0) {
+            items.forEach((item) => o.addItem(item))
+        }
+        return o
+    }
 }
 
 @Serializable()
@@ -215,6 +229,19 @@ export class ActionSet extends CardElement {
         }
 
         return result
+    }
+
+    static fromWithActions<T extends ActionSet>(
+        this: new () => T,
+        props: Props<T> & { actions?: Action[] },
+    ): T {
+        const o = new this()
+        const { actions, ...rest } = props
+        Object.assign(o, rest)
+        if (actions && actions.length > 0) {
+            actions.forEach((action) => o.addAction(action))
+        }
+        return o
     }
 }
 
