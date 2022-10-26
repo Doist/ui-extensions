@@ -661,7 +661,8 @@
                     "$ref": "#/definitions/Spacing"
                 },
                 "selectAction": {
-                    "$ref": "#/definitions/ImplementationsOf.ISelectAction"
+                    "$ref": "#/definitions/ImplementationsOf.ISelectAction",
+                    "description": "An Action that will be invoked when the selection is changed."
                 },
                 "isSearchable": {
                     "type": "boolean",
@@ -951,6 +952,10 @@
                 },
                 "spacing": {
                     "$ref": "#/definitions/Spacing"
+                },
+                "selectAction": {
+                    "$ref": "#/definitions/ImplementationsOf.ISelectAction",
+                    "description": "Action to invoke when the checked status of the toggle is changed. `Action.ShowCard` is not supported."
                 }
             },
             "type": "object",
