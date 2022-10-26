@@ -1,7 +1,7 @@
 import './AdaptiveCardRenderer.css'
 
 import * as React from 'react'
-import useEvent from 'react-use-event-hook'
+import { useEvent } from 'react-use-event-hook'
 
 import { Loading } from '@doist/reactist'
 
