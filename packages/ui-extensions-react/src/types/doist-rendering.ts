@@ -11,6 +11,7 @@ import {
     SerializableObjectCollectionProperty,
     StringProperty,
     TextInput,
+    ToggleInput,
     Versions,
 } from 'adaptivecards'
 
@@ -101,6 +102,22 @@ export class ChoiceSetInputist extends ChoiceSetInput {
 
     protected getSchemaKey(): string {
         return ChoiceSetInputist.name
+    }
+}
+
+export class ToggleInputist extends ToggleInput {
+    static readonly JsonTypeName = 'Input.Toggle'
+    static readonly selectActionProperty = new ActionProperty(Versions.v1_1, 'selectAction')
+
+    @property(ToggleInputist.selectActionProperty)
+    selectAction?: Action
+
+    getJsonTypeName(): string {
+        return ToggleInputist.JsonTypeName
+    }
+
+    protected getSchemaKey(): string {
+        return ToggleInputist.name
     }
 }
 
