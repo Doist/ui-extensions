@@ -1,6 +1,7 @@
 import './AdaptiveCardRenderer.css'
 
 import * as React from 'react'
+import useEvent from 'react-use-event-hook'
 
 import { Loading } from '@doist/reactist'
 
@@ -14,7 +15,6 @@ import {
 } from 'adaptivecards'
 
 import { ClipboardAction, OpenUrlAction, SubmitAction } from '../actions'
-import { useRefCallback } from '../hooks'
 import { canSetAutoFocus } from '../utils'
 
 import { AdaptiveCardCanvas } from './AdaptiveCardCanvas'
@@ -76,7 +76,7 @@ export function AdaptiveCardRenderer({
         }
     }, [customMarkdownParse])
 
-    const elementParser = useRefCallback(
+    const elementParser = useEvent(
         (adaptiveCard: ExtensionCard) =>
             (element: CardElement, source: unknown, context: SerializationContext) => {
                 if ('autoFocusId' in adaptiveCard) {
@@ -89,7 +89,7 @@ export function AdaptiveCardRenderer({
             },
     )
 
-    const handleAction = useRefCallback((adaptiveCard: AdaptiveCard) => (action: Action) => {
+    const handleAction = useEvent((adaptiveCard: AdaptiveCard) => (action: Action) => {
         try {
             const inputs = adaptiveCard.getAllInputs()
             const inputsObject = getInputObject(inputs)

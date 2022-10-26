@@ -38,7 +38,8 @@
         "@doist/reactist": "^15.0.0",
         "@doist/ui-extensions-core": "^3.2.1",
         "adaptivecards": "^2.9.0",
-        "react": ">=17"
+        "react": ">=17",
+        "react-use-event-hook": "0.9.3"
     },
     "prettier": "@doist/prettier-config",
     "dependencies": {
