@@ -127,6 +127,9 @@ export class ToggleInput extends Input {
     @JsonProperty()
     wrap?: boolean
 
+    @JsonProperty()
+    selectAction?: Action
+
     protected getJsonTypeName(): string {
         return 'Input.Toggle'
     }
