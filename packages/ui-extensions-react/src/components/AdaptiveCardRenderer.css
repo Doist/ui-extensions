@@ -5,6 +5,7 @@
 .adaptive-card-loading-container {
     white-space: normal;
     display: flex;
+    flex-direction: column;
     height: 100%;
     width: 100%;
     background: var(--doist-card-loading-background);

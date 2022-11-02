@@ -46,8 +46,8 @@ export function useAdaptiveCardsConnection({
 }: DoistCardConnectionParams): DoistCardsConnection {
     const [result, setResult] = React.useState<DoistCardResult>({ type: 'loading' })
 
-    function setLoading() {
-        setResult({ type: 'loading' })
+    function setLoading(loadingText?: string) {
+        setResult({ type: 'loading', loadingText })
     }
 
     function setCardData(card: ExtensionCard) {
@@ -59,8 +59,8 @@ export function useAdaptiveCardsConnection({
     }
 
     const onAction = React.useCallback(
-        async (action: DoistCardAction) => {
-            setLoading()
+        async (action: DoistCardAction, loadingText?: string) => {
+            setLoading(loadingText)
             const request = createRequest(
                 version,
                 context,

@@ -28,6 +28,9 @@ export class SubmitAction extends Action {
     @JsonProperty()
     data?: PropertyBag
 
+    @JsonProperty()
+    loadingText?: string
+
     protected getJsonTypeName(): string {
         return 'Action.Submit'
     }

@@ -1,4 +1,7 @@
 import type { DoistCard } from '../doist-card'
+import type { DoistCardBridge } from './bridges'
+import type { TodoistContext, TodoistContextMenuSource } from './todoist'
+import type { TwistContext, TwistContextMenuSource } from './twist'
 
 /**
  * The types of actions that an adaptive card integration can request.
@@ -21,11 +24,10 @@ export type DoistCardActionParams = Record<string, unknown>
  */
 export type DoistCardActionData = Record<string, unknown>
 
+/**
+ * The different extension types that are currently available.
+ */
 export type DoistCardExtensionType = 'composer' | 'context-menu' | `settings`
-
-export type TwistContextMenuSource = 'message' | 'thread' | 'comment'
-
-export type TodoistContextMenuSource = 'project' | 'task'
 
 /**
  * When a context menu extension is triggered, the data will be sent in the
@@ -40,7 +42,7 @@ export type ContextMenuData = {
     /**
      * The id of the source object
      */
-    sourceId: number
+    sourceId: number | string
     /**
      * The content that has been sent with the request. This could be
      * a conversation message, thread comment, or thread title
@@ -116,93 +118,9 @@ export type DoistCardContextUser = {
     email: string
 }
 
-/**
- * The workspace where the user is currently browsing content.
- */
-export type DoistCardContextWorkspace = {
-    id: number
-    name: string
-}
-
-/**
- * The current channel in which the user is browsing content. Is not present in the data if the user is not currently browsing a channel.
- */
-export type DoistCardContextChannel = {
-    id: number
-    name: string
-    description: string
-}
-
-/**
- * The current thread in which the user is browsing content. Is not present in the data if the user is not currently browsing a thread.
- */
-export type DoistCardContextThread = {
-    id: number
-    title: string
-}
-
-/**
- * The current conversation in which the user is browsing content. Is not present in the data if the user is not currently browsing a a conversation.
- */
-export type DoistCardContextConversation = {
-    id: number
-    title: string
-}
-
-type IdAndName = { id: number; name: string }
-
-/**
- * The current project in which the user is browsing content. Is not present in the data if the user is not currently browsing a project.
- */
-export type DoistCardContextProject = IdAndName
-
-/**
- * The current label in which the user is browsing content. Is not present in the data if the user is not currently browsing a label.
- */
-export type DoistCardContextLabel = IdAndName
-
-/**
- * The current filter in which the user is browsing content. Is not present in the data if the user is not currently browsing a filter.
- */
-export type DoistCardContextFilter = IdAndName
-
-type Message = {
-    id: number
-    content: string
-    posted: Date
-}
-
-export type DoistCardContextMessage = Message
-
-export type DoistCardContextComment = Message
-
 export type Theme = 'light' | 'dark'
 
 export type Platform = 'desktop' | 'mobile'
-
-/**
- * Context on which interactions with the adaptive card integration happen.
- */
-export type TwistContext = {
-    workspace: DoistCardContextWorkspace
-    channel?: DoistCardContextChannel
-    thread?: DoistCardContextThread
-    conversation?: DoistCardContextConversation
-    message?: DoistCardContextMessage
-    comment?: DoistCardContextComment
-}
-
-/**
- * Context from Todoist on which interactions with the adaptive card integration happen.
- */
-export type TodoistContext = {
-    /**
-     * Project may not exist as Todoist could be on Today/Upcoming/Filters
-     */
-    project?: DoistCardContextProject
-    filter?: DoistCardContextFilter
-    label?: DoistCardContextLabel
-}
 
 export type DoistCardContext = {
     user: DoistCardContextUser
@@ -227,48 +145,6 @@ export type DoistCardRequest = {
 }
 
 /**
- * Types of actions that the server can invoke on the client via a bridge.
- */
-export type DoistCardBridgeActionType = 'composer.append' | 'finished' | 'display.notification'
-
-/**
- * The notification display type
- */
-export type DoistCardNotificationType = 'success' | 'error' | 'info'
-
-/**
- * The bridge notification. This should be supplied when the `bridgeActionType` is `display.notification`
- */
-export type DoistCardBridgeNotification = {
-    /**
-     * The text that should appear in the notification.
-     *
-     * NOTE: this should be plain text, Markdown is *not* supported
-     */
-    text: string
-    type: DoistCardNotificationType
-    /**
-     * The action, this should be a URL and is what will be launched when clicked (if provided)
-     */
-    actionUrl?: string
-    /**
-     * This is the text that will be displayed as the notification action, clicking it will take you to
-     * what has been assigned to `actionUrl`
-     */
-    actionText?: string
-}
-
-/**
- * The bridge represents actions that the server asks the client to invoke locally,
- * along with necessary parameters to do so.
- */
-export type DoistCardBridge = {
-    bridgeActionType: DoistCardBridgeActionType
-    text?: string
-    notification?: DoistCardBridgeNotification
-}
-
-/**
  * A top-level object representing a response by the server agains the integration client.
  */
 export type DoistCardResponse = {
@@ -279,6 +155,5 @@ export type DoistCardResponse = {
 export type DoistCardError = {
     error: Error
     request?: DoistCardRequest
-    bridge?: DoistCardBridge
     bridges?: DoistCardBridge[]
 }
