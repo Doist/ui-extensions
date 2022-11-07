@@ -1,7 +1,7 @@
 import type { DoistCard } from '../doist-card'
 import type { DoistCardBridge } from './bridges'
-import type { TodoistContext, TodoistContextMenuSource } from './todoist'
-import type { TwistContext, TwistContextMenuSource } from './twist'
+import type { TodoistContext, TodoistContextMenuData } from './todoist'
+import type { TwistContext, TwistContextMenuData } from './twist'
 
 /**
  * The types of actions that an adaptive card integration can request.
@@ -34,51 +34,7 @@ export type DoistCardExtensionType = 'composer' | 'context-menu' | `settings`
  * `params` field of the `DoistCardAction`. This type will allow you to
  * cast that data to something specific.
  */
-export type ContextMenuData = {
-    /**
-     * The deep link back to the source
-     */
-    url: string
-    /**
-     * The id of the source object
-     */
-    sourceId: number | string
-    /**
-     * The content that has been sent with the request. This could be
-     * a conversation message, thread comment, or thread title
-     */
-    content: string
-    /**
-     * The content that has been sent with the request. This could be
-     * a conversation message, thread comment, or thread title, only this
-     * has been scrubbed of all markdown formatting.
-     */
-    contentPlain: string
-} & (
-    | {
-          /**
-           * The source that made the request to the extension
-           */
-          source: TwistContextMenuSource
-          /**
-           * The date the content was posted. For threads, this will be the
-           * date the thread was created.
-           */
-          postedDate: Date
-      }
-    | {
-          /**
-           * The source that made the request to the extension
-           */
-          source: TodoistContextMenuSource
-
-          /**
-           * The date the content was posted. For projects, this will be null.
-           * For tasks this will be the date the task was created.
-           */
-          postedDate?: Date
-      }
-)
+export type ContextMenuData = TodoistContextMenuData | TwistContextMenuData
 
 /**
  * Represents an action that the user has done on the client.

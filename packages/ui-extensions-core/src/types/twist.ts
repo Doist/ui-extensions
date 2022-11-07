@@ -54,3 +54,41 @@ export type TwistContextMessage = TwistMessage
 export type TwistContextComment = TwistMessage
 
 export type TwistContextMenuSource = 'message' | 'thread' | 'comment'
+
+/**
+ * When a context menu extension is triggered, the data will be sent in the
+ * `params` field of the `DoistCardAction`. This type will allow you to
+ * cast that data to something specific.
+ */
+export type TwistContextMenuData = {
+    /**
+     * The deep link back to the source
+     */
+    url: string
+    /**
+     * The id of the source object
+     */
+    sourceId: number
+    /**
+     * The content that has been sent with the request. This could be
+     * a conversation message, thread comment, or thread title
+     */
+    content: string
+    /**
+     * The content that has been sent with the request. This could be
+     * a conversation message, thread comment, or thread title, only this
+     * has been scrubbed of all markdown formatting.
+     */
+    contentPlain: string
+
+    /**
+     * The source that made the request to the extension
+     */
+    source: TwistContextMenuSource
+
+    /**
+     * The date the content was posted. For threads, this will be the
+     * date the thread was created.
+     */
+    postedDate: Date
+}
