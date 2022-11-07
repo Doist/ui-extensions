@@ -1,4 +1,4 @@
-import { createLogoWithTextHeader } from './headers'
+import { createLogoWithText } from './headers'
 import { HEADER_COLUMN_ID, HEADER_IMAGE_ID, HEADER_TITLE_ID } from './ui-constants'
 
 import type { ColumnSet, SubmitAction } from '../doist-card'
@@ -6,7 +6,7 @@ import type { Image, TextBlock } from '../doist-card/card-elements'
 
 describe('headers', () => {
     test('createLogoHeader creates the header items correctly', () => {
-        const result = createLogoWithTextHeader({
+        const result = createLogoWithText({
             logoUrl: 'https://doist.com/images/kwijibo.png',
             headerText: 'Login to Kwijibo',
         })

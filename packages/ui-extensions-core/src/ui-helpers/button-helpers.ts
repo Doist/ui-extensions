@@ -1,4 +1,4 @@
-import { CardElement, Column, ColumnSet, Container, Image, TextBlock } from '../doist-card'
+import { Column, ColumnSet, Container, Image, TextBlock } from '../doist-card'
 import { Action, OpenUrlAction, SubmitAction } from '../doist-card/actions'
 
 import { ICON_SIZE } from './ui-constants'
@@ -10,14 +10,21 @@ import type {
     VerticalAlignment,
 } from '../doist-card/types'
 
-export function createIconButton(options: {
+type CreateIconButtonOptions = {
     action: Action
     buttonText: string
     iconUrl: string
     textColor?: TextColor
     isSubtle?: boolean
     iconSize?: number
-}): CardElement {
+}
+
+/**
+ * Creates a button with a title and an optional icon.
+ * @param {CreateIconButtonOptions} options - The options with which the button will be created.
+ * @return {ColumnSet} A ColumnSet that can be added to a card.
+ */
+export function createIconButton(options: CreateIconButtonOptions): ColumnSet {
     const {
         action,
         buttonText,
@@ -60,7 +67,7 @@ export function createIconButton(options: {
     })
 }
 
-export function createTextButton(options: {
+type CreateTextButtonOptions = {
     text: string
     id?: string
     data?: () => Record<string, unknown> | undefined
@@ -70,7 +77,14 @@ export function createTextButton(options: {
     horizontalAlignment?: HorizontalAlignment
     verticalAlignment?: VerticalAlignment
     textSize?: FontSize
-}): CardElement {
+}
+
+/**
+ * Creates a button that is purely text and will display as just text.
+ * @param {CreateTextButtonOptions} options - The options with which the button will be created.
+ * @return {Container} A Container that can be added to a card.
+ */
+export function createTextButton(options: CreateTextButtonOptions): Container {
     const {
         text,
         id,

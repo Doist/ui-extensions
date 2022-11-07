@@ -53,6 +53,10 @@ export type DisplayNotificationBridge = {
     notification: DoistCardBridgeNotification
 }
 
+/**
+ * The bridge action that will trigger a sync request in Todoist. The bridge accepts notifications
+ * for both success, and error, scenarios.
+ */
 export type RequestTodoistSyncBridge = {
     bridgeActionType: 'request.sync'
     onSuccessNotification?: DoistCardBridgeNotification

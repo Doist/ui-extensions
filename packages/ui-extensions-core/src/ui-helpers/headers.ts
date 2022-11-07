@@ -10,13 +10,44 @@ import {
 
 import { HEADER_COLUMN_ID, HEADER_IMAGE_ID, HEADER_TITLE_ID, ICON_SIZE } from './ui-constants'
 
-export function createHeader(options: {
+type EmptySpace =
+    | {
+          /**
+           * When true, it includes an empty space to ensure the items in the middle are centered.
+           */
+          includeEmptySpacing: true
+          /**
+           * The empty space image is required to actually render the empty space.
+           */
+          emptySpaceImageUrl: string
+      }
+    | {
+          includeEmptySpacing: false
+          emptySpaceImageUrl?: never
+      }
+
+type HeaderOptions = {
+    /**
+     * Items for the left column
+     */
     leftColumnItems: CardElement[]
+    /**
+     * Items for the right column
+     */
     rightColumnItems: CardElement[]
+    /**
+     * Items for the middle column
+     */
     middleColumnItems: CardElement[]
-    includeEmptySpacing?: boolean
-    emptySpaceImageUrl?: string
-}): CardElement {
+} & EmptySpace
+
+/**
+ * This helper function will allow you to create a three-column header.
+ * @summary If the description is long, write your summary here. Otherwise, feel free to remove this.
+ * @param {HeaderOptions} options - The options for the header.
+ * @return {CardElement} A Doist Card element that can be added to a card.
+ */
+export function createHeader(options: HeaderOptions): CardElement {
     const {
         leftColumnItems,
         rightColumnItems,
@@ -43,19 +74,19 @@ export function createHeader(options: {
 
     if (leftColumnItems.length > 0) {
         leftColumnItems.forEach((x) => leftColumn.addItem(x))
-    } else if (includeEmptySpacing && Boolean(emptySpaceImageUrl)) {
+    } else if (includeEmptySpacing) {
         leftColumn.addItem(createEmptyImage())
     }
 
     if (middleColumnItems.length > 0) {
         middleColumnItems.forEach((x) => middleColumn.addItem(x))
-    } else if (includeEmptySpacing && Boolean(emptySpaceImageUrl)) {
+    } else if (includeEmptySpacing) {
         middleColumn.addItem(createEmptyImage())
     }
 
     if (rightColumnItems.length > 0) {
         rightColumnItems.forEach((x) => rightColumn.addItem(x))
-    } else if (includeEmptySpacing && Boolean(emptySpaceImageUrl)) {
+    } else if (includeEmptySpacing) {
         rightColumn.addItem(createEmptyImage())
     }
 
@@ -74,17 +105,32 @@ export function createHeader(options: {
     return header
 }
 
-export function createLogoWithTextHeader(options: {
+type LogoWithTextOptions = {
     logoUrl: string
     headerText: string
     horizontalAlignment?: HorizontalAlignment
+    /**
+     * The ID for the card element's SelectAction.
+     */
     headerButtonId?: string
-}): CardElement {
+    /**
+     * The data for the card element's SelectAction.
+     */
+    headerButtonData?: () => Record<string, unknown>
+}
+
+/**
+ * @summary The creates a clickable card element with an image and text side-by-side
+ * @param {LogoWithTextOptions} options - The options for creating this item.
+ * @return {CardElement} A Doist Card element that can be added to a card.
+ */
+export function createLogoWithText(options: LogoWithTextOptions): CardElement {
     const {
         headerText,
         logoUrl,
         horizontalAlignment = 'center',
         headerButtonId = 'Action.GoHome',
+        headerButtonData,
     } = options
 
     return ColumnSet.fromWithColumns({
@@ -94,6 +140,7 @@ export function createLogoWithTextHeader(options: {
         selectAction: SubmitAction.from({
             id: headerButtonId,
             associatedInputs: 'none',
+            data: headerButtonData ? headerButtonData() : undefined,
         }),
         columns: [
             // logoColumn
