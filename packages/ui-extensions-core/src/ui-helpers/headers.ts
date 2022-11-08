@@ -25,8 +25,9 @@ type HeaderOptions = {
     middleColumnItems: CardElement[]
     /**
      * The empty space image is required to actually render the empty space.
+     * If not set, no empty spaces will be included
      */
-    emptySpaceImageUrl: string
+    emptySpaceImageUrl?: string
 }
 
 /**
