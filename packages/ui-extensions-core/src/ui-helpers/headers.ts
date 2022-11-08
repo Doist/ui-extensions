@@ -10,22 +10,6 @@ import {
 
 import { HEADER_COLUMN_ID, HEADER_IMAGE_ID, HEADER_TITLE_ID, ICON_SIZE } from './ui-constants'
 
-type EmptySpace =
-    | {
-          /**
-           * When true, it includes an empty space to ensure the items in the middle are centered.
-           */
-          includeEmptySpacing: true
-          /**
-           * The empty space image is required to actually render the empty space.
-           */
-          emptySpaceImageUrl: string
-      }
-    | {
-          includeEmptySpacing: false
-          emptySpaceImageUrl?: never
-      }
-
 type HeaderOptions = {
     /**
      * Items for the left column
@@ -39,22 +23,20 @@ type HeaderOptions = {
      * Items for the middle column
      */
     middleColumnItems: CardElement[]
-} & EmptySpace
+    /**
+     * The empty space image is required to actually render the empty space.
+     */
+    emptySpaceImageUrl: string
+}
 
 /**
  * This helper function will allow you to create a three-column header.
  * @summary If the description is long, write your summary here. Otherwise, feel free to remove this.
  * @param {HeaderOptions} options - The options for the header.
- * @return {CardElement} A Doist Card element that can be added to a card.
+ * @return {ColumnSet} A ColumnSet element that can be added to a card.
  */
-export function createHeader(options: HeaderOptions): CardElement {
-    const {
-        leftColumnItems,
-        rightColumnItems,
-        middleColumnItems,
-        includeEmptySpacing = true,
-        emptySpaceImageUrl,
-    } = options
+export function createHeader(options: HeaderOptions): ColumnSet {
+    const { leftColumnItems, rightColumnItems, middleColumnItems, emptySpaceImageUrl } = options
 
     function createEmptyImage() {
         return Image.from({
@@ -74,19 +56,19 @@ export function createHeader(options: HeaderOptions): CardElement {
 
     if (leftColumnItems.length > 0) {
         leftColumnItems.forEach((x) => leftColumn.addItem(x))
-    } else if (includeEmptySpacing) {
+    } else if (emptySpaceImageUrl) {
         leftColumn.addItem(createEmptyImage())
     }
 
     if (middleColumnItems.length > 0) {
         middleColumnItems.forEach((x) => middleColumn.addItem(x))
-    } else if (includeEmptySpacing) {
+    } else if (emptySpaceImageUrl) {
         middleColumn.addItem(createEmptyImage())
     }
 
     if (rightColumnItems.length > 0) {
         rightColumnItems.forEach((x) => rightColumn.addItem(x))
-    } else if (includeEmptySpacing) {
+    } else if (emptySpaceImageUrl) {
         rightColumn.addItem(createEmptyImage())
     }
 
