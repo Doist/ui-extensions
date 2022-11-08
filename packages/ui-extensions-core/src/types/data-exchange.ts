@@ -89,9 +89,9 @@ export type DoistCardContext = {
 /**
  * A top-level object representing a request the integration client does against the integration server.
  */
-export type DoistCardRequest = {
+export type DoistCardRequest<Action extends Partial<DoistCardAction> = DoistCardAction> = {
     context: DoistCardContext
-    action: DoistCardAction
+    action: Action
     extensionType: DoistCardExtensionType
     /**
      * This is the maximum version of Doist Card that the requesting client supports. This can be used
