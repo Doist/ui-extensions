@@ -2,7 +2,6 @@ import type {
     DoistCard,
     DoistCardAction,
     DoistCardBridge as OriginalDoistCardBridge,
-    DoistCardBridgeActionType,
     DoistCardContext,
     DoistCardError,
     DoistCardRequest,
@@ -26,14 +25,17 @@ export type DoistCardsConnection = {
 }
 
 export type DoistCardResult =
-    | { type: 'loading' }
+    | { type: 'loading'; loadingText?: string }
     | { type: 'loaded'; card: ExtensionCard }
     | { type: 'error'; error: ExtensionError }
 
-type AllBridgeActionTypes = DoistCardBridgeActionType | 'consent.required'
-export type DoistCardBridge = OriginalDoistCardBridge & {
-    scopes?: string
+export type ConsentRequiredBridge = {
+    bridgeActionType: 'consent.required'
+    scopes: string
 }
+
+type AllBridgeActionTypes = DoistCardBridge['bridgeActionType']
+export type DoistCardBridge = OriginalDoistCardBridge | ConsentRequiredBridge
 
 export type BridgeActionCallbacks = Partial<
     Record<AllBridgeActionTypes, (action: DoistCardBridge) => unknown>

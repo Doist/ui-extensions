@@ -1,6 +1,6 @@
 {
     "name": "@doist/ui-extensions-react",
-    "version": "6.1.0",
+    "version": "7.0.0",
     "author": "Doist",
     "license": "MIT",
     "main": "dist/index.js",
@@ -36,7 +36,7 @@
     },
     "peerDependencies": {
         "@doist/reactist": "^15.0.0",
-        "@doist/ui-extensions-core": "^3.2.1",
+        "@doist/ui-extensions-core": "^4.0.0",
         "adaptivecards": "^2.9.0",
         "react": ">=17"
     },

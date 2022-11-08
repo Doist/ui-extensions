@@ -2,7 +2,7 @@ import './AdaptiveCardRenderer.css'
 
 import * as React from 'react'
 
-import { Loading } from '@doist/reactist'
+import { Loading, Text } from '@doist/reactist'
 
 import {
     Action,
@@ -13,7 +13,7 @@ import {
     SerializationContext,
 } from 'adaptivecards'
 
-import { ClipboardAction, OpenUrlAction, SubmitAction } from '../actions'
+import { ClipboardAction, OpenUrlAction, SubmitActionist } from '../actions'
 import { useRefCallback } from '../hooks'
 import { canSetAutoFocus } from '../utils'
 
@@ -23,7 +23,7 @@ import type { DoistCardAction, DoistCardActionData } from '@doist/ui-extensions-
 import type { DoistCardResult, ExtensionCard, ExtensionError } from '../types'
 
 type AdaptiveCardRendererProps = {
-    onAction: (action: DoistCardAction) => void
+    onAction: (action: DoistCardAction, loadingText?: string) => void
     onError?: (error: ExtensionError) => void
     hostConfig?: HostConfig
     errorText: string
@@ -97,13 +97,16 @@ export function AdaptiveCardRenderer({
                 window.open(action.url, '_blank')
             } else if (action instanceof ClipboardAction && action.text) {
                 clipboardHandler(action.text)
-            } else if (action instanceof SubmitAction) {
-                onAction({
-                    actionType: 'submit',
-                    actionId: action.id,
-                    inputs: inputsObject,
-                    data: action.toJSON()?.data as DoistCardActionData,
-                })
+            } else if (action instanceof SubmitActionist) {
+                onAction(
+                    {
+                        actionType: 'submit',
+                        actionId: action.id,
+                        inputs: inputsObject,
+                        data: action.toJSON()?.data as DoistCardActionData,
+                    },
+                    action.loadingText,
+                )
             }
             // This was originally `e: unknown`, but for some inexplicable reason it kept
             // resulting in the build failing because only `any` or `unknown` can be used
@@ -118,6 +121,7 @@ export function AdaptiveCardRenderer({
     })
 
     const loading = result.type === 'loading'
+    const loadingText = loading ? result.loadingText : undefined
     const error = result.type === 'error' ? result.error : undefined
 
     const adaptiveCard = React.useMemo(() => {
@@ -150,16 +154,17 @@ export function AdaptiveCardRenderer({
 
     return (
         <div className="adaptive-renderer-container" data-testid="adaptive-card">
-            <LoadingOverlay isLoading={loading} />
+            <LoadingOverlay isLoading={loading} loadingText={loadingText} />
             <AdaptiveCardCanvas card={card} />
         </div>
     )
 }
 
-function LoadingOverlay(props: { isLoading: boolean }) {
-    return props.isLoading ? (
+function LoadingOverlay({ isLoading, loadingText }: { isLoading: boolean; loadingText?: string }) {
+    return isLoading ? (
         <div data-testid="adaptive-loading" className="adaptive-card-loading-container">
             <Loading aria-label="Card loading" />
+            {loadingText ? <Text>{loadingText}</Text> : null}
         </div>
     ) : null
 }

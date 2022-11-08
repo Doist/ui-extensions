@@ -4,6 +4,7 @@ import { Action } from './actions'
 import { CardElement } from './card-element'
 import { ContainerWithNoItems } from './containers'
 
+import type { Props } from './props'
 import type {
     DoistCardVersion,
     FontSize,
@@ -102,6 +103,19 @@ export class DoistCard extends ContainerWithNoItems {
         }
 
         return result
+    }
+
+    static fromWithItems<T extends DoistCard>(
+        this: new () => T,
+        props: Props<T> & { items?: CardElement[] },
+    ): T {
+        const o = new this()
+        const { items, ...rest } = props
+        Object.assign(o, rest)
+        if (items && items.length > 0) {
+            items.forEach((item) => o.addItem(item))
+        }
+        return o
     }
 }
 

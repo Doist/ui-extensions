@@ -151,7 +151,8 @@ describe('useAdaptiveCardsConnection tests', () => {
 
             let actual: string | undefined = undefined
             await renderHookAsync(2, DEFAULT_CONTEXT_V2, {
-                'composer.append': (x) => (actual = x.text),
+                'composer.append': (x) =>
+                    x.bridgeActionType === 'composer.append' ? (actual = x.text) : undefined,
             })
 
             expect(actual).toBe(expected)

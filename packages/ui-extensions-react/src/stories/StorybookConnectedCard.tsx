@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { AdaptiveCardRenderer } from '../components'
 import { DoistCardConnectionParams, useAdaptiveCardsConnection } from '../hooks'
 
-import type { DoistCardBridge, DoistCardContext } from '@doist/ui-extensions-core'
-import type { ExtensionError } from '../types'
+import type { DoistCardContext } from '@doist/ui-extensions-core'
+import type { DoistCardBridge, ExtensionError } from '../types'
 
 export type StorybookConnectedCardProps = {
     endpointUrl: string
@@ -48,9 +48,7 @@ export function StorybookConnectedCard(props: StorybookConnectedCardProps): JSX.
             {props.children?.(configuration, setConfiguration)}
             <ul>
                 {bridgeActions.map((x, i) => (
-                    <li key={x.text ?? `${x.bridgeActionType}-${i}`}>{`type: ${
-                        x.bridgeActionType
-                    }; text: ${x.text ?? ''}`}</li>
+                    <li key={`${x.bridgeActionType}-${i}`}>{`type: ${x.bridgeActionType};`}</li>
                 ))}
             </ul>
         </div>

@@ -9,6 +9,7 @@ import {
     PropertyBag,
     PropertyDefinition,
     SerializableObject,
+    StringProperty,
     SubmitAction,
     Versions,
 } from 'adaptivecards'
@@ -44,8 +45,13 @@ export class SubmitActionist extends SubmitAction {
         },
     )
 
+    static readonly loadingTextProperty = new StringProperty(Versions.v1_3, 'loadingText')
+
     @property(SubmitActionist.associatedInputProperty)
     associatedInput?: AssociatedInputs
+
+    @property(SubmitActionist.loadingTextProperty)
+    loadingText?: string
 
     /**
      * This method is copied from the adaptivecards SDK verbatim with the exception
