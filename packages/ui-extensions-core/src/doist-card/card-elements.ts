@@ -259,4 +259,17 @@ export class RichTextBlock extends CardElement {
     protected getJsonTypeName(): string {
         return 'RichTextBlock'
     }
+
+    static fromWithInlines<T extends RichTextBlock>(
+        this: new () => T,
+        props: Props<T> & { inlines?: Inline[] },
+    ): T {
+        const o = new this()
+        const { inlines, ...rest } = props
+        Object.assign(o, rest)
+        if (inlines && inlines.length > 0) {
+            inlines.forEach((inline) => o.addInline(inline))
+        }
+        return o
+    }
 }
