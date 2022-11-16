@@ -33,7 +33,6 @@ type AdaptiveCardRendererProps = {
         source: unknown,
         context: SerializationContext,
     ) => void
-    customMarkdownParse?: (text: string) => string
     clipboardHandler: (text: string) => void
 }
 
@@ -51,6 +50,21 @@ function getInputObject(inputs: Input[]): Record<string, string> {
     return result
 }
 
+/**
+ * Register a custom markdown parser
+ * @see https://www.npmjs.com/package/adaptivecards#supporting-markdown
+ */
+export function registerMarkdownParser(markdownParser: (text: string) => string) {
+    AdaptiveCard.onProcessMarkdown = (text, result) => {
+        result.outputHtml = markdownParser(text)
+        result.didProcess = true
+    }
+}
+
+/**
+ * To support markdown, register a markdown parser via `registerMarkdownParser`
+ * @see registerMarkdownParser
+ */
 export function AdaptiveCardRenderer({
     onAction,
     onError,
@@ -58,7 +72,6 @@ export function AdaptiveCardRenderer({
     errorText,
     result,
     customElementParse,
-    customMarkdownParse,
     clipboardHandler,
 }: AdaptiveCardRendererProps): JSX.Element {
     React.useEffect(() => {
@@ -66,15 +79,6 @@ export function AdaptiveCardRenderer({
             onError?.(result.error)
         }
     }, [result, onError])
-
-    React.useEffect(() => {
-        if (customMarkdownParse) {
-            AdaptiveCard.onProcessMarkdown = (text, result) => {
-                result.didProcess = true
-                result.outputHtml = customMarkdownParse(text)
-            }
-        }
-    }, [customMarkdownParse])
 
     const elementParser = useRefCallback(
         (adaptiveCard: ExtensionCard) =>

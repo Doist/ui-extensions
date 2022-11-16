@@ -113,7 +113,6 @@ describe('AdaptiveCardRenderer', () => {
                     errorText={errorText}
                     result={{ card, type: 'loaded' }}
                     clipboardHandler={clipboardHandler}
-                    customMarkdownParse={(text) => text}
                 />,
             )
 
