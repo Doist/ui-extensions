@@ -12,6 +12,7 @@ module.exports = {
         format: 'cjs',
         sourcemap: true,
     },
+    preserveModules: true,
     plugins: [
         typescript({ tsconfig: 'tsconfig.build.json' }),
         postcss({ extract: true }),
