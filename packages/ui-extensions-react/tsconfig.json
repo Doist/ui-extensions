@@ -6,7 +6,7 @@
         "rootDir": "./src",
         "declarationDir": "./dist",
         "module": "CommonJS",
-        "jsx": "react",
+        "jsx": "react-jsx",
         "types": ["node", "jest", "@testing-library/jest-dom"]
     },
     "include": ["src", "test", "stories"],
