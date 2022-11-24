@@ -1,4 +1,4 @@
-import type { ActionStyle } from '@doist/ui-extensions-core'
+import type { ActionStyle } from 'adaptivecards'
 
 export function isPrimaryButton(style?: ActionStyle): boolean {
     return style === 'positive'
