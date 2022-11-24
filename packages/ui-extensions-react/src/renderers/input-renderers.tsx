@@ -5,7 +5,7 @@ import { CheckboxField, TextField } from '@doist/reactist'
 
 import * as AC from 'adaptivecards'
 
-// import { TimePicker } from '../components/time-picker'
+import { TimePicker } from '../components/time-picker'
 import { TextInputist, ToggleInputist } from '../types/doist-rendering'
 import { createInputContainer } from '../utils/renderer-utils'
 
@@ -146,34 +146,34 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
     }
 }
 
-// export class CustomTimeInput extends AC.TimeInput {
-//     static readonly JsonTypeName = 'Input.Time'
+export class CustomTimeInput extends AC.TimeInput {
+    static readonly JsonTypeName = 'Input.Time'
 
-//     protected internalRender(): HTMLElement | undefined {
-//         const div = createInputContainer()
+    protected internalRender(): HTMLElement | undefined {
+        const div = createInputContainer()
 
-//         ReactDOM.render(
-//             <TimePicker
-//                 data-testid={this.id}
-//                 min={this.min}
-//                 max={this.max}
-//                 value={this.defaultValue}
-//                 className={this.hostConfig.makeCssClassName('ac-input', 'ac-timeInput')}
-//                 minutesInterval={15}
-//             />,
-//             div,
-//         )
+        ReactDOM.render(
+            <TimePicker
+                data-testid={this.id}
+                min={this.min}
+                max={this.max}
+                value={this.defaultValue}
+                className={this.hostConfig.makeCssClassName('ac-input', 'ac-timeInput')}
+                minutesInterval={15}
+            />,
+            div,
+        )
 
-//         return div
-//     }
+        return div
+    }
 
-//     get value(): string | undefined {
-//         const select = this.renderedInputControlElement?.querySelector(
-//             'select',
-//         ) as HTMLSelectElement
-//         return select.value
-//     }
-// }
+    get value(): string | undefined {
+        const select = this.renderedInputControlElement?.querySelector(
+            'select',
+        ) as HTMLSelectElement
+        return select.value
+    }
+}
 
 export class CustomNumberInput extends AC.NumberInput implements CanHaveAutoFocus {
     static readonly JsonTypeName = 'Input.Number'
