@@ -1,3 +1,2 @@
-export * from './AdaptiveCardCanvas'
-export * from './AdaptiveCardRenderer'
+export * from './adaptive-card'
 export * from './searchable-select'

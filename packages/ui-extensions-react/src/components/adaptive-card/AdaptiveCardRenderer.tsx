@@ -13,14 +13,14 @@ import {
     SerializationContext,
 } from 'adaptivecards'
 
-import { ClipboardAction, OpenUrlAction, SubmitActionist } from '../actions'
-import { useRefCallback } from '../hooks'
-import { canSetAutoFocus } from '../utils'
+import { ClipboardAction, OpenUrlAction, SubmitActionist } from '../../actions'
+import { useRefCallback } from '../../hooks'
+import { canSetAutoFocus } from '../../utils'
 
 import { AdaptiveCardCanvas } from './AdaptiveCardCanvas'
 
 import type { DoistCardAction, DoistCardActionData } from '@doist/ui-extensions-core'
-import type { DoistCardResult, ExtensionCard, ExtensionError } from '../types'
+import type { DoistCardResult, ExtensionCard, ExtensionError } from '../../types'
 
 type AdaptiveCardRendererProps = {
     onAction: (action: DoistCardAction, loadingText?: string) => void
