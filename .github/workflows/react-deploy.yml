@@ -12,10 +12,10 @@ jobs:
         timeout-minutes: 60
         steps:
             - name: Git checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Configure Doist package repository
-              uses: actions/setup-node@v2
+              uses: actions/setup-node@v3
               with:
                   node-version-file: '.nvmrc'
                   registry-url: https://npm.pkg.github.com/
