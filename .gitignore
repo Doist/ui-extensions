@@ -70,3 +70,5 @@ config.json
 **/es
 **/lib
 **/styles
+
+doc.md
