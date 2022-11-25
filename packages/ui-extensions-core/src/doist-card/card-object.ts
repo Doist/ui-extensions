@@ -2,6 +2,10 @@ import { JsonProperty, Serializable } from 'typescript-json-serializer'
 
 import { SerializableObject } from './serialization'
 
+/**
+ * CardObject contains some of the common properties of all card objects.
+ * @extends SerializableObject
+ */
 @Serializable()
 export abstract class CardObject extends SerializableObject {
     constructor() {
@@ -9,6 +13,9 @@ export abstract class CardObject extends SerializableObject {
         this.type = this.getJsonTypeName()
     }
 
+    /**
+     * The ID of the card object.
+     */
     @JsonProperty()
     id?: string
 

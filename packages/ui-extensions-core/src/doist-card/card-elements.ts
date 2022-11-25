@@ -18,6 +18,10 @@ import type {
     TextColor,
 } from './types'
 
+/**
+ * The DoistCard is the root object into which all other elements and cards can be added.
+ * @extends ContainerWithNoItems
+ */
 @Serializable()
 export class DoistCard extends ContainerWithNoItems {
     static readonly schemaUrl = 'http://adaptivecards.io/schemas/adaptive-card.json'
@@ -28,6 +32,13 @@ export class DoistCard extends ContainerWithNoItems {
     @JsonProperty('adaptiveCardistVersion')
     private _adaptiveCardistVersion: DoistCardVersion = '0.3'
 
+    /**
+     * The version of the DoistCard. This version tells the requesting client what version of
+     * DoistCard you require and that lets the client know whether they can render this or not.
+     *
+     * If you choose a version that is higher than a supported client, your card may not get rendered
+     * properly.
+     */
     get doistCardVersion(): DoistCardVersion {
         // When we remove `adaptiveCardistVersion` we can remove this line, until then,
         // we should keep it as it ensures that the _adaptiveCardistVersion field doesn't
@@ -42,6 +53,9 @@ export class DoistCard extends ContainerWithNoItems {
         this._adaptiveCardistVersion = value
     }
 
+    /**
+     * The ID of the input element that should be focused when the card is initially shown.
+     */
     @JsonProperty()
     autoFocusId?: string
 
@@ -61,12 +75,19 @@ export class DoistCard extends ContainerWithNoItems {
     @JsonProperty('actions')
     private actions?: Action[]
 
+    /**
+     * Add an {@Link Action} to the card.
+     * @param {Action} action - The action you want to appear at the bottom of the card.
+     */
     addAction(action: Action): void {
         if (!this.actions) this.actions = []
 
         this.actions.push(action)
     }
-
+    /**
+     * Add a {@link CardElement} to the card.
+     * @param {CardElement} item - The item to be added to the card. These should be added in the order you want them to appear.
+     */
     addItem(item: CardElement): void {
         this.items.push(item)
     }
@@ -105,6 +126,13 @@ export class DoistCard extends ContainerWithNoItems {
         return result
     }
 
+    /**
+     * Create an instance of the DoistCard.
+     * @summary Create an instance of the DoistCard and be able to pass items in through an array, as well being
+     * able to pass in the other properties.
+     * @param props - The properties of the DoistCard and the additional items array.
+     * @return {DoistCard} An instance of {@link DoistCard}.
+     */
     static fromWithItems<T extends DoistCard>(
         this: new () => T,
         props: Props<T> & { items?: CardElement[] },
@@ -118,7 +146,11 @@ export class DoistCard extends ContainerWithNoItems {
         return o
     }
 }
-
+/**
+ * The base TextBlock class. This contains the common properties between TextBlock,
+ * RichTextBlock and TextRun.
+ * @extends CardElement
+ */
 @Serializable()
 export abstract class TextBlockBase extends CardElement {
     constructor(text?: string) {
@@ -128,33 +160,75 @@ export abstract class TextBlockBase extends CardElement {
         }
     }
 
+    /**
+     * The text to be displayed.
+     */
     @JsonProperty()
     text!: string
 
+    /**
+     * The color of the text.
+     * This can be "default" | "dark" | "light" | "accent" | "good" | "warning" | "attention"
+     *
+     * The actual values of those colors are determined by the client.
+     */
     @JsonProperty()
     color?: TextColor
 
+    /**
+     * The type of font to use.
+     *
+     * This can be "default" | "monospace"
+     *
+     * Monospace is a fixed width font, which is useful for displaying code.
+     */
     @JsonProperty()
     fontType?: FontType
 
+    /**
+     * Determins whether the text should be displayed in a more subtle format.
+     * This is useful for displaying secondary information.
+     */
     @JsonProperty()
     isSubtle?: boolean
 
+    /**
+     * The size of the font.
+     * This can be "default" | "small" | "medium" | "large" | "extraLarge"
+     *
+     * The actual values of theses sizes are determined by the client.
+     */
     @JsonProperty()
     size?: FontSize
 
+    /**
+     * The font weight of the text.
+     *
+     * This can be "default" | "lighter" | "bolder"
+     *
+     * The actual values of theses weights are determined by the client.
+     */
     @JsonProperty()
     weight?: FontWeight
 }
 
+/**
+ * The TextBlock element, used for displaying text in your card.
+ * @extends TextBlockBase
+ */
 @Serializable()
 export class TextBlock extends TextBlockBase {
-    @JsonProperty()
-    maxLines?: number
-
+    /**
+     * Whether the text should be wrapped if it proves to be too long for a single line.
+     */
     @JsonProperty()
     wrap?: boolean
 
+    /**
+     * Which style of text to use.
+     *
+     * This can be "default" | "heading"
+     */
     @JsonProperty()
     style?: TextBlockStyle
 
@@ -162,30 +236,67 @@ export class TextBlock extends TextBlockBase {
         return 'TextBlock'
     }
 }
-
+/**
+ * Display an image in your card using this class.
+ * @extends CardElement
+ */
 @Serializable()
 export class Image extends CardElement {
+    /**
+     * The URL of the image.
+     */
     @JsonProperty()
     url!: string
 
+    /**
+     * The alt text for the image.
+     */
     @JsonProperty()
     altText?: string
 
+    /**
+     * An associated {@link Action} to be invoked when the image is tapped.
+     */
     @JsonProperty()
     selectAction?: Action
 
+    /**
+     * The size of the image.
+     *
+     * This can be "auto" | "stretch" | "small" | "medium" | "large"
+     *
+     * The actual values of those sizes are determined by the client.
+     */
     @JsonProperty()
     size?: ImageSize
 
+    /**
+     * The style of the image.
+     *
+     * This can be "default" | "person"
+     *
+     * The actual behavior of those styles are determined by the client. But "person" is usually
+     * used to display a circular image.
+     */
     @JsonProperty()
     style?: ImageStyle
 
+    /**
+     * The width of the image.
+     */
     @JsonProperty()
     width?: string
 
+    /**
+     * The aspect ratio of the image. Whilst not required, it is recommended to provide this to
+     * assist mobile clients to render spacing correctly whilst the image is loading.
+     */
     @JsonProperty()
     aspectRatio?: number
 
+    /**
+     * The explicit height of the image.
+     */
     @JsonProperty({
         name: 'height',
         afterSerialize: function (pixelHeight?: ImageHeight): string | undefined {
@@ -195,6 +306,9 @@ export class Image extends CardElement {
     })
     pixelHeight?: ImageHeight
 
+    /**
+     * The explicit width of the image.
+     */
     @JsonProperty({
         name: 'width',
         afterSerialize: function (pixelWidth?: ImageWidth): string | undefined {
@@ -218,21 +332,15 @@ export class Image extends CardElement {
         return result
     }
 }
-
+/**
+ * A TextRun is used by the RichTextBlock to display text in a formatted way.
+ * @extends TextBlockBase
+ */
 @Serializable()
 export class TextRun extends TextBlockBase {
-    @JsonProperty()
-    italic?: boolean
-
-    @JsonProperty()
-    strikethrough?: boolean
-
-    @JsonProperty()
-    highlight?: boolean
-
-    @JsonProperty()
-    underline?: boolean
-
+    /**
+     * An associated {@link Action} to be invoked when the image is tapped.
+     */
     @JsonProperty()
     selectAction?: Action
 
@@ -243,10 +351,21 @@ export class TextRun extends TextBlockBase {
 
 export type Inline = TextRun | string
 
+/**
+ * The element used to display rich text. This is similar to the TextBlock element, but allows
+ * for more formatting. You can pass in a number of different Inline elements.
+ * @extends CardElement
+ */
 @Serializable()
 export class RichTextBlock extends CardElement {
     @JsonProperty()
     private inlines: Inline[] = []
+
+    /**
+     * Add an {@link Inline} element to this RichTextBlock.
+     * @param {ParamDataTypeHere} parameterNameHere - Brief description of the parameter here. Note: For other notations of data types, please refer to JSDocs: DataTypes command.
+     * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
+     */
 
     addInline(inline: Inline): void {
         this.inlines.push(inline)
@@ -260,6 +379,13 @@ export class RichTextBlock extends CardElement {
         return 'RichTextBlock'
     }
 
+    /**
+     * Create an instance of the RichTextBlock.
+     * @summary Create an instance of the RichTextBlock and be able to pass inlines in through an array, as well being
+     * able to pass in the other properties.
+     * @param props - The properties of the RichTextBlock and the additional inlines array.
+     * @return {RichTextBlock} An instance of {@link RichTextBlock}.
+     */
     static fromWithInlines<T extends RichTextBlock>(
         this: new () => T,
         props: Props<T> & { inlines?: Inline[] },

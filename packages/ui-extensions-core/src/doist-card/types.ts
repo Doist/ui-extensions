@@ -13,6 +13,11 @@ export type ContainerStyle = 'default' | 'emphasis' | 'good' | 'attention' | 'wa
 
 export type ImageFillMode = 'cover' | 'repeatHorizontally' | 'repeatVertically' | 'repeat'
 
+/**
+ * - `auto` will only trigger the action if all required inputs have been filled out.
+ * - `none` will always trigger, but none of the values from the inputs on the card will be sent.
+ * - `ignorevalidation` will always trigger, and will send the values from the inputs on the card.
+ */
 export type AssociatedInputs = 'auto' | 'none' | 'ignorevalidation'
 export type ActionStyle = 'default' | 'positive' | 'destructive'
 
@@ -36,5 +41,3 @@ export type InputStyle = 'text' | 'tel' | 'url' | 'email' | 'search'
 export type SizeUnit = 'weight' | 'pixel'
 
 export type ChoiceSetInputStyle = 'compact' | 'expanded'
-
-export type PropertyBag = { [propertyName: string]: unknown }
