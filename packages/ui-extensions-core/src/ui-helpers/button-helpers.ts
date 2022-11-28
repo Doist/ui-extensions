@@ -11,11 +11,29 @@ import type {
 } from '../doist-card/types'
 
 type CreateIconButtonOptions = {
+    /**
+     * The associated {@link Action} to be executed when the button is clicked.
+     */
     action: Action
+    /**
+     * The text to display on the button.
+     */
     buttonText: string
+    /**
+     * The icon to display on the button.
+     */
     iconUrl: string
+    /**
+     * The color of the button text.
+     */
     textColor?: TextColor
+    /**
+     * If `true`, the button will be displayed in a subtle style.
+     */
     isSubtle?: boolean
+    /**
+     * The size of the icon in the button.
+     */
     iconSize?: number
 }
 
@@ -68,14 +86,41 @@ export function createIconButton(options: CreateIconButtonOptions): ColumnSet {
 }
 
 type CreateTextButtonOptions = {
+    /**
+     * The text to be displayed
+     */
     text: string
+    /**
+     * The id of the button
+     */
     id?: string
+    /**
+     * Any associated data to go on the button
+     */
     data?: () => Record<string, unknown> | undefined
+    /**
+     * If `true` the text will be subtle style
+     */
     isSubtle?: boolean
+    /**
+     * The color of the text
+     */
     color?: TextColor
+    /**
+     * The URL to navigate to. If this is set, the button will be an OpenUrlAction.
+     */
     url?: string
+    /**
+     * The horizontal alignment of the text
+     */
     horizontalAlignment?: HorizontalAlignment
+    /**
+     * The vertical alignment of the text
+     */
     verticalAlignment?: VerticalAlignment
+    /**
+     * The size of the text
+     */
     textSize?: FontSize
 }
 
