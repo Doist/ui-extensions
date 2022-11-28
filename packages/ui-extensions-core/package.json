@@ -30,7 +30,8 @@
     "prettier": "@doist/prettier-config",
     "files": [
         "dist/**/*",
-        "!dist/**/*.tsbuildinfo"
+        "!dist/**/*.tsbuildinfo",
+        "!dist/**/*.test.*"
     ],
     "dependencies": {
         "typescript-json-serializer": "^3.4.5"

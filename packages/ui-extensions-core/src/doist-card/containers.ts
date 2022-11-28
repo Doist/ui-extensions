@@ -10,30 +10,56 @@ import type {
     ContainerStyle,
     HorizontalAlignment,
     ImageFillMode,
-    Orientation,
     VerticalAlignment,
 } from './types'
 
+/**
+ * Specifies a background image. Acceptable formats are PNG, JPEG, and GIF
+ * @extends SerializableObject
+ */
 @Serializable()
 export class BackgroundImage extends SerializableObject {
+    /**
+     * The URL (or data URL) of the image. Acceptable formats are PNG, JPEG, and GIF.
+     */
     @JsonProperty()
     url!: string
 
+    /**
+     * Describes how the image should fill the area.
+     *
+     * @defaultValue `cover`
+     */
     @JsonProperty()
     fillMode?: ImageFillMode
 
+    /**
+     * Describes how the image should be aligned if it must be cropped or if using repeat fill mode.
+     */
     @JsonProperty()
     horizontalAlignment?: HorizontalAlignment
 
+    /**
+     * Describes how the image should be aligned if it must be cropped or if using repeat fill mode.
+     */
     @JsonProperty()
     verticalAlignment?: VerticalAlignment
 }
-
+/**
+ * Base class for all containers.
+ * @extends CardElement
+ */
 @Serializable()
 export abstract class ContainerBase extends CardElement {
+    /**
+     * Determines whether the element should bleed through its parent's padding.
+     */
     @JsonProperty()
     bleed?: boolean
 
+    /**
+     * Specifies the minimum height of the container in pixels, like `50`.
+     */
     @JsonProperty({
         name: 'minHeight',
         afterSerialize: function (minHeight?: number): string | undefined {
@@ -43,6 +69,9 @@ export abstract class ContainerBase extends CardElement {
     })
     minHeight?: number
 
+    /**
+     * An associated {@link Action} to be invoked when the container is tapped.
+     */
     @JsonProperty()
     selectAction?: Action
 
@@ -68,12 +97,21 @@ export abstract class ContainerBase extends CardElement {
 
 @Serializable()
 export abstract class ContainerWithNoItems extends ContainerBase {
+    /**
+     * Defines how the content should be aligned vertically within the container.
+     * When not specified, the value of verticalContentAlignment is inherited from the
+     * parent container. If no parent container has verticalContentAlignment set,
+     * it defaults to Top.
+     */
     @JsonProperty()
     verticalContentAlignment?: VerticalAlignment
 
     @JsonProperty('backgroundImage')
     private background?: BackgroundImage
 
+    /**
+     * Specifies the background image. Acceptable formats are PNG, JPEG, and GIF
+     */
     get backgroundImage(): BackgroundImage {
         if (!this.background) {
             this.background = new BackgroundImage()
@@ -86,6 +124,9 @@ export abstract class ContainerWithNoItems extends ContainerBase {
         this.background = image
     }
 
+    /**
+     * Style hint for the container.
+     */
     @JsonProperty()
     style?: ContainerStyle
 
@@ -98,6 +139,10 @@ export class Container extends ContainerWithNoItems {
     @JsonProperty('items')
     private items: CardElement[] = []
 
+    /**
+     * Add a {@link CardElement} to the container.
+     * @param item a valid {@link CardElement} item.
+     */
     addItem(item: CardElement): void {
         this.insertItemAt(item, -1)
     }
@@ -122,6 +167,9 @@ export class Container extends ContainerWithNoItems {
         return false
     }
 
+    /**
+     * Clear the list of items in this container.
+     */
     clear(): void {
         this.items = []
     }
@@ -164,6 +212,13 @@ export class Container extends ContainerWithNoItems {
         return 'Container'
     }
 
+    /**
+     * Create an instance of the Container.
+     * @summary Create an instance of the Container and be able to pass items in through an array, as well being
+     * able to pass in the other properties.
+     * @param props - The properties of the Container and the additional items array.
+     * @return {T} An instance of {@link T}.
+     */
     static fromWithItems<T extends Container>(
         this: new () => T,
         props: Props<T> & { items?: CardElement[] },
@@ -178,14 +233,18 @@ export class Container extends ContainerWithNoItems {
     }
 }
 
+/**
+ * Displays a set of actions.
+ */
 @Serializable()
 export class ActionSet extends CardElement {
     @JsonProperty()
     private actions: Action[] = []
 
-    @JsonProperty()
-    orientation?: Orientation
-
+    /**
+     * Adds an {@link Action} to the action set.
+     * @param action a valid {@link Action} item.
+     */
     addAction(action: Action): void {
         this.actions.push(action)
     }
@@ -231,6 +290,13 @@ export class ActionSet extends CardElement {
         return result
     }
 
+    /**
+     * Create an instance of the ActionSet.
+     * @summary Create an instance of the ActionSet and be able to pass actions in through an array, as well being
+     * able to pass in the other properties.
+     * @param props - The properties of the ActionSet and the additional actions array.
+     * @return {ActionSet} An instance of {@link ActionSet}.
+     */
     static fromWithActions<T extends ActionSet>(
         this: new () => T,
         props: Props<T> & { actions?: Action[] },
@@ -281,11 +347,18 @@ export class Column extends Container {
     }
 }
 
+/**
+ * ColumnSet divides a region into Columns, allowing elements to sit side-by-side.
+ */
 @Serializable()
 export class ColumnSet extends ContainerBase {
     @JsonProperty()
     private columns: Column[] = []
 
+    /**
+     * Add a {@link Column} to the ColumnSet.
+     * @param column a valid {@link Column} item.
+     */
     addColumn(column: Column): void {
         this.columns.push(column)
     }
@@ -320,6 +393,13 @@ export class ColumnSet extends ContainerBase {
         return result
     }
 
+    /**
+     * Create an instance of the ColumnSet.
+     * @summary Create an instance of the ColumnSet and be able to pass columns in through an array, as well being
+     * able to pass in the other properties.
+     * @param props - The properties of the ColumnSet and the additional columns array.
+     * @return {ColumnSet} An instance of {@link ColumnSet}.
+     */
     static fromWithColumns<T extends ColumnSet>(
         this: new () => T,
         props: Props<T> & { columns?: Column[] },
