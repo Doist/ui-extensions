@@ -22,8 +22,7 @@
         "ts-compile-check": "tsc --noEmit",
         "integrity-check": "npm-run-all clean format-check lint-check ts-compile-check test",
         "link:yalc": "yalc link",
-        "publish:yalc": "yalc push",
-        "generate:docs": "npm run build && npx jsdoc-to-markdown --files=dist/**/*.js > doc.md"
+        "publish:yalc": "yalc push"
     },
     "keywords": [],
     "author": "",
