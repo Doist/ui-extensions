@@ -108,7 +108,6 @@ describe('card-elements', () => {
                 height: 'auto',
                 horizontalAlignment: 'center',
                 isSubtle: true,
-                maxLines: 2,
                 separator: true,
                 size: 'extraLarge',
                 spacing: 'default',
