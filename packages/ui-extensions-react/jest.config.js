@@ -7,6 +7,7 @@ module.exports = {
     setupFilesAfterEnv: ['<rootDir>/setup-tests.ts'],
     modulePathIgnorePatterns: ['<rootDir>/dist/'],
     moduleNameMapper: {
-        '\\.(css|less)$': '<rootDir>/test_utils/styleMock.ts',
+        '\\.(css|less)$': 'identity-obj-proxy',
+        '\\.svg': '<rootDir>/test_utils/svgMock.ts',
     },
 }
