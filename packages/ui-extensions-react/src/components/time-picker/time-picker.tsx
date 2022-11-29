@@ -8,7 +8,7 @@ import CustomParseFormat from 'dayjs/plugin/customParseFormat'
 
 import ClockIcon from './clock.svg'
 
-import * as styles from './time-picker.module.css'
+import styles from './time-picker.module.css'
 
 // eslint-disable-next-line import/no-named-as-default-member
 dayjs.extend(CustomParseFormat)
