@@ -7,12 +7,7 @@ import svgr from '@svgr/rollup'
 
 module.exports = {
     input: ['src/index.ts'],
-    output: {
-        dir: 'dist',
-        format: 'cjs',
-        sourcemap: true,
-    },
-    preserveModules: true,
+    output: [{ dir: 'dist', format: 'esm', sourcemap: true }],
     plugins: [
         typescript({ tsconfig: 'tsconfig.build.json' }),
         postcss({ extract: true }),
