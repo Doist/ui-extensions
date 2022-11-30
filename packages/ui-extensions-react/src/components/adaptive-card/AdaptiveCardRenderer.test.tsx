@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React from 'react'
-
 import { ActionSet, ClipboardAction, DoistCard, TextBlock } from '@doist/ui-extensions-core'
 
 import { fireEvent, render, screen } from '@testing-library/react'
 import { GlobalRegistry } from 'adaptivecards'
 
-import { ClipboardAction as ClipboardActionist } from '../actions'
-import { getDefaultCard } from '../test/fixtures'
+import { ClipboardAction as ClipboardActionist } from '../../actions'
+import { getDefaultCard } from '../../test/fixtures'
 
 import { AdaptiveCardRenderer } from './AdaptiveCardRenderer'
 
-import type { DoistCardResult } from '../types'
+import type { DoistCardResult } from '../../types'
 
 describe('AdaptiveCardRenderer', () => {
     function emptyOnAction() {

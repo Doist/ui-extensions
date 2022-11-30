@@ -1,6 +1,6 @@
 import './AdaptiveCardRenderer.css'
 
-import * as React from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { Loading, Text } from '@doist/reactist'
 
@@ -13,14 +13,14 @@ import {
     SerializationContext,
 } from 'adaptivecards'
 
-import { ClipboardAction, OpenUrlAction, SubmitActionist } from '../actions'
-import { useRefCallback } from '../hooks'
-import { canSetAutoFocus } from '../utils'
+import { ClipboardAction, OpenUrlAction, SubmitActionist } from '../../actions'
+import { useRefCallback } from '../../hooks'
+import { canSetAutoFocus } from '../../utils'
 
 import { AdaptiveCardCanvas } from './AdaptiveCardCanvas'
 
 import type { DoistCardAction, DoistCardActionData } from '@doist/ui-extensions-core'
-import type { DoistCardResult, ExtensionCard, ExtensionError } from '../types'
+import type { DoistCardResult, ExtensionCard, ExtensionError } from '../../types'
 
 type AdaptiveCardRendererProps = {
     onAction: (action: DoistCardAction, loadingText?: string) => void
@@ -74,7 +74,7 @@ export function AdaptiveCardRenderer({
     customElementParse,
     clipboardHandler,
 }: AdaptiveCardRendererProps): JSX.Element {
-    React.useEffect(() => {
+    useEffect(() => {
         if (result.type === 'error') {
             onError?.(result.error)
         }
@@ -128,7 +128,7 @@ export function AdaptiveCardRenderer({
     const loadingText = loading ? result.loadingText : undefined
     const error = result.type === 'error' ? result.error : undefined
 
-    const adaptiveCard = React.useMemo(() => {
+    const adaptiveCard = useMemo(() => {
         const result = new AdaptiveCard()
         if (hostConfig) {
             result.hostConfig = hostConfig
@@ -137,7 +137,7 @@ export function AdaptiveCardRenderer({
         return result
     }, [handleAction, hostConfig])
 
-    const card = React.useMemo(() => {
+    const card = useMemo(() => {
         if (result.type !== 'loaded') return undefined
         const cardData = result.card
 

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useEffect, useRef } from 'react'
 
 import classNames from 'classnames'
 
@@ -7,9 +7,9 @@ type AdaptiveCardProps = {
 }
 
 export function AdaptiveCardCanvas({ card }: AdaptiveCardProps): JSX.Element {
-    const cardElementRootRef = React.useRef<HTMLDivElement>(null)
+    const cardElementRootRef = useRef<HTMLDivElement>(null)
 
-    React.useEffect(
+    useEffect(
         function renderAdaptiveCardContent() {
             const rootElement = cardElementRootRef.current
             if (!card || !rootElement) return

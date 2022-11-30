@@ -5,9 +5,9 @@
         "baseUrl": "./src",
         "rootDir": "./src",
         "declarationDir": "./dist",
-        "module": "CommonJS",
-        "jsx": "react",
-        "types": ["node", "jest", "@testing-library/jest-dom"]
+        "jsx": "react-jsx",
+        "types": ["node", "jest", "@testing-library/jest-dom"],
+        "typeRoots": ["node_modules/@types", "../../node_modules/@types", "src/@types"]
     },
     "include": ["src", "test", "stories"],
     "exclude": ["node_modules"]
