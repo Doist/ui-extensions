@@ -26,14 +26,7 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
 
     protected internalRender(): HTMLElement | undefined {
         const div = createInputContainer()
-        const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-            // Enter pressed
-            if (ENTER_KEY_CODE.includes(e.code) && this.inlineAction) {
-                this.inlineAction.execute()
-            }
-        }
-
-        const onTextAreaKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             // Enter pressed
             if (ENTER_KEY_CODE.includes(e.code) && this.inlineAction) {
                 this.inlineAction.execute()
@@ -50,7 +43,7 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
                     placeholder={this.placeholder}
                     defaultValue={this.defaultValue}
                     maxLength={this.maxLength}
-                    onKeyPress={onTextAreaKeyPress}
+                    onKeyPress={onKeyPress}
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore It should exist as `rows` is a valid property
                     rows={this.rows}
@@ -247,7 +240,7 @@ export class CustomToggleInput extends ToggleInputist {
 
 export function registerInput(): void {
     AC.GlobalRegistry.elements.register(CustomTextInput.JsonTypeName, CustomTextInput)
-    // AC.GlobalRegistry.elements.register(CustomTimeInput.JsonTypeName, CustomTimeInput)
+    AC.GlobalRegistry.elements.register(CustomTimeInput.JsonTypeName, CustomTimeInput)
     AC.GlobalRegistry.elements.register(CustomNumberInput.JsonTypeName, CustomNumberInput)
     AC.GlobalRegistry.elements.register(CustomToggleInput.JsonTypeName, CustomToggleInput)
 }
