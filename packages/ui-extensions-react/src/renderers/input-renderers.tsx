@@ -11,6 +11,7 @@ import { createInputContainer } from '../utils/renderer-utils'
 
 import { createActionDiv } from './action-renderers'
 
+import type React from 'react'
 import type { CanHaveAutoFocus } from '../utils/action-utils'
 
 const ENTER_KEY_CODE = ['Enter', 'NumpadEnter']
@@ -71,7 +72,7 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
                     maxLength={this.maxLength}
                     onKeyPress={onKeyPress}
                     autoFocus={this.shouldAutoFocus}
-                    enterKeyHint=""
+                    enterKeyHint="enter"
                 />,
                 div,
             )
