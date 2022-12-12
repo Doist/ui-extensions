@@ -67,7 +67,7 @@ export type DoistCardAction = {
 export type DoistCardContextUser = {
     short_name: string
     timezone: string
-    id: number
+    id: string
     lang: string
     first_name: string
     name: string

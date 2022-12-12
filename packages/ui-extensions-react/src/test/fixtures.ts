@@ -11,7 +11,7 @@ export const DEFAULT_CONTEXT_V2: DoistCardContext = {
     user: {
         email: 'my@email.com',
         first_name: 'Mariko',
-        id: 4,
+        id: '4',
         lang: 'jp',
         name: 'Mariko Uhehara',
         short_name: 'Mariko U.',
