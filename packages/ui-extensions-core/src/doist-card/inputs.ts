@@ -198,6 +198,12 @@ export class ToggleInput extends Input {
     title!: string
 
     /**
+     * The url of the icon to display alongside the title.
+     */
+    @JsonProperty()
+    iconUrl?: string
+
+    /**
      * The initial selected value.
      * If you want the toggle to be initially on, set this to the value to `"true"`.
      */

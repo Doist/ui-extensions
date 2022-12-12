@@ -224,6 +224,10 @@ export class CustomToggleInput extends ToggleInputist {
         ReactDOM.render(
             <CheckboxField
                 label={this.title}
+                // The CheckboxField reactist component will hide `alt` text for icons
+                // (aria-hidden) so we are not going to pass any `alt` text in the first place
+                // eslint-disable-next-line jsx-a11y/alt-text
+                icon={<img src={this.iconUrl} />}
                 defaultChecked={this.valueInternal}
                 onChange={(event) => this.onChange(event)}
                 enterKeyHint="enter"
