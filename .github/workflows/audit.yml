@@ -16,4 +16,4 @@ jobs:
               run: npm run bootstrap-ci:common
 
             - name: Audit
-              run: npm run audit --production
+              run: npm run audit --omit=dev
