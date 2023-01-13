@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom'
 
-import { Button, ButtonProps, DeprecatedButton } from '@doist/reactist'
+import { Button, ButtonProps } from '@doist/reactist'
 
 import { ActionAlignment, ActionStyle, GlobalRegistry, OpenUrlAction } from 'adaptivecards'
 import classNames from 'classnames'
@@ -8,15 +8,12 @@ import classNames from 'classnames'
 import { ClipboardAction, SubmitActionist } from '../actions'
 import { isDangerButton, isPrimaryButton } from '../utils'
 
-import type { CSSProperties } from 'react'
-
 type ActionProps = {
     title: string
     style: ActionStyle
     baseCssClass?: string
     id?: string
     onClick?: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined
-    isLink?: boolean
     actionAlignment: ActionAlignment
     isInputButton?: boolean
 }
@@ -34,7 +31,6 @@ export function createActionDiv({
     baseCssClass,
     id,
     onClick,
-    isLink,
     actionAlignment,
     isInputButton,
 }: ActionProps): HTMLDivElement {
@@ -43,36 +39,18 @@ export function createActionDiv({
         div.style.paddingLeft = '6px'
     }
 
-    const linkStyle: CSSProperties = {
-        marginTop: '6px',
-    }
-
     // eslint-disable-next-line import/no-named-as-default-member
     ReactDOM.render(
-        isLink ? (
-            <DeprecatedButton
-                id={id}
-                onClick={onClick}
-                className={classNames(baseCssClass, {
-                    'ac-action-stretch': actionAlignment === ActionAlignment.Stretch,
-                })}
-                variant="link"
-                style={linkStyle}
-            >
-                {title}
-            </DeprecatedButton>
-        ) : (
-            <Button
-                {...getNewButtonProps(style)}
-                id={id}
-                onClick={onClick}
-                exceptionallySetClassName={classNames(baseCssClass, {
-                    'ac-action-stretch': actionAlignment === ActionAlignment.Stretch,
-                })}
-            >
-                {title}
-            </Button>
-        ),
+        <Button
+            {...getNewButtonProps(style)}
+            id={id}
+            onClick={onClick}
+            exceptionallySetClassName={classNames(baseCssClass, {
+                'ac-action-stretch': actionAlignment === ActionAlignment.Stretch,
+            })}
+        >
+            {title}
+        </Button>,
         div,
     )
     return div
