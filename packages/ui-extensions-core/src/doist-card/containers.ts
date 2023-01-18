@@ -10,6 +10,7 @@ import type {
     ContainerStyle,
     HorizontalAlignment,
     ImageFillMode,
+    Orientation,
     VerticalAlignment,
 } from './types'
 
@@ -240,6 +241,12 @@ export class Container extends ContainerWithNoItems {
 export class ActionSet extends CardElement {
     @JsonProperty()
     private actions: Action[] = []
+
+    /**
+     * Sets the orientation of the actions.
+     */
+    @JsonProperty()
+    orientation?: Orientation
 
     /**
      * Adds an {@link Action} to the action set.
