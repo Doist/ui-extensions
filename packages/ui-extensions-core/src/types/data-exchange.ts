@@ -1,7 +1,7 @@
 import type { DoistCard } from '../doist-card'
 import type { DoistCardBridge } from './bridges'
-import type { TodoistContext, TodoistContextMenuData } from './todoist'
-import type { TwistContext, TwistContextMenuData } from './twist'
+import type { TodoistContext, TodoistContextMenuData, TodoistContextUser } from './todoist'
+import type { TwistContext, TwistContextMenuData, TwistContextUser } from './twist'
 
 /**
  * The types of actions that an adaptive card integration can request.
@@ -64,15 +64,7 @@ export type DoistCardAction = {
 /**
  * The current user that invoked the integration.
  */
-export type DoistCardContextUser = {
-    short_name: string
-    timezone: string
-    id: number | string
-    lang: string
-    first_name: string
-    name: string
-    email: string
-}
+export type DoistCardContextUser = TodoistContextUser | TwistContextUser
 
 export type Theme = 'light' | 'dark'
 
