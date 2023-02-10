@@ -1,3 +1,5 @@
+import type { DoistContextUser } from './doist'
+
 type TodoistIdAndName = { id: string; name: string }
 
 /**
@@ -69,3 +71,7 @@ export type TodoistContextMenuData = {
 }
 
 export type TodoistContextMenuSource = 'project' | 'task'
+
+export type TodoistContextUser = DoistContextUser & {
+    id: string
+}

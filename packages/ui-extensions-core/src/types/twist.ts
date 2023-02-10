@@ -1,3 +1,5 @@
+import type { DoistContextUser } from './doist'
+
 /**
  * Context on which interactions with the adaptive card integration happen.
  */
@@ -91,4 +93,8 @@ export type TwistContextMenuData = {
      * date the thread was created.
      */
     postedDate: Date
+}
+
+export type TwistContextUser = DoistContextUser & {
+    id: number
 }
