@@ -22,10 +22,10 @@ jobs:
         timeout-minutes: 10
         steps:
             - name: Git checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Configure AWS credentials
-              uses: aws-actions/configure-aws-credentials@v1
+              uses: aws-actions/configure-aws-credentials@v4
               with:
                   role-to-assume: arn:aws:iam::011833101604:role/doist-schemas-RoleCI-1P8IZE7IZUTXD
                   role-duration-seconds: 900
