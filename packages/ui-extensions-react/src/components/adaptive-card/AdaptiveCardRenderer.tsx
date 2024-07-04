@@ -62,6 +62,28 @@ export function registerMarkdownParser(markdownParser: (text: string) => string)
 }
 
 /**
+ * Protects against XSS attacks by validating the URL.
+ * @param url
+ * @returns
+ */
+function isValidUrl(url: string): boolean {
+    try {
+        // Parse the URL using the URL constructor
+        const parsedUrl = new URL(url)
+
+        // Check for allowed protocols
+        if (parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:') {
+            return true
+        } else {
+            return false
+        }
+    } catch {
+        // If URL constructor throws an error, it's an invalid URL
+        return false
+    }
+}
+
+/**
  * To support markdown, register a markdown parser via `registerMarkdownParser`
  * @see registerMarkdownParser
  */
@@ -97,7 +119,7 @@ export function AdaptiveCardRenderer({
         try {
             const inputs = adaptiveCard.getAllInputs()
             const inputsObject = getInputObject(inputs)
-            if (action instanceof OpenUrlAction && action.url) {
+            if (action instanceof OpenUrlAction && action.url && isValidUrl(action.url)) {
                 window.open(action.url, '_blank')
             } else if (action instanceof ClipboardAction && action.text) {
                 clipboardHandler(action.text)
