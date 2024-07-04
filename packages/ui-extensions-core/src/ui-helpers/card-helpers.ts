@@ -1,4 +1,6 @@
-import { type DoistCardVersion, DoistCard } from '../doist-card'
+import { DoistCard } from '../doist-card'
+
+import type { DoistCardVersion } from '../doist-card'
 
 /**
  * Creates an empty DoistCard
