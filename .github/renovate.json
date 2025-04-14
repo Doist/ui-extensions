@@ -1,7 +1,6 @@
 {
     "extends": [
-        "github>doist/renovate-config:frontend-base",
-        "github>doist/renovate-config-internal:npm-registry-token"
+        "github>doist/renovate-config:frontend-base"
     ],
     "hostRules": [
         {
