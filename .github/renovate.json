@@ -2,5 +2,12 @@
     "extends": [
         "github>doist/renovate-config:frontend-base",
         "github>doist/renovate-config-internal:npm-registry-token"
+    ],
+    "hostRules": [
+        {
+            "hostType": "npm",
+            "matchHost": "https://npm.pkg.github.com/",
+            "token": "{{ secrets.NPM_PKG_GITHUB_TOKEN }}"
+        }
     ]
 }
