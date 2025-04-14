@@ -127,8 +127,9 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
     get value(): string | undefined {
         if (this.renderedInputControlElement?.hasChildNodes()) {
             if (this.isMultiline) {
-                const textArea =
-                    this.renderedInputControlElement.getElementsByTagName('textarea')[0]
+                const textArea = this.renderedInputControlElement.getElementsByTagName(
+                    'textarea',
+                )[0]
                 return textArea.value
             } else {
                 const input = this.renderedInputControlElement.getElementsByTagName('input')[0]
