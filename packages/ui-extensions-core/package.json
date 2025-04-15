@@ -34,6 +34,6 @@
         "!dist/**/*.test.*"
     ],
     "dependencies": {
-        "typescript-json-serializer": "^3.4.5"
+        "typescript-json-serializer": "3.4.5"
     }
 }
