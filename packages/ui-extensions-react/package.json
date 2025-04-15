@@ -51,7 +51,7 @@
         "@doist/reactist": "27.0.0",
         "@storybook/addon-actions": "6.5.16",
         "@storybook/addon-essentials": "6.5.16",
-        "@storybook/addon-links": "6.5.5",
+        "@storybook/addon-links": "6.5.16",
         "@storybook/react": "6.5.16",
         "@svgr/rollup": "6.5.1",
         "@testing-library/dom": "8.13.0",
