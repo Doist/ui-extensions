@@ -44,7 +44,7 @@
     },
     "prettier": "@doist/prettier-config",
     "dependencies": {
-        "classnames": "2.3.1",
+        "classnames": "2.5.1",
         "dayjs": "1.11.13"
     },
     "devDependencies": {
