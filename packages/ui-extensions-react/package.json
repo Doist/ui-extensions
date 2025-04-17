@@ -35,7 +35,7 @@
         "publish:yalc": "yalc push"
     },
     "peerDependencies": {
-        "@doist/reactist": "^27.0.0",
+        "@doist/reactist": "^28.0.0",
         "@doist/ui-extensions-core": "^4.2.0",
         "adaptivecards": "^2.9.0",
         "react": "^17.0.0 || ^18.0.0",
@@ -48,7 +48,7 @@
         "dayjs": "1.11.13"
     },
     "devDependencies": {
-        "@doist/reactist": "27.5.0",
+        "@doist/reactist": "28.0.0",
         "@storybook/addon-actions": "6.5.16",
         "@storybook/addon-essentials": "6.5.16",
         "@storybook/addon-links": "6.5.16",
