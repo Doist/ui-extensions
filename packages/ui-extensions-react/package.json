@@ -40,7 +40,7 @@
         "adaptivecards": "^2.9.0",
         "react": "^17.0.0 || ^18.0.0",
         "react-dom": "^17.0.0 || ^18.0.0",
-        "react-select": "5.10.1"
+        "react-select": "5.10.2"
     },
     "prettier": "@doist/prettier-config",
     "dependencies": {
