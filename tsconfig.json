@@ -1,5 +1,4 @@
 {
-    "extends": "@doist/tsconfig",
     "compilerOptions": {
         "target": "es2017",
         "lib": ["dom", "dom.iterable", "esnext"],
@@ -18,6 +17,11 @@
         "experimentalDecorators": true,
         "sourceMap": true,
         "incremental": true,
-        "noUncheckedIndexedAccess": false
+        "noUncheckedIndexedAccess": false,
+        "strict": true,
+        "useUnknownInCatchVariables": true,
+        "noImplicitReturns": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true
     }
 }
