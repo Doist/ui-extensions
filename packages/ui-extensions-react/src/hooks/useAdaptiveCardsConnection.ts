@@ -93,11 +93,6 @@ export function useAdaptiveCardsConnection({
                         createError(version, new Error('No card or bridge data returned'), request),
                     )
                 }
-                // This was originally `e: unknown`, but for some inexplicable reason it kept
-                // resulting in the build failing because only `any` or `unknown` can be used
-                // as types in a catch. So despite doing exactly what the docs say, it's still
-                // causing the build to fail. I don't get it. So disabling this check for now.
-                // eslint-disable-next-line @typescript-eslint/no-implicit-any-catch
             } catch (error) {
                 if (error instanceof Error) {
                     const adaptiveError = createError(version, error, request)

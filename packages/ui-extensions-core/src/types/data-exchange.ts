@@ -27,7 +27,7 @@ export type DoistCardActionData = Record<string, unknown>
 /**
  * The different extension types that are currently available.
  */
-export type DoistCardExtensionType = 'composer' | 'context-menu' | `settings`
+export type DoistCardExtensionType = 'composer' | 'context-menu' | 'settings'
 
 /**
  * When a context menu extension is triggered, the data will be sent in the
