@@ -29,8 +29,8 @@
         "clean": "rimraf dist styles",
         "reset": "rimraf dist styles node_modules",
         "prepare": "npm run build",
-        "storybook": "start-storybook -p 6006 -s ./src/stories/public",
-        "build-storybook": "build-storybook",
+        "storybook": "storybook dev -p 6006 -s ../src/stories/public",
+        "build-storybook": "storybook build",
         "integrity-check": "npm-run-all clean format-check lint-check ts-compile-check test",
         "link:yalc": "yalc link",
         "publish:yalc": "yalc push"
@@ -49,11 +49,15 @@
         "dayjs": "1.11.18"
     },
     "devDependencies": {
+        "@babel/preset-env": "7.28.5",
+        "@babel/preset-react": "7.28.5",
+        "@babel/preset-typescript": "7.28.5",
         "@doist/reactist": "29.0.0",
-        "@storybook/addon-actions": "6.5.16",
-        "@storybook/addon-essentials": "6.5.16",
-        "@storybook/addon-links": "6.5.16",
-        "@storybook/react": "6.5.17-alpha.0",
+        "@storybook/addon-actions": "7.6.20",
+        "@storybook/addon-essentials": "7.6.20",
+        "@storybook/addon-links": "7.6.20",
+        "@storybook/react": "7.6.20",
+        "@storybook/react-webpack5": "7.6.20",
         "@svgr/rollup": "6.5.1",
         "@testing-library/dom": "10.4.1",
         "@testing-library/jest-dom": "5.17.0",
@@ -61,12 +65,14 @@
         "@testing-library/react-hooks": "3.7.0",
         "@types/react": "18.3.26",
         "@types/testing-library__jest-dom": "5.14.9",
+        "graphql": "16.12.0",
         "identity-obj-proxy": "3.0.0",
         "msw": "2.4.1",
         "react": "17.0.2",
         "react-dom": "17.0.2",
         "react-is": "17.0.2",
-        "react-test-renderer": "17.0.2"
+        "react-test-renderer": "17.0.2",
+        "storybook": "7.6.20"
     },
     "msw": {
         "workerDirectory": "src/stories/public"
