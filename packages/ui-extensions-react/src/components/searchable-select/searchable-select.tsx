@@ -1,17 +1,17 @@
 import { Suspense } from 'react'
-import Select, {
-    components,
-    GroupBase,
-    OnChangeValue,
-    Props as SelectProps,
-    StylesConfig,
-} from 'react-select'
+import Select, { components } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 
 import { Loading } from '@doist/reactist'
 
 import type { CSSProperties } from 'react'
-import type { InputProps } from 'react-select'
+import type {
+    GroupBase,
+    InputProps,
+    OnChangeValue,
+    Props as SelectProps,
+    StylesConfig,
+} from 'react-select'
 
 const basicCSSOverrides: CSSProperties = {
     background: 'inherit',

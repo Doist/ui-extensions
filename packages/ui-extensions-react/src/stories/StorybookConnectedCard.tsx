@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
 import { AdaptiveCardRenderer } from '../components'
-import { DoistCardConnectionParams, useAdaptiveCardsConnection } from '../hooks'
+import { useAdaptiveCardsConnection } from '../hooks'
 
 import type { DoistCardContext } from '@doist/ui-extensions-core'
+import type { DoistCardConnectionParams } from '../hooks'
 import type { DoistCardBridge, ExtensionError } from '../types'
 
 export type StorybookConnectedCardProps = {

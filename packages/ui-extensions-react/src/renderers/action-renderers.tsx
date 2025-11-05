@@ -1,12 +1,14 @@
 import ReactDOM from 'react-dom'
 
-import { Button, ButtonProps } from '@doist/reactist'
+import { Button } from '@doist/reactist'
 
 import { ActionAlignment, ActionStyle, GlobalRegistry, OpenUrlAction } from 'adaptivecards'
 import classNames from 'classnames'
 
 import { ClipboardAction, SubmitActionist } from '../actions'
 import { isDangerButton, isPrimaryButton } from '../utils'
+
+import type { ButtonProps } from '@doist/reactist'
 
 type ActionProps = {
     title: string

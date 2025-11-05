@@ -1,14 +1,8 @@
-import {
-    CardElement,
-    Column,
-    ColumnSet,
-    HorizontalAlignment,
-    Image,
-    SubmitAction,
-    TextBlock,
-} from '../doist-card'
+import { CardElement, Column, ColumnSet, Image, SubmitAction, TextBlock } from '../doist-card'
 
 import { HEADER_COLUMN_ID, HEADER_IMAGE_ID, HEADER_TITLE_ID, ICON_SIZE } from './ui-constants'
+
+import type { HorizontalAlignment } from '../doist-card'
 
 type HeaderOptions = {
     /**
