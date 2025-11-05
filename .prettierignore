@@ -3,3 +3,4 @@ packages/ui-extensions-react/dist/
 packages/ui-extensions-react/es/
 packages/ui-extensions-react/lib/
 packages/ui-extensions-react/styles/
+packages/ui-extensions-react/src/stories/public/mockServiceWorker.js
