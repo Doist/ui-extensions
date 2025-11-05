@@ -1,6 +1,6 @@
-const { join } = require('path')
+import { join } from 'path'
 
-module.exports = {
+export default {
     transform: { '^.+\\.ts?$': 'ts-jest' },
     clearMocks: true,
     testEnvironment: 'jsdom',
