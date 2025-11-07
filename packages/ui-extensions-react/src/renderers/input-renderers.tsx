@@ -11,7 +11,7 @@ import { createInputContainer } from '../utils/renderer-utils'
 
 import { createActionDiv } from './action-renderers'
 
-import type React from 'react'
+import type { ChangeEvent, KeyboardEvent, MouseEvent as ReactMouseEvent } from 'react'
 import type { CanHaveAutoFocus } from '../utils/action-utils'
 
 const ENTER_KEY_CODE = ['Enter', 'NumpadEnter']
@@ -27,7 +27,7 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
 
     protected internalRender(): HTMLElement | undefined {
         const div = createInputContainer()
-        const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const onKeyPress = (e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             // Enter pressed
             if (ENTER_KEY_CODE.includes(e.code) && this.inlineAction) {
                 this.inlineAction.execute()
@@ -91,7 +91,7 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
         this.inlineAction = this._action
 
         if (this.inlineAction) {
-            const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            const onClick = (e: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
                 e.preventDefault()
                 this.inlineAction?.execute()
             }
@@ -212,7 +212,7 @@ export class CustomToggleInput extends ToggleInputist {
 
     private valueInternal?: boolean
 
-    private onChange(e: React.ChangeEvent<HTMLInputElement>) {
+    private onChange(e: ChangeEvent<HTMLInputElement>) {
         this.valueInternal = e.target.checked
         this.selectAction?.execute()
     }

@@ -1,10 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { AdaptiveCardRenderer } from '../components'
-import { DoistCardConnectionParams, useAdaptiveCardsConnection } from '../hooks'
+import { useAdaptiveCardsConnection } from '../hooks'
 
 import type { DoistCardContext } from '@doist/ui-extensions-core'
+import type { DoistCardConnectionParams } from '../hooks'
 import type { DoistCardBridge, ExtensionError } from '../types'
+
+const DEFAULT_CONTEXT: DoistCardContext = {
+    user: {
+        email: 'my@email.com',
+        first_name: 'Mariko',
+        id: 4,
+        lang: 'jp',
+        name: 'Mariko Uhehara',
+        short_name: 'Mariko U.',
+        timezone: 'Japan/Tokyo',
+    },
+    twist: {
+        workspace: {
+            id: 45646,
+            name: 'Tokyo Labs',
+        },
+    },
+    theme: 'light',
+}
 
 export type StorybookConnectedCardProps = {
     endpointUrl: string
@@ -53,24 +73,6 @@ export function StorybookConnectedCard(props: StorybookConnectedCardProps): JSX.
             </ul>
         </div>
     )
-}
-const DEFAULT_CONTEXT: DoistCardContext = {
-    user: {
-        email: 'my@email.com',
-        first_name: 'Mariko',
-        id: 4,
-        lang: 'jp',
-        name: 'Mariko Uhehara',
-        short_name: 'Mariko U.',
-        timezone: 'Japan/Tokyo',
-    },
-    twist: {
-        workspace: {
-            id: 45646,
-            name: 'Tokyo Labs',
-        },
-    },
-    theme: 'light',
 }
 
 function onError(error: ExtensionError) {

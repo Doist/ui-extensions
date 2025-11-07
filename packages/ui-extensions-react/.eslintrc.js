@@ -3,7 +3,7 @@ module.exports = {
         project: './tsconfig.json',
         sourceType: 'module',
     },
-    extends: ['../../.eslintrc.js', '@doist/eslint-config/react', 'react-app'],
+    extends: ['../../.eslintrc.js', '@doist/eslint-config/react'],
     ignorePatterns: ['dist/', '*.config.js', 'es/', 'lib/'],
     rules: {
         // Rules no longer necessary with the new JSX Transformer

@@ -1,4 +1,4 @@
-import nock, { Scope } from 'nock'
+import nock from 'nock'
 
 import {
     DEFAULT_CARD,
@@ -13,6 +13,7 @@ import { polyfillFetch } from '../test/polyfills'
 import { processRequest } from './adaptive-cards-server'
 
 import type { DoistCardResponse } from '@doist/ui-extensions-core'
+import type { Scope } from 'nock'
 import type { ExtensionRequest } from '../types'
 
 polyfillFetch()

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     preset: 'ts-jest',
     transform: { '^.+\\.(js|ts)?$': 'ts-jest' },
     clearMocks: true,

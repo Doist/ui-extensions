@@ -2,11 +2,9 @@ import {
     BaseSerializationContext,
     CardElement,
     CustomProperty,
-    Dictionary,
     GlobalRegistry,
     Input,
     property,
-    PropertyBag,
     PropertyDefinition,
     SerializableObject,
     StringProperty,
@@ -15,6 +13,7 @@ import {
 } from 'adaptivecards'
 
 import type { AssociatedInputs } from '@doist/ui-extensions-core'
+import type { Dictionary, PropertyBag } from 'adaptivecards'
 
 export class SubmitActionist extends SubmitAction {
     static readonly associatedInputProperty = new CustomProperty(

@@ -1,0 +1,20 @@
+{
+    "sourceType": "unambiguous",
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": [
+                    ">0.25%",
+                    "last 3 versions",
+                    "last 4 safari versions",
+                    "not op_mini all",
+                    "not dead"
+                ]
+            }
+        ],
+        "@babel/preset-typescript",
+        "@babel/preset-react"
+    ],
+    "plugins": []
+}

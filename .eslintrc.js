@@ -9,7 +9,7 @@ module.exports = {
         jest: true,
     },
     extends: [
-        '@doist/eslint-config/recommended-requiring-type-checking',
+        '@doist/eslint-config/recommended-type-checked',
         '@doist/eslint-config/simple-import-sort',
     ],
     root: true,

@@ -2,3 +2,4 @@ dist/
 es/
 lib/
 styles/
+src/stories/public/mockServiceWorker.js

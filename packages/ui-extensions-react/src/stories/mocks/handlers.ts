@@ -6,11 +6,11 @@ import {
     TextBlock,
 } from '@doist/ui-extensions-core'
 
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 export const handlers = [
-    rest.post('/error-card/process', (req, res, ctx) => {
-        return res(ctx.json({ card: errorCard() }))
+    http.post('/error-card/process', () => {
+        return HttpResponse.json({ card: errorCard() })
     }),
 ]
 

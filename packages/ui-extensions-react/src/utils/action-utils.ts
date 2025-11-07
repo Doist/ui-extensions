@@ -16,7 +16,7 @@ export type CanHaveAutoFocus = {
     shouldAutoFocus: boolean
 }
 
-export function canSetAutoFocus<T>(
+export function canSetAutoFocus<T extends object>(
     object: T | (T & CanHaveAutoFocus),
 ): object is T & CanHaveAutoFocus {
     return 'shouldAutoFocus' in object
