@@ -37,7 +37,7 @@
     },
     "peerDependencies": {
         "@doist/reactist": "^29.0.0",
-        "@doist/ui-extensions-core": "^4.2.0",
+        "@doist/ui-extensions-core": "^5.0.0",
         "adaptivecards": "^2.9.0",
         "react": "^17.0.0 || ^18.0.0",
         "react-dom": "^17.0.0 || ^18.0.0",
