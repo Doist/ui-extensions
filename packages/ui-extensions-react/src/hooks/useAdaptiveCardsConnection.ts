@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useCallback, useState } from 'react'
 
 import { processRequest } from '../api/adaptive-cards-server'
 
@@ -44,7 +44,7 @@ export function useAdaptiveCardsConnection({
     params,
     version,
 }: DoistCardConnectionParams): DoistCardsConnection {
-    const [result, setResult] = React.useState<DoistCardResult>({ type: 'loading' })
+    const [result, setResult] = useState<DoistCardResult>({ type: 'loading' })
 
     function setLoading(loadingText?: string) {
         setResult({ type: 'loading', loadingText })
@@ -58,7 +58,7 @@ export function useAdaptiveCardsConnection({
         setResult({ type: 'error', error })
     }
 
-    const onAction = React.useCallback(
+    const onAction = useCallback(
         async (action: DoistCardAction, loadingText?: string) => {
             setLoading(loadingText)
             const request = createRequest(
