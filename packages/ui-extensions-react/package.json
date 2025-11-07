@@ -46,7 +46,7 @@
     "prettier": "@doist/prettier-config",
     "dependencies": {
         "classnames": "2.5.1",
-        "dayjs": "1.11.18"
+        "dayjs": "1.11.19"
     },
     "devDependencies": {
         "@babel/preset-env": "7.28.5",
