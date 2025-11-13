@@ -1,7 +1,5 @@
 {
-    "extends": [
-        "github>doist/renovate-config:frontend-base"
-    ],
+    "extends": ["github>doist/renovate-config:frontend-base"],
     "hostRules": [
         {
             "hostType": "npm",
