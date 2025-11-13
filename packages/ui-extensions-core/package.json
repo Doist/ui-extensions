@@ -2,8 +2,16 @@
     "name": "@doist/ui-extensions-core",
     "version": "5.0.0",
     "description": "",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "dist/cjs/index.js",
+    "module": "dist/esm/index.js",
+    "types": "dist/types/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/esm/index.js",
+            "require": "./dist/cjs/index.js",
+            "types": "./dist/types/index.d.ts"
+        }
+    },
     "type": "module",
     "repository": {
         "type": "git",
@@ -19,7 +27,11 @@
         "clean": "rimraf dist",
         "reset": "rimraf dist node_modules",
         "prepare": "npm run build",
-        "build": "npm run clean && npx tsc -p tsconfig.build.json",
+        "build:cjs": "npx tsc -p tsconfig.cjs.json",
+        "build:esm": "npx tsc -p tsconfig.esm.json",
+        "build:fix-esm": "node scripts/fix-esm-imports.cjs",
+        "build:post": "echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
+        "build": "npm run clean && npm-run-all build:cjs build:esm build:fix-esm build:post",
         "ts-compile-check": "tsc --noEmit",
         "integrity-check": "npm-run-all clean format-check lint-check ts-compile-check test",
         "link:yalc": "yalc link",
@@ -30,7 +42,9 @@
     "license": "MIT",
     "prettier": "@doist/prettier-config",
     "files": [
-        "dist/**/*",
+        "dist/cjs/**/*",
+        "dist/esm/**/*",
+        "dist/types/**/*",
         "!dist/**/*.tsbuildinfo",
         "!dist/**/*.test.*"
     ],
