@@ -55,11 +55,14 @@ jobs:
                   registry-url: https://registry.npmjs.org/
                   scope: '@doist'
 
-            - name: Ensure npm 11.5.1 or later is installed
-              run: npm install -g npm@latest
-
             - name: Install dependencies
               run: npm run bootstrap-ci:common
+
+            # npm must be upgraded AFTER installing dependencies to avoid package-lock.json
+            # sync errors. Upgrading npm before running npm ci can cause lock file format
+            # mismatches that prevent successful dependency installation.
+            - name: Ensure npm 11.5.1 or later is installed
+              run: npm install -g npm@latest
 
             - name: Publish package
               working-directory: ./packages/ui-extensions-core
