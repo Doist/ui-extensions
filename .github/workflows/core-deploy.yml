@@ -5,6 +5,14 @@ on:
         tags:
             - 'core-v*'
 
+permissions:
+    # Enable reading repository contents (allows checkout without token)
+    contents: read
+    # Enable the use of OIDC for trusted publishing and npm provenance
+    id-token: write
+    # Enable the use of GitHub Packages registry
+    packages: write
+
 jobs:
     # Publish to GitHub package registry
     publish-github:
@@ -47,11 +55,12 @@ jobs:
                   registry-url: https://registry.npmjs.org/
                   scope: '@doist'
 
+            - name: Ensure npm 11.5.1 or later is installed
+              run: npm install -g npm@latest
+
             - name: Install dependencies
               run: npm run bootstrap-ci:common
 
             - name: Publish package
               working-directory: ./packages/ui-extensions-core
-              run: npm publish --access public
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
+              run: npm publish --provenance --access public

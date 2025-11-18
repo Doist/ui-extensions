@@ -10,10 +10,7 @@
         "dist",
         "styles"
     ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Doist/ui-extensions"
-    },
+    "repository": "https://github.com/Doist/ui-extensions",
     "engines": {
         "node": ">=16"
     },

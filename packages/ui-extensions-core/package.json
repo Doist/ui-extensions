@@ -13,10 +13,7 @@
         }
     },
     "type": "module",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Doist/ui-extensions"
-    },
+    "repository": "https://github.com/Doist/ui-extensions",
     "scripts": {
         "watch": "npm run build && yalc push && chokidar src -c \"npm run build && yalc push\"",
         "lint-fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
