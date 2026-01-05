@@ -13,7 +13,7 @@ module.exports = {
         '@doist/eslint-config/simple-import-sort',
     ],
     root: true,
-    ignorePatterns: ['scripts/', '.eslintrc.js', 'global-setup.js', 'jest.config.js'],
+    ignorePatterns: ['scripts/', '.eslintrc.cjs', 'global-setup.js', 'jest.config.js'],
     rules: {
         '@typescript-eslint/no-unnecessary-condition': 'error',
     },

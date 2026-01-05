@@ -115,6 +115,7 @@ function createRequest(
     actionParams?: DoistCardActionParams,
 ): ExtensionRequest {
     switch (version) {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- version check for future extensibility
         case 2: {
             const requestV2: DoistCardRequest = {
                 context,
@@ -136,6 +137,7 @@ function createError(
     request: ExtensionRequest,
 ): ExtensionError {
     switch (version) {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- version check for future extensibility
         case 2: {
             const errorV2: DoistCardError = {
                 error,

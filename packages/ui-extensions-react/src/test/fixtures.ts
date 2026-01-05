@@ -49,20 +49,17 @@ export const DEFAULT_CARD = {
             images: [
                 {
                     type: 'Image',
-                    url:
-                        'https://media1.giphy.com/media/XYot661SFS62c/giphy.gif?cid=550add23837d0fdf40feddd3a4df0de03a98b54019e5cffc&rid=giphy.gif',
+                    url: 'https://media1.giphy.com/media/XYot661SFS62c/giphy.gif?cid=550add23837d0fdf40feddd3a4df0de03a98b54019e5cffc&rid=giphy.gif',
                     altText: 'robin williams hello GIF',
                 },
                 {
                     type: 'Image',
-                    url:
-                        'https://media1.giphy.com/media/icUEIrjnUuFCWDxFpU/giphy.gif?cid=550add23837d0fdf40feddd3a4df0de03a98b54019e5cffc&rid=giphy.gif',
+                    url: 'https://media1.giphy.com/media/icUEIrjnUuFCWDxFpU/giphy.gif?cid=550add23837d0fdf40feddd3a4df0de03a98b54019e5cffc&rid=giphy.gif',
                     altText: 'Napoleon Dynamite Hello GIF by 20th Century Fox Home Entertainment',
                 },
                 {
                     type: 'Image',
-                    url:
-                        'https://media3.giphy.com/media/BVStb13YiR5Qs/giphy.gif?cid=550add23837d0fdf40feddd3a4df0de03a98b54019e5cffc&rid=giphy.gif',
+                    url: 'https://media3.giphy.com/media/BVStb13YiR5Qs/giphy.gif?cid=550add23837d0fdf40feddd3a4df0de03a98b54019e5cffc&rid=giphy.gif',
                     altText: 'Lionel Richie Hello GIF',
                 },
             ],
