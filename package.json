@@ -32,7 +32,7 @@
         "nock": "13.5.6",
         "node-fetch": "2.7.0",
         "npm-run-all2": "5.0.2",
-        "postcss": "8.4.31",
+        "postcss": "8.5.6",
         "prettier": "3.7.4",
         "react-docgen-typescript-loader": "3.7.2",
         "rimraf": "3.0.2",
