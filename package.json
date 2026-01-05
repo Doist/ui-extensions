@@ -11,7 +11,7 @@
         "@doist/prettier-config": "4.0.1",
         "@doist/tsconfig": "2.0.1",
         "@rollup/plugin-commonjs": "29.0.0",
-        "@rollup/plugin-node-resolve": "13.3.0",
+        "@rollup/plugin-node-resolve": "16.0.3",
         "@rollup/plugin-typescript": "12.3.0",
         "@testing-library/user-event": "7.2.1",
         "@types/jest": "30.0.0",
