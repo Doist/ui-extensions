@@ -43,7 +43,7 @@ export class DoistCard extends ContainerWithNoItems {
         // When we remove `adaptiveCardistVersion` we can remove this line, until then,
         // we should keep it as it ensures that the _adaptiveCardistVersion field doesn't
         // get removed by accident.
-        // eslint-disable-next-line no-unused-expressions
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         this._adaptiveCardistVersion
         return this._doistCardVersion
     }

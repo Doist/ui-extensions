@@ -3,6 +3,6 @@ module.exports = {
         project: './tsconfig.json',
         sourceType: 'module',
     },
-    extends: ['../../.eslintrc.js'],
+    extends: ['../../.eslintrc.cjs'],
     ignorePatterns: ['dist/'],
 }

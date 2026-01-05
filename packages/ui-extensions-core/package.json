@@ -30,7 +30,7 @@
         "build:post": "echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
         "build": "npm run clean && npm-run-all build:cjs build:esm build:fix-esm build:post",
         "ts-compile-check": "tsc --noEmit",
-        "integrity-check": "npm-run-all clean format-check lint-check ts-compile-check test",
+        "integrity-check": "npm-run-all clean format-check lint-check ts-compile-check test build:cjs build:esm build:fix-esm build:post",
         "link:yalc": "yalc link",
         "publish:yalc": "yalc push"
     },
