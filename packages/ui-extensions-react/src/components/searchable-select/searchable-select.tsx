@@ -14,6 +14,8 @@ import type {
     StylesConfig,
 } from 'react-select'
 
+type Option = { label: string; value: number }
+
 const basicCSSOverrides = {
     background: 'inherit' as const,
     borderColor: 'inherit' as const,
@@ -67,7 +69,7 @@ const styles: StylesConfig<Option, boolean, GroupBase<Option>> = {
             },
         }) as CSSObjectWithLabel,
     // This hides the default separator
-    indicatorSeparator: () => ({}) as CSSObjectWithLabel,
+    indicatorSeparator: (_base, _props) => ({}) as CSSObjectWithLabel,
     multiValue: (base, _props) =>
         ({
             ...base,
@@ -98,8 +100,6 @@ type SearchableSelectProps = SelectProps<Option, boolean> & {
     onValueChange?: (value: string) => void
     isSearchable?: boolean
 }
-
-type Option = { label: string; value: number }
 
 function isOption(value: OnChangeValue<Option, boolean>): value is Option {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
