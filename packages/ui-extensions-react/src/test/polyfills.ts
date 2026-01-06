@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import { TextEncoder, TextDecoder } from 'util'
 
 /**
  * Adds missing global access for fetch.
@@ -13,4 +14,12 @@ export function polyfillFetch(): void {
         input: RequestInfo | URL,
         init?: RequestInit,
     ) => Promise<Response>
+    
+    // TextEncoder and TextDecoder are required by node-fetch v3
+    if (!('TextEncoder' in globalThis)) {
+        globalThis.TextEncoder = TextEncoder as unknown as typeof globalThis.TextEncoder
+    }
+    if (!('TextDecoder' in globalThis)) {
+        globalThis.TextDecoder = TextDecoder as unknown as typeof globalThis.TextDecoder
+    }
 }
