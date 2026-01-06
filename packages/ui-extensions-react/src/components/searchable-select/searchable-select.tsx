@@ -4,7 +4,6 @@ import CreatableSelect from 'react-select/creatable'
 
 import { Loading } from '@doist/reactist'
 
-import type { CSSProperties } from 'react'
 import type {
     CSSObjectWithLabel,
     GroupBase,
