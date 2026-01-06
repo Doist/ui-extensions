@@ -27,10 +27,11 @@
         "eslint-config-prettier": "10.1.8",
         "eslint-import-resolver-webpack": "0.13.10",
         "husky": "9.1.7",
+        "lint-staged": "15.5.2",
         "jest": "30.2.0",
         "jest-environment-jsdom": "30.2.0",
         "nock": "13.5.6",
-        "node-fetch": "2.7.0",
+        "node-fetch": "3.3.2",
         "npm-run-all2": "5.0.2",
         "postcss": "8.5.6",
         "prettier": "3.7.4",
@@ -62,11 +63,6 @@
         "test": "npm run --workspaces test",
         "audit": "npx better-npm-audit audit --level=moderate --production",
         "integrity-check": "npm run --workspaces integrity-check"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "npx lint-staged"
-        }
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx,json,css,html,yml,yaml,md}": "prettier --check"
