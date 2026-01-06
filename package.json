@@ -23,7 +23,7 @@
         "autoprefixer": "10.4.23",
         "better-npm-audit": "3.11.0",
         "chokidar-cli": "3.0.0",
-        "eslint": "8.57.1",
+        "eslint": "9.39.2",
         "eslint-config-prettier": "10.1.8",
         "eslint-import-resolver-webpack": "0.13.10",
         "husky": "9.1.7",
