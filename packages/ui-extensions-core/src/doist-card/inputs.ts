@@ -1,4 +1,4 @@
-import { JsonProperty, Serializable } from 'typescript-json-serializer'
+import { JsonProperty, JsonObject } from 'typescript-json-serializer'
 
 import { Action } from './actions'
 import { CardElement } from './card-element'
@@ -9,7 +9,7 @@ import type { ChoiceSetInputStyle, InputStyle, Orientation } from './types'
 /**
  * Base class for all inputs
  */
-@Serializable()
+@JsonObject()
 export abstract class Input extends CardElement {
     /**
      * 	Label for this input
@@ -30,7 +30,7 @@ export abstract class Input extends CardElement {
     errorMessage?: string
 }
 
-@Serializable()
+@JsonObject()
 export class TextInput extends Input {
     getJsonTypeName(): string {
         return 'Input.Text'
@@ -96,7 +96,7 @@ export class TextInput extends Input {
     }
 }
 
-@Serializable()
+@JsonObject()
 export class NumberInput extends Input {
     /**
      * Hint of maximum value
@@ -127,7 +127,7 @@ export class NumberInput extends Input {
     }
 }
 
-@Serializable()
+@JsonObject()
 export class DateInput extends Input {
     /**
      * Hint of maximum value expressed in YYYY-MM-DD format.
@@ -158,7 +158,7 @@ export class DateInput extends Input {
     }
 }
 
-@Serializable()
+@JsonObject()
 export class TimeInput extends Input {
     /**
      * 	Hint of maximum value expressed in HH:MM format.
@@ -189,7 +189,7 @@ export class TimeInput extends Input {
     }
 }
 
-@Serializable()
+@JsonObject()
 export class ToggleInput extends Input {
     /**
      * Title for the toggle.
@@ -221,7 +221,7 @@ export class ToggleInput extends Input {
     }
 }
 
-@Serializable()
+@JsonObject()
 export class Choice extends SerializableObject {
     /**
      * Text to display.
@@ -251,7 +251,7 @@ export class Choice extends SerializableObject {
     }
 }
 
-@Serializable()
+@JsonObject()
 export class ChoiceSetInput extends Input {
     @JsonProperty()
     choices: Choice[] = []

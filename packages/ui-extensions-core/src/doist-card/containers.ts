@@ -1,4 +1,4 @@
-import { JsonProperty, Serializable } from 'typescript-json-serializer'
+import { JsonProperty, JsonObject } from 'typescript-json-serializer'
 
 import { Action } from './actions'
 import { CardElement } from './card-element'
@@ -17,7 +17,7 @@ import type {
  * Specifies a background image. Acceptable formats are PNG, JPEG, and GIF
  * @extends SerializableObject
  */
-@Serializable()
+@JsonObject()
 export class BackgroundImage extends SerializableObject {
     /**
      * The URL (or data URL) of the image. Acceptable formats are PNG, JPEG, and GIF.
@@ -49,7 +49,7 @@ export class BackgroundImage extends SerializableObject {
  * Base class for all containers.
  * @extends CardElement
  */
-@Serializable()
+@JsonObject()
 export abstract class ContainerBase extends CardElement {
     /**
      * Determines whether the element should bleed through its parent's padding.
@@ -95,7 +95,7 @@ export abstract class ContainerBase extends CardElement {
     }
 }
 
-@Serializable()
+@JsonObject()
 export abstract class ContainerWithNoItems extends ContainerBase {
     /**
      * Defines how the content should be aligned vertically within the container.
@@ -134,7 +134,7 @@ export abstract class ContainerWithNoItems extends ContainerBase {
     selectAction?: Action
 }
 
-@Serializable()
+@JsonObject()
 export class Container extends ContainerWithNoItems {
     @JsonProperty('items')
     private items: CardElement[] = []
@@ -236,7 +236,7 @@ export class Container extends ContainerWithNoItems {
 /**
  * Displays a set of actions.
  */
-@Serializable()
+@JsonObject()
 export class ActionSet extends CardElement {
     @JsonProperty()
     private actions: Action[] = []
@@ -311,7 +311,7 @@ export class ActionSet extends CardElement {
     }
 }
 
-@Serializable()
+@JsonObject()
 export class Column extends Container {
     constructor(width?: ColumnWidth) {
         super()
@@ -350,7 +350,7 @@ export class Column extends Container {
 /**
  * ColumnSet divides a region into Columns, allowing elements to sit side-by-side.
  */
-@Serializable()
+@JsonObject()
 export class ColumnSet extends ContainerBase {
     @JsonProperty()
     private columns: Column[] = []
