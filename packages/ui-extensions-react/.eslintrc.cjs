@@ -5,6 +5,11 @@ module.exports = {
     },
     extends: ['../../.eslintrc.cjs', '@doist/eslint-config/react'],
     ignorePatterns: ['dist/', '*.config.js', 'es/', 'lib/'],
+    settings: {
+        react: {
+            version: 'detect',
+        },
+    },
     rules: {
         // Rules no longer necessary with the new JSX Transformer
         // ref: https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html

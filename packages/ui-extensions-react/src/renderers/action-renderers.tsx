@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 import { Button } from '@doist/reactist'
 
@@ -41,8 +41,8 @@ export function createActionDiv({
         div.style.paddingLeft = '6px'
     }
 
-    // eslint-disable-next-line import/no-named-as-default-member
-    ReactDOM.render(
+    const root = createRoot(div)
+    root.render(
         <Button
             {...getNewButtonProps(style)}
             id={id}
@@ -53,7 +53,6 @@ export function createActionDiv({
         >
             {title}
         </Button>,
-        div,
     )
     return div
 }

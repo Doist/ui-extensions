@@ -1,5 +1,5 @@
 /* eslint-disable import/no-named-as-default-member */
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 import { CheckboxField, TextField } from '@doist/reactist'
 
@@ -35,7 +35,8 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
         }
 
         if (this.isMultiline) {
-            ReactDOM.render(
+            const root = createRoot(div)
+            root.render(
                 // ref: https://github.com/Doist/Issues/issues/7406
                 // Temporary fix: replace Rectist's TextArea with standard html textarea
                 <textarea
@@ -58,10 +59,10 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
                     )}
                     autoFocus={this.shouldAutoFocus}
                 />,
-                div,
             )
         } else {
-            ReactDOM.render(
+            const root = createRoot(div)
+            root.render(
                 <TextField
                     // label is an empty string here because the label is rendered by the Adaptive Card framework
                     label=""
@@ -74,7 +75,6 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
                     autoFocus={this.shouldAutoFocus}
                     enterKeyHint="enter"
                 />,
-                div,
             )
         }
         return div
@@ -146,7 +146,8 @@ export class CustomTimeInput extends AC.TimeInput {
     protected internalRender(): HTMLElement | undefined {
         const div = createInputContainer()
 
-        ReactDOM.render(
+        const root = createRoot(div)
+        root.render(
             <TimePicker
                 data-testid={this.id}
                 min={this.min}
@@ -155,7 +156,6 @@ export class CustomTimeInput extends AC.TimeInput {
                 className={this.hostConfig.makeCssClassName('ac-input', 'ac-timeInput')}
                 minutesInterval={15}
             />,
-            div,
         )
 
         return div
@@ -177,7 +177,8 @@ export class CustomNumberInput extends AC.NumberInput implements CanHaveAutoFocu
     protected internalRender(): HTMLElement | undefined {
         const div = createInputContainer()
 
-        ReactDOM.render(
+        const root = createRoot(div)
+        root.render(
             <TextField
                 data-testid={this.id}
                 // label is an empty string here because the label is rendered by the Adaptive Card framework
@@ -192,7 +193,6 @@ export class CustomNumberInput extends AC.NumberInput implements CanHaveAutoFocu
                 className={this.hostConfig.makeCssClassName('ac-input', 'ac-numberInput')}
                 autoFocus={this.shouldAutoFocus}
             />,
-            div,
         )
 
         return div
@@ -221,14 +221,14 @@ export class CustomToggleInput extends ToggleInputist {
 
         this.valueInternal = this.defaultValue?.toLowerCase() === 'true'
 
-        ReactDOM.render(
+        const root = createRoot(div)
+        root.render(
             <CheckboxField
                 label={this.title}
                 defaultChecked={this.valueInternal}
-                onChange={(event) => this.onChange(event)}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => this.onChange(event)}
                 enterKeyHint="enter"
             />,
-            div,
         )
 
         return div
