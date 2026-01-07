@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { type ReactElement, useCallback, useMemo } from 'react'
 
 import { DeprecatedSelect } from '@doist/reactist'
 
@@ -31,7 +31,7 @@ export function TimePicker({
     max,
     value,
     className,
-}: TimePickerProps): JSX.Element {
+}: TimePickerProps): ReactElement {
     const times = useMemo(() => getTimes(min, max, minutesInterval), [min, max, minutesInterval])
     const defaultValue = useMemo(() => roundTime(minutesInterval, value), [minutesInterval, value])
 

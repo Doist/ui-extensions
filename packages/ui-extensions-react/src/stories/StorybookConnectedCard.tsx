@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { type ReactElement, useEffect, useState } from 'react'
 
 import { AdaptiveCardRenderer } from '../components'
 import { useAdaptiveCardsConnection } from '../hooks'
@@ -31,10 +31,10 @@ export type StorybookConnectedCardProps = {
     children?: (
         configuration: DoistCardConnectionParams,
         setConfiguration: (newConfig: DoistCardConnectionParams) => void,
-    ) => JSX.Element
+    ) => ReactElement
 }
 
-export function StorybookConnectedCard(props: StorybookConnectedCardProps): JSX.Element {
+export function StorybookConnectedCard(props: StorybookConnectedCardProps): ReactElement {
     const [bridgeActions, setBridgeActions] = useState<DoistCardBridge[]>([])
     const [configuration, setConfiguration] = useState<DoistCardConnectionParams>({
         context: DEFAULT_CONTEXT,

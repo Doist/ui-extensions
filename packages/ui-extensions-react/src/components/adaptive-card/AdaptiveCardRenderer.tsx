@@ -1,6 +1,6 @@
 import './AdaptiveCardRenderer.css'
 
-import { useEffect, useMemo } from 'react'
+import { type ReactElement, useEffect, useMemo } from 'react'
 
 import { Loading, Text } from '@doist/reactist'
 
@@ -95,7 +95,7 @@ export function AdaptiveCardRenderer({
     result,
     customElementParse,
     clipboardHandler,
-}: AdaptiveCardRendererProps): JSX.Element {
+}: AdaptiveCardRendererProps): ReactElement {
     useEffect(() => {
         if (result.type === 'error') {
             onError?.(result.error)

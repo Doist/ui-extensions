@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { type ReactElement, useEffect, useRef } from 'react'
 
 import classNames from 'classnames'
 
@@ -6,7 +6,7 @@ type AdaptiveCardProps = {
     card?: HTMLElement
 }
 
-export function AdaptiveCardCanvas({ card }: AdaptiveCardProps): JSX.Element {
+export function AdaptiveCardCanvas({ card }: AdaptiveCardProps): ReactElement {
     const cardElementRootRef = useRef<HTMLDivElement>(null)
 
     useEffect(

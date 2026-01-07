@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { type ReactElement, Suspense } from 'react'
 import Select, { components } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 
@@ -112,7 +112,8 @@ function isMultipleOptions(value: OnChangeValue<Option, boolean>): value is Opti
 
 // This component is purely to get rid of the extra focus border that appears when
 // a user starts typing.
-function Input(props: InputProps<Option, boolean, GroupBase<Option>>): JSX.Element {
+function Input(props: InputProps<Option, boolean, GroupBase<Option>>) {
+    // @ts-expect-error - react-select's Element type is not compatible with React 19's stricter JSX types
     return <components.Input {...props} data-no-keyboard-focus-marker />
 }
 
@@ -121,7 +122,7 @@ function Input(props: InputProps<Option, boolean, GroupBase<Option>>): JSX.Eleme
  * be force to inherit from the classnames that get passed in, this way it allows the
  * component to carry on using the standard twist styles set in the css.
  */
-function SearchableSelect(props: SearchableSelectProps): JSX.Element {
+function SearchableSelect(props: SearchableSelectProps): ReactElement {
     const { onValueChange, isSearchable } = props
     function onChange(value: OnChangeValue<Option, boolean>) {
         // Check to make sure it's a single option and not multiple options
