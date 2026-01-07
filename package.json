@@ -32,7 +32,7 @@
         "jest-environment-jsdom": "30.2.0",
         "nock": "14.0.10",
         "node-fetch": "3.3.2",
-        "npm-run-all2": "5.0.2",
+        "npm-run-all2": "8.0.4",
         "postcss": "8.5.6",
         "prettier": "3.7.4",
         "react-docgen-typescript-loader": "3.7.2",
