@@ -1,4 +1,4 @@
-import { JsonProperty, Serializable } from 'typescript-json-serializer'
+import { JsonProperty, JsonObject } from 'typescript-json-serializer'
 
 import { CardObject } from './card-object'
 
@@ -8,7 +8,7 @@ import type { ElementHeight, HorizontalAlignment, Spacing } from './types'
  * The base CardElement upon which all other card elements are derived.
  * @extends CardObject
  */
-@Serializable()
+@JsonObject()
 export abstract class CardElement extends CardObject {
     /**
      * Whether this element should have a separator bar above it.

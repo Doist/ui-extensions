@@ -1,4 +1,4 @@
-import { JsonProperty, Serializable } from 'typescript-json-serializer'
+import { JsonProperty, JsonObject } from 'typescript-json-serializer'
 
 import { SerializableObject } from './serialization'
 
@@ -6,7 +6,7 @@ import { SerializableObject } from './serialization'
  * CardObject contains some of the common properties of all card objects.
  * @extends SerializableObject
  */
-@Serializable()
+@JsonObject()
 export abstract class CardObject extends SerializableObject {
     constructor() {
         super()

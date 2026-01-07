@@ -1,4 +1,4 @@
-import { JsonProperty, Serializable } from 'typescript-json-serializer'
+import { JsonProperty, JsonObject } from 'typescript-json-serializer'
 
 import { Action } from './actions'
 import { CardElement } from './card-element'
@@ -22,7 +22,7 @@ import type {
  * The DoistCard is the root object into which all other elements and cards can be added.
  * @extends ContainerWithNoItems
  */
-@Serializable()
+@JsonObject()
 export class DoistCard extends ContainerWithNoItems {
     static readonly schemaUrl = 'http://adaptivecards.io/schemas/adaptive-card.json'
 
@@ -151,7 +151,7 @@ export class DoistCard extends ContainerWithNoItems {
  * RichTextBlock and TextRun.
  * @extends CardElement
  */
-@Serializable()
+@JsonObject()
 export abstract class TextBlockBase extends CardElement {
     constructor(text?: string) {
         super()
@@ -216,7 +216,7 @@ export abstract class TextBlockBase extends CardElement {
  * The TextBlock element, used for displaying text in your card.
  * @extends TextBlockBase
  */
-@Serializable()
+@JsonObject()
 export class TextBlock extends TextBlockBase {
     /**
      * Whether the text should be wrapped if it proves to be too long for a single line.
@@ -240,7 +240,7 @@ export class TextBlock extends TextBlockBase {
  * Display an image in your card using this class.
  * @extends CardElement
  */
-@Serializable()
+@JsonObject()
 export class Image extends CardElement {
     /**
      * The URL of the image.
@@ -336,7 +336,7 @@ export class Image extends CardElement {
  * A TextRun is used by the RichTextBlock to display text in a formatted way.
  * @extends TextBlockBase
  */
-@Serializable()
+@JsonObject()
 export class TextRun extends TextBlockBase {
     /**
      * An associated {@link Action} to be invoked when the image is tapped.
@@ -356,7 +356,7 @@ export type Inline = TextRun | string
  * for more formatting. You can pass in a number of different Inline elements.
  * @extends CardElement
  */
-@Serializable()
+@JsonObject()
 export class RichTextBlock extends CardElement {
     @JsonProperty()
     private inlines: Inline[] = []

@@ -1,10 +1,12 @@
-import { serialize } from 'typescript-json-serializer'
+import { JsonSerializer } from 'typescript-json-serializer'
 
 import type { Props } from './props'
 
+const serializer = new JsonSerializer()
+
 export class SerializableObject {
-    toJSON(): string {
-        return serialize(this, true) as string
+    toJSON(): object | null | undefined {
+        return serializer.serializeObject(this)
     }
 
     /**

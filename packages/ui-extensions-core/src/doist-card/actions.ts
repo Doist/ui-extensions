@@ -1,4 +1,4 @@
-import { JsonProperty, Serializable } from 'typescript-json-serializer'
+import { JsonProperty, JsonObject } from 'typescript-json-serializer'
 
 import { CardObject } from './card-object'
 
@@ -7,7 +7,7 @@ import type { ActionStyle, AssociatedInputs } from './types'
  * The base Action class upon which all other Action types are derived.
  * @extends CardObject
  */
-@Serializable()
+@JsonObject()
 export abstract class Action extends CardObject {
     @JsonProperty()
     /**
@@ -37,7 +37,7 @@ export abstract class Action extends CardObject {
  * The SubmitAction is what is used to trigger an update from the extension server.
  * @extends Action
  */
-@Serializable()
+@JsonObject()
 export class SubmitAction extends Action {
     /**
      * Controls which inputs are associated with the submit action.
@@ -71,7 +71,7 @@ export class SubmitAction extends Action {
 /**
  * An Action that will open the provided URL in the user's browser.
  */
-@Serializable()
+@JsonObject()
 export class OpenUrlAction extends Action {
     /**
      * The URL to open.
@@ -87,7 +87,7 @@ export class OpenUrlAction extends Action {
 /**
  * An Action that, when triggered, will copy text to the user's clipboard.
  */
-@Serializable()
+@JsonObject()
 export class ClipboardAction extends Action {
     /**
      * The text to copy to the clipboard.
