@@ -12,7 +12,7 @@
     ],
     "repository": "https://github.com/Doist/ui-extensions",
     "engines": {
-        "node": ">=16"
+        "node": "^22.22.0 || >=24.13.0"
     },
     "scripts": {
         "watch": "npm run build && yalc push && chokidar src -c \"npm run build && yalc push\"",
@@ -33,7 +33,8 @@
         "publish:yalc": "yalc push"
     },
     "peerDependencies": {
-        "@doist/reactist": "^29.0.0",
+        "@doist/reactist": "^30.0.0",
+        "react-compiler-runtime": "^1.0.0",
         "@doist/ui-extensions-core": "^5.0.0",
         "adaptivecards": "^2.9.0",
         "react": "^17.0.0 || ^18.0.0",
@@ -49,7 +50,7 @@
         "@babel/preset-env": "7.28.6",
         "@babel/preset-react": "7.28.5",
         "@babel/preset-typescript": "7.28.5",
-        "@doist/reactist": "29.1.2",
+        "@doist/reactist": "^30.0.0",
         "@storybook/addon-actions": "7.6.21",
         "@storybook/addon-essentials": "7.6.21",
         "@storybook/addon-links": "7.6.21",
