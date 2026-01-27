@@ -1,6 +1,6 @@
 {
     "name": "@doist/ui-extensions-react",
-    "version": "17.1.0",
+    "version": "17.1.1",
     "author": "Doist",
     "license": "MIT",
     "main": "dist/index.js",
