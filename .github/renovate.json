@@ -6,5 +6,12 @@
             "matchHost": "https://npm.pkg.github.com/",
             "token": "{{ secrets.NPM_PKG_GITHUB_TOKEN }}"
         }
+    ],
+    "packageRules": [
+        {
+            "matchPackageNames": ["@rollup/plugin-typescript"],
+            "allowedVersions": "<9.0.0",
+            "description": "v9+ breaks declaration file generation for re-exported modules"
+        }
     ]
 }
