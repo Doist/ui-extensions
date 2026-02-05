@@ -20,7 +20,7 @@
         "@types/react-dom": "18.3.7",
         "@typescript-eslint/eslint-plugin": "8.54.0",
         "@typescript-eslint/parser": "8.54.0",
-        "autoprefixer": "10.4.23",
+        "autoprefixer": "10.4.24",
         "better-npm-audit": "3.11.0",
         "chokidar-cli": "3.0.0",
         "eslint": "8.57.1",
