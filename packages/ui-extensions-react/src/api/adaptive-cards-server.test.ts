@@ -95,9 +95,7 @@ describe('Tests for adaptive-cards-server', () => {
     })
 
     it('throws an error on network failure', async () => {
-        nock(DEFAULT_SERVER_ROOT)
-            .post(DEFAULT_SERVER_RELATIVE_PATH)
-            .replyWithError('Network error')
+        nock(DEFAULT_SERVER_ROOT).post(DEFAULT_SERVER_RELATIVE_PATH).replyWithError('Network error')
 
         await expect(
             processRequest<ExtensionRequest, DoistCardResponse>(
