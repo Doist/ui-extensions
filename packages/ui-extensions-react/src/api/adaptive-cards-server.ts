@@ -12,5 +12,14 @@ export async function processRequest<TRequest, TResponse>(
         },
     })
 
+    if (!response.ok) {
+        // Try to parse as JSON — servers may return error cards as JSON with non-200 status
+        try {
+            return (await response.json()) as TResponse
+        } catch {
+            throw new Error(`Request failed with status ${response.status}`)
+        }
+    }
+
     return (await response.json()) as TResponse
 }
