@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 
-import { DeprecatedSelect } from '@doist/reactist'
+import { SelectField } from '@doist/reactist'
 
 import classNames from 'classnames'
 import dayjs, { Dayjs } from 'dayjs'
@@ -47,11 +47,18 @@ export function TimePicker({
     return (
         <div className={classNames(styles.time_picker, className)}>
             <div data-testid="time-picker" className={classNames(styles.time_picker, className)}>
-                <DeprecatedSelect
-                    onChange={(time) => timeChanged(time)}
+                <SelectField
+                    label=""
+                    aria-label="Time"
                     defaultValue={defaultValue}
-                    options={times}
-                />
+                    onChange={(event) => timeChanged(event.target.value)}
+                >
+                    {times.map((time) => (
+                        <option key={time.value} value={time.value}>
+                            {time.text}
+                        </option>
+                    ))}
+                </SelectField>
             </div>
             <ClockIcon className={classNames(styles.time_picker, styles.svg_icon)} />
         </div>
