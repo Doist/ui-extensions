@@ -1,4 +1,5 @@
-import ReactDOM from 'react-dom'
+import { flushSync } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 import { Button } from '@doist/reactist'
 
@@ -41,20 +42,21 @@ export function createActionDiv({
         div.style.paddingLeft = '6px'
     }
 
-    // eslint-disable-next-line import/no-named-as-default-member
-    ReactDOM.render(
-        <Button
-            {...getNewButtonProps(style)}
-            id={id}
-            onClick={onClick}
-            exceptionallySetClassName={classNames(baseCssClass, {
-                'ac-action-stretch': actionAlignment === ActionAlignment.Stretch,
-            })}
-        >
-            {title}
-        </Button>,
-        div,
-    )
+    const root = createRoot(div)
+    flushSync(() => {
+        root.render(
+            <Button
+                {...getNewButtonProps(style)}
+                id={id}
+                onClick={onClick}
+                exceptionallySetClassName={classNames(baseCssClass, {
+                    'ac-action-stretch': actionAlignment === ActionAlignment.Stretch,
+                })}
+            >
+                {title}
+            </Button>,
+        )
+    })
     return div
 }
 
