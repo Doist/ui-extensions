@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 import { TimePicker } from './time-picker'
 
@@ -125,6 +125,19 @@ describe('TimePicker', () => {
             const select = screen.getByRole<HTMLSelectElement>('combobox')
 
             expect(select.value).toEqual('13:30')
+        })
+    })
+
+    describe('onTimeChange callback', () => {
+        it('calls onTimeChanged with the selected value when a new time is picked', () => {
+            const handleTimeChanged = jest.fn()
+            render(<TimePicker onTimeChanged={handleTimeChanged} minutesInterval={5} />)
+
+            const select = screen.getByRole<HTMLSelectElement>('combobox')
+            fireEvent.change(select, { target: { value: '13:15' } })
+
+            expect(select.value).toEqual('13:15')
+            expect(handleTimeChanged).toHaveBeenCalledWith('13:15')
         })
     })
 
