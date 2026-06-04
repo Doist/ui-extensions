@@ -16,6 +16,20 @@ module.exports = {
                 loader: 'ts-loader',
             },
         })
+
+        // Handle SVG imports as React components (matching the @svgr/rollup setup used by
+        // the build), instead of Storybook's default asset/URL handling.
+        const assetRule = config.module.rules.find(
+            (rule) => rule.test instanceof RegExp && rule.test.test('.svg'),
+        )
+        if (assetRule) {
+            assetRule.exclude = /\.svg$/
+        }
+        config.module.rules.push({
+            test: /\.svg$/,
+            use: ['@svgr/webpack'],
+        })
+
         config.resolve.extensions.push('.ts', '.tsx')
         return config
     },

@@ -11,12 +11,22 @@
 
 .time_picker .svg_icon {
     position: absolute;
-    top: 5px;
+    top: 50%;
     left: 5px;
-    right: 0;
-    margin-top: 0;
+    transform: translateY(-50%);
     width: 24px;
     color: var(--time-picker-clock-color);
+    /* Sit above Reactist's SelectField select. */
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Same: keep Reactist's chevron above the select. */
+.time_picker select ~ svg {
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    pointer-events: none;
 }
 
 .time_picker select {
