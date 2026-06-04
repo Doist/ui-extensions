@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { ActionSet, ClipboardAction, DoistCard, TextBlock } from '@doist/ui-extensions-core'
 
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import { GlobalRegistry } from 'adaptivecards'
 
 import { ClipboardAction as ClipboardActionist } from '../../actions'
+import { registerRenderers } from '../../renderers'
 import { getDefaultCard } from '../../test/fixtures'
 
 import { AdaptiveCardRenderer } from './AdaptiveCardRenderer'
@@ -61,7 +62,7 @@ describe('AdaptiveCardRenderer', () => {
         expect(screen.queryByTestId(adaptiveLoadingTestId)).not.toBeInTheDocument()
     })
 
-    it('displays the adaptive card if type is loaded', () => {
+    it('displays the adaptive card if type is loaded', async () => {
         const result: DoistCardResult = {
             type: 'loaded',
             card: getDefaultCard(),
@@ -76,7 +77,7 @@ describe('AdaptiveCardRenderer', () => {
             />,
         )
 
-        expect(screen.getByTestId('adaptive-card')).toBeInTheDocument()
+        expect(await screen.findByTestId('adaptive-card')).toBeInTheDocument()
         expect(screen.queryByTestId(adaptiveLoadingTestId)).not.toBeInTheDocument()
         expect(screen.queryByTestId(adaptiveCardErrorTestId)).not.toBeInTheDocument()
     })
@@ -95,7 +96,7 @@ describe('AdaptiveCardRenderer', () => {
         })
         afterAll(() => jest.restoreAllMocks())
 
-        it('renders the ClipboardAction and triggers the clipboard handler', () => {
+        it('renders the ClipboardAction and triggers the clipboard handler', async () => {
             const clipboardText = JSON.stringify({
                 uniqueId: '872971b8-f394-48a1-a1c1-ec297d372880',
                 error: 'Something went wrong 😅',
@@ -114,7 +115,7 @@ describe('AdaptiveCardRenderer', () => {
                 />,
             )
 
-            fireEvent.click(screen.getByRole('button'))
+            fireEvent.click(await screen.findByRole('button'))
 
             expect(clipboardHandler).toHaveBeenCalledTimes(1)
             expect(clipboardHandler).toHaveBeenLastCalledWith(clipboardText)
@@ -146,5 +147,44 @@ describe('AdaptiveCardRenderer', () => {
 
             return card
         }
+    })
+
+    describe('custom input/action renderers', () => {
+        beforeAll(() => {
+            registerRenderers()
+        })
+        afterAll(() => jest.restoreAllMocks())
+
+        it('renders custom inputs without a flushSync render-phase warning', async () => {
+            // Serialize to JSON (as the framework receives it from the server) so parse()
+            // rebuilds the elements through the registered custom renderers.
+            const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+            const errorSpy = jest.spyOn(global.console, 'error')
+
+            const { unmount } = render(
+                <AdaptiveCardRenderer
+                    result={{ type: 'loaded', card }}
+                    onAction={emptyOnAction}
+                    errorText={errorText}
+                    clipboardHandler={() => {}}
+                />,
+            )
+
+            expect(await screen.findByTestId('TextInput.Search')).toBeInTheDocument()
+            expect(screen.getByTestId(adaptiveCardTestId)).toBeInTheDocument()
+
+            const renderPhaseWarnings = errorSpy.mock.calls.filter(
+                ([message]) =>
+                    typeof message === 'string' &&
+                    /flushSync|updates from render|not allowed/i.test(message),
+            )
+            expect(renderPhaseWarnings).toEqual([])
+
+            await act(async () => {
+                unmount()
+                await Promise.resolve()
+            })
+            errorSpy.mockRestore()
+        })
     })
 })

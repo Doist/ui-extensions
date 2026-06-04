@@ -1,6 +1,6 @@
 import './AdaptiveCardRenderer.css'
 
-import { useEffect, useMemo } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 
 import { Loading, Text } from '@doist/reactist'
 
@@ -15,11 +15,12 @@ import {
 
 import { ClipboardAction, OpenUrlAction, SubmitActionist } from '../../actions'
 import { useRefCallback } from '../../hooks'
-import { canSetAutoFocus } from '../../utils'
+import { canSetAutoFocus, takeRenderedRoots } from '../../utils'
 
 import { AdaptiveCardCanvas } from './AdaptiveCardCanvas'
 
 import type { DoistCardAction, DoistCardActionData } from '@doist/ui-extensions-core'
+import type { Root } from 'react-dom/client'
 import type { DoistCardResult, ExtensionCard, ExtensionError } from '../../types'
 
 type AdaptiveCardRendererProps = {
@@ -154,16 +155,39 @@ export function AdaptiveCardRenderer({
         return result
     }, [handleAction, hostConfig])
 
-    const card = useMemo(() => {
-        if (result.type !== 'loaded') return undefined
-        const cardData = result.card
+    const [card, setCard] = useState<HTMLElement | undefined>(undefined)
 
-        const context = new SerializationContext()
-        context.onParseElement = elementParser(result.card)
+    useLayoutEffect(
+        function renderCard() {
+            let cancelled = false
+            const roots: Root[] = []
 
-        adaptiveCard.parse(cardData, context)
-        return adaptiveCard.render()
-    }, [result, adaptiveCard, elementParser])
+            // adaptiveCard.render() mounts React roots via flushSync, which React forbids
+            // during its render/commit phases, so defer past both with a microtask.
+            queueMicrotask(() => {
+                if (cancelled) return
+                if (result.type !== 'loaded') {
+                    setCard(undefined)
+                    return
+                }
+
+                const context = new SerializationContext()
+                context.onParseElement = elementParser(result.card)
+                adaptiveCard.parse(result.card, context)
+
+                const rendered = adaptiveCard.render()
+                roots.push(...takeRenderedRoots())
+                setCard(rendered ?? undefined)
+            })
+
+            // Deferred to avoid unmounting a root mid-commit.
+            return function unmountCardRoots() {
+                cancelled = true
+                roots.forEach((root) => queueMicrotask(() => root.unmount()))
+            }
+        },
+        [result, adaptiveCard, elementParser],
+    )
 
     if (error) {
         return (

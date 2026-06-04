@@ -7,7 +7,7 @@ import * as AC from 'adaptivecards'
 
 import { TimePicker } from '../components/time-picker'
 import { TextInputist, ToggleInputist } from '../types/doist-rendering'
-import { createInputContainer } from '../utils/renderer-utils'
+import { createInputContainer, registerRenderedRoot } from '../utils/renderer-utils'
 
 import { createActionDiv } from './action-renderers'
 
@@ -35,6 +35,7 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
         }
 
         const root = createRoot(div)
+        registerRenderedRoot(root)
         if (this.isMultiline) {
             flushSync(() => {
                 root.render(
@@ -150,6 +151,7 @@ export class CustomTimeInput extends AC.TimeInput {
         const div = createInputContainer()
 
         const root = createRoot(div)
+        registerRenderedRoot(root)
         flushSync(() => {
             root.render(
                 <TimePicker
@@ -183,6 +185,7 @@ export class CustomNumberInput extends AC.NumberInput implements CanHaveAutoFocu
         const div = createInputContainer()
 
         const root = createRoot(div)
+        registerRenderedRoot(root)
         flushSync(() => {
             root.render(
                 <TextField
@@ -229,6 +232,7 @@ export class CustomToggleInput extends ToggleInputist {
         this.valueInternal = this.defaultValue?.toLowerCase() === 'true'
 
         const root = createRoot(div)
+        registerRenderedRoot(root)
         flushSync(() => {
             root.render(
                 <CheckboxField

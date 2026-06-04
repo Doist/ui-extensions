@@ -7,7 +7,7 @@ import { ActionAlignment, ActionStyle, GlobalRegistry, OpenUrlAction } from 'ada
 import classNames from 'classnames'
 
 import { ClipboardAction, SubmitActionist } from '../actions'
-import { isDangerButton, isPrimaryButton } from '../utils'
+import { isDangerButton, isPrimaryButton, registerRenderedRoot } from '../utils'
 
 import type { ButtonProps } from '@doist/reactist'
 
@@ -43,6 +43,7 @@ export function createActionDiv({
     }
 
     const root = createRoot(div)
+    registerRenderedRoot(root)
     flushSync(() => {
         root.render(
             <Button
