@@ -50,7 +50,7 @@
         "@babel/preset-env": "7.29.2",
         "@babel/preset-react": "7.28.5",
         "@babel/preset-typescript": "7.28.5",
-        "@doist/reactist": "30.1.0",
+        "@doist/reactist": "30.1.4",
         "@storybook/addon-actions": "7.6.24",
         "@storybook/addon-essentials": "7.6.24",
         "@storybook/addon-links": "7.6.24",
