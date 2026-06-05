@@ -176,7 +176,18 @@ export function AdaptiveCardRenderer({
                 context.onParseElement = elementParser(result.card)
                 adaptiveCard.parse(result.card, context)
 
-                const rendered = adaptiveCard.render()
+                let rendered
+                try {
+                    rendered = adaptiveCard.render()
+                } catch (renderError) {
+                    if (onError) {
+                        if (renderError instanceof Error) {
+                            onError({ error: renderError })
+                        }
+                    }
+                }
+                // Always drain registered roots so cleanup can unmount them,
+                // even if render() threw partway through mounting them.
                 roots.push(...takeRenderedRoots())
                 setCard(rendered ?? undefined)
             })
@@ -187,7 +198,7 @@ export function AdaptiveCardRenderer({
                 roots.forEach((root) => queueMicrotask(() => root.unmount()))
             }
         },
-        [result, adaptiveCard, elementParser],
+        [result, adaptiveCard, elementParser, onError],
     )
 
     if (error) {
