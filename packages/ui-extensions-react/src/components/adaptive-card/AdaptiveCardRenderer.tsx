@@ -15,7 +15,8 @@ import {
 
 import { ClipboardAction, OpenUrlAction, SubmitActionist } from '../../actions'
 import { useRefCallback } from '../../hooks'
-import { canSetAutoFocus, takeRenderedRoots } from '../../utils'
+import { canSetAutoFocus } from '../../utils'
+import { takeRenderedRoots } from '../../utils/rendered-roots'
 
 import { AdaptiveCardCanvas } from './AdaptiveCardCanvas'
 

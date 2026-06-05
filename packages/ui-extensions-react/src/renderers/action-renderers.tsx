@@ -7,7 +7,8 @@ import { ActionAlignment, ActionStyle, GlobalRegistry, OpenUrlAction } from 'ada
 import classNames from 'classnames'
 
 import { ClipboardAction, SubmitActionist } from '../actions'
-import { isDangerButton, isPrimaryButton, registerRenderedRoot } from '../utils'
+import { isDangerButton, isPrimaryButton } from '../utils'
+import { registerRenderedRoot } from '../utils/rendered-roots'
 
 import type { ButtonProps } from '@doist/reactist'
 

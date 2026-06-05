@@ -7,7 +7,8 @@ import * as AC from 'adaptivecards'
 
 import { TimePicker } from '../components/time-picker'
 import { TextInputist, ToggleInputist } from '../types/doist-rendering'
-import { createInputContainer, registerRenderedRoot } from '../utils/renderer-utils'
+import { registerRenderedRoot } from '../utils/rendered-roots'
+import { createInputContainer } from '../utils/renderer-utils'
 
 import { createActionDiv } from './action-renderers'
 
