@@ -177,6 +177,7 @@ describe('AdaptiveCardRenderer', () => {
             )
 
             expect(await screen.findByTestId('TextInput.Search')).toBeInTheDocument()
+            expect(await screen.findByRole('button', { name: 'Search GIFs' })).toBeInTheDocument()
             expect(screen.getByTestId(adaptiveCardTestId)).toBeInTheDocument()
 
             await act(async () => {
@@ -186,6 +187,49 @@ describe('AdaptiveCardRenderer', () => {
 
             // Assert after unmount so the deferred root teardown is covered too,
             // not just the initial render.
+            const renderPhaseWarnings = errorSpy.mock.calls.filter(
+                ([message]) =>
+                    typeof message === 'string' &&
+                    /flushSync|updates from render|not allowed/i.test(message),
+            )
+            expect(renderPhaseWarnings).toEqual([])
+            errorSpy.mockRestore()
+        })
+
+        it('tears down the previous card on swap without a flushSync render-phase warning', async () => {
+            const firstCard = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+
+            const { rerender } = render(
+                <AdaptiveCardRenderer
+                    result={{ type: 'loaded', card: firstCard }}
+                    onAction={emptyOnAction}
+                    errorText={errorText}
+                    clipboardHandler={() => {}}
+                />,
+            )
+
+            expect(await screen.findByTestId('TextInput.Search')).toBeInTheDocument()
+
+            // A card swap runs the deferred root teardown mid-commit, not just on unmount.
+            const secondCard = JSON.parse(
+                JSON.stringify(getDefaultCard()).replace('TextInput.Search', 'TextInput.Search2'),
+            ) as DoistCard
+            // Spy as late as possible: the teardown under test runs during this swap.
+            const errorSpy = jest.spyOn(global.console, 'error')
+            await act(async () => {
+                rerender(
+                    <AdaptiveCardRenderer
+                        result={{ type: 'loaded', card: secondCard }}
+                        onAction={emptyOnAction}
+                        errorText={errorText}
+                        clipboardHandler={() => {}}
+                    />,
+                )
+                await Promise.resolve()
+            })
+
+            expect(await screen.findByTestId('TextInput.Search2')).toBeInTheDocument()
+
             const renderPhaseWarnings = errorSpy.mock.calls.filter(
                 ([message]) =>
                     typeof message === 'string' &&
