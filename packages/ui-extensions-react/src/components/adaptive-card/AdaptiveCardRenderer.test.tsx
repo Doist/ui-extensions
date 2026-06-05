@@ -63,9 +63,12 @@ describe('AdaptiveCardRenderer', () => {
     })
 
     it('displays the adaptive card if type is loaded', async () => {
+        // Serialize to JSON (as the framework receives it from the server) so
+        // parse() rebuilds the body; passing the card instance leaves it empty.
+        const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
         const result: DoistCardResult = {
             type: 'loaded',
-            card: getDefaultCard(),
+            card,
         }
 
         render(
@@ -77,7 +80,10 @@ describe('AdaptiveCardRenderer', () => {
             />,
         )
 
-        expect(await screen.findByTestId('adaptive-card')).toBeInTheDocument()
+        // Wait for content produced only by the deferred adaptiveCard.render(),
+        // not just the wrapper which renders for any non-error state.
+        expect(await screen.findByPlaceholderText('Search here...')).toBeInTheDocument()
+        expect(screen.getByTestId('adaptive-card')).toBeInTheDocument()
         expect(screen.queryByTestId(adaptiveLoadingTestId)).not.toBeInTheDocument()
         expect(screen.queryByTestId(adaptiveCardErrorTestId)).not.toBeInTheDocument()
     })
@@ -173,17 +179,19 @@ describe('AdaptiveCardRenderer', () => {
             expect(await screen.findByTestId('TextInput.Search')).toBeInTheDocument()
             expect(screen.getByTestId(adaptiveCardTestId)).toBeInTheDocument()
 
+            await act(async () => {
+                unmount()
+                await Promise.resolve()
+            })
+
+            // Assert after unmount so the deferred root teardown is covered too,
+            // not just the initial render.
             const renderPhaseWarnings = errorSpy.mock.calls.filter(
                 ([message]) =>
                     typeof message === 'string' &&
                     /flushSync|updates from render|not allowed/i.test(message),
             )
             expect(renderPhaseWarnings).toEqual([])
-
-            await act(async () => {
-                unmount()
-                await Promise.resolve()
-            })
             errorSpy.mockRestore()
         })
     })
