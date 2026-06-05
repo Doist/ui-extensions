@@ -195,7 +195,7 @@ export function AdaptiveCardRenderer({
             // Deferred to avoid unmounting a root mid-commit.
             return function unmountCardRoots() {
                 cancelled = true
-                roots.forEach((root) => queueMicrotask(() => root.unmount()))
+                queueMicrotask(() => roots.forEach((root) => root.unmount()))
             }
         },
         [result, adaptiveCard, elementParser, onError],
