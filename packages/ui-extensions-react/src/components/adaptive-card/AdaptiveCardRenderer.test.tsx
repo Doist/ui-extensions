@@ -57,18 +57,19 @@ describe('AdaptiveCardRenderer', () => {
         expect(screen.queryByTestId(adaptiveCardErrorTestId)).not.toBeInTheDocument()
     })
 
-    it('displays the error text if type is error', () => {
+    it('displays the error text and invokes onError if type is error', () => {
+        const error = { error: new Error('kwijibo') }
         const result: DoistCardResult = {
             type: 'error',
-            error: {
-                error: new Error('kwijibo'),
-            },
+            error,
         }
+        const onError = jest.fn()
 
         render(
             <AdaptiveCardRenderer
                 result={result}
                 onAction={emptyOnAction}
+                onError={onError}
                 errorText={errorText}
                 clipboardHandler={() => {}}
             />,
@@ -77,6 +78,7 @@ describe('AdaptiveCardRenderer', () => {
         expect(screen.getByTestId(adaptiveCardErrorTestId)).toBeInTheDocument()
         expect(screen.queryByTestId(adaptiveCardTestId)).not.toBeInTheDocument()
         expect(screen.queryByTestId(adaptiveLoadingTestId)).not.toBeInTheDocument()
+        expect(onError).toHaveBeenCalledWith(error)
     })
 
     it('displays the adaptive card if type is loaded', async () => {
@@ -254,6 +256,29 @@ describe('AdaptiveCardRenderer', () => {
             )
             expect(renderPhaseWarnings).toEqual([])
             errorSpy.mockRestore()
+        })
+
+        it('fires onAction when the inline action button is clicked', async () => {
+            const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+            const onAction = jest.fn()
+
+            render(
+                <AdaptiveCardRenderer
+                    result={{ type: 'loaded', card }}
+                    onAction={onAction}
+                    errorText={errorText}
+                    clipboardHandler={() => {}}
+                />,
+            )
+
+            fireEvent.click(await screen.findByRole('button', { name: 'Search GIFs' }))
+
+            // The fixture's inline action is an Action.Submit with id 'Action.Search',
+            // so the click must wire that exact action through handleAction's submit branch.
+            expect(onAction).toHaveBeenCalledWith(
+                expect.objectContaining({ actionType: 'submit', actionId: 'Action.Search' }),
+                undefined,
+            )
         })
     })
 
