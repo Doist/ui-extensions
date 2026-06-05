@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+import { Component, type ReactNode } from 'react'
+
 import { ActionSet, ClipboardAction, DoistCard, TextBlock } from '@doist/ui-extensions-core'
 
 import { act, fireEvent, render, screen } from '@testing-library/react'
-import { GlobalRegistry } from 'adaptivecards'
+import { AdaptiveCard, GlobalRegistry } from 'adaptivecards'
 
 import { ClipboardAction as ClipboardActionist } from '../../actions'
 import { registerRenderers } from '../../renderers'
@@ -11,6 +13,21 @@ import { getDefaultCard } from '../../test/fixtures'
 import { AdaptiveCardRenderer } from './AdaptiveCardRenderer'
 
 import type { DoistCardResult } from '../../types'
+
+class TestErrorBoundary extends Component<
+    { fallback: ReactNode; children: ReactNode },
+    { hasError: boolean }
+> {
+    state = { hasError: false }
+
+    static getDerivedStateFromError() {
+        return { hasError: true }
+    }
+
+    render() {
+        return this.state.hasError ? this.props.fallback : this.props.children
+    }
+}
 
 describe('AdaptiveCardRenderer', () => {
     function emptyOnAction() {
@@ -237,6 +254,43 @@ describe('AdaptiveCardRenderer', () => {
             )
             expect(renderPhaseWarnings).toEqual([])
             errorSpy.mockRestore()
+        })
+    })
+
+    describe('render failure', () => {
+        afterEach(() => jest.restoreAllMocks())
+
+        it('routes a render failure to onError and the consumer error boundary', async () => {
+            jest.spyOn(AdaptiveCard.prototype, 'render').mockImplementation(() => {
+                throw new Error('render exploded')
+            })
+
+            const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+            const onError = jest.fn()
+
+            render(
+                <TestErrorBoundary fallback={<div>card failed to render</div>}>
+                    <AdaptiveCardRenderer
+                        result={{ type: 'loaded', card }}
+                        onAction={emptyOnAction}
+                        onError={onError}
+                        errorText={errorText}
+                        clipboardHandler={() => {}}
+                    />
+                </TestErrorBoundary>,
+            )
+
+            // Spy as late as possible: the boundary-caught error is logged during this await.
+            const errorSpy = jest.spyOn(global.console, 'error').mockImplementation()
+            expect(await screen.findByText('card failed to render')).toBeInTheDocument()
+            expect(
+                errorSpy.mock.calls.some((args) =>
+                    args.some((arg) => String(arg).includes('render exploded')),
+                ),
+            ).toBe(true)
+            errorSpy.mockRestore()
+
+            expect(onError).toHaveBeenCalledWith({ error: new Error('render exploded') })
         })
     })
 })

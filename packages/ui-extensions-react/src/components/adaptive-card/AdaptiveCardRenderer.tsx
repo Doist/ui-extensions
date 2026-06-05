@@ -157,6 +157,7 @@ export function AdaptiveCardRenderer({
     }, [handleAction, hostConfig])
 
     const [card, setCard] = useState<HTMLElement | undefined>(undefined)
+    const [renderError, setRenderError] = useState<Error | null>(null)
 
     useLayoutEffect(
         function renderCard() {
@@ -172,19 +173,18 @@ export function AdaptiveCardRenderer({
                     return
                 }
 
-                const context = new SerializationContext()
-                context.onParseElement = elementParser(result.card)
-                adaptiveCard.parse(result.card, context)
-
                 let rendered
                 try {
+                    const context = new SerializationContext()
+                    context.onParseElement = elementParser(result.card)
+                    adaptiveCard.parse(result.card, context)
                     rendered = adaptiveCard.render()
-                } catch (renderError) {
-                    if (onError) {
-                        if (renderError instanceof Error) {
-                            onError({ error: renderError })
-                        }
-                    }
+                } catch (caught) {
+                    // onError notifies; setRenderError re-throws during render (below).
+                    const renderFailure =
+                        caught instanceof Error ? caught : new Error(String(caught))
+                    onError?.({ error: renderFailure })
+                    setRenderError(renderFailure)
                 }
                 // Always drain registered roots so cleanup can unmount them,
                 // even if render() threw partway through mounting them.
@@ -200,6 +200,11 @@ export function AdaptiveCardRenderer({
         },
         [result, adaptiveCard, elementParser, onError],
     )
+
+    // Re-throw the deferred failure so the consumer's error boundary catches it.
+    if (renderError) {
+        throw renderError
+    }
 
     if (error) {
         return (
