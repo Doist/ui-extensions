@@ -180,6 +180,18 @@ describe('AdaptiveCardRenderer', () => {
         })
         afterAll(() => jest.restoreAllMocks())
 
+        // In dev, React logs these render-phase violations to console.error. We defer the card
+        // render into a microtask to avoid them, and these tests confirm that none of them appear:
+        //   - "flushSync": our renderers called flushSync (around createRoot().render()) while
+        //     React was still rendering or committing. This is the main one the deferral prevents.
+        //   - "updates from render" / "not allowed": a setState() during render ("triggering
+        //     nested component updates from render is not allowed"). Both phrases match this one
+        //     warning.
+        //   - "Cannot update a component": a setState() that targets a different component
+        //     mid-render ("Cannot update a component (X) while rendering a different component (Y)").
+        const RENDER_PHASE_WARNING =
+            /flushSync|updates from render|not allowed|Cannot update a component/i
+
         it('renders custom inputs without a flushSync render-phase warning', async () => {
             // Serialize to JSON (as the framework receives it from the server) so parse()
             // rebuilds the elements through the registered custom renderers.
@@ -207,9 +219,7 @@ describe('AdaptiveCardRenderer', () => {
             // Assert after unmount so the deferred root teardown is covered too,
             // not just the initial render.
             const renderPhaseWarnings = errorSpy.mock.calls.filter(
-                ([message]) =>
-                    typeof message === 'string' &&
-                    /flushSync|updates from render|not allowed/i.test(message),
+                ([message]) => typeof message === 'string' && RENDER_PHASE_WARNING.test(message),
             )
             expect(renderPhaseWarnings).toEqual([])
             errorSpy.mockRestore()
@@ -250,9 +260,7 @@ describe('AdaptiveCardRenderer', () => {
             expect(await screen.findByTestId('TextInput.Search2')).toBeInTheDocument()
 
             const renderPhaseWarnings = errorSpy.mock.calls.filter(
-                ([message]) =>
-                    typeof message === 'string' &&
-                    /flushSync|updates from render|not allowed/i.test(message),
+                ([message]) => typeof message === 'string' && RENDER_PHASE_WARNING.test(message),
             )
             expect(renderPhaseWarnings).toEqual([])
             errorSpy.mockRestore()

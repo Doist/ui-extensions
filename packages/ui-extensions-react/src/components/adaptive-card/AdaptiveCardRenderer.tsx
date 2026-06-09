@@ -16,7 +16,7 @@ import {
 import { ClipboardAction, OpenUrlAction, SubmitActionist } from '../../actions'
 import { useRefCallback } from '../../hooks'
 import { canSetAutoFocus } from '../../utils'
-import { takeRenderedRoots } from '../../utils/rendered-roots'
+import { trackRootsDuringCardRender } from '../../utils/rendered-roots'
 
 import { AdaptiveCardCanvas } from './AdaptiveCardCanvas'
 
@@ -175,10 +175,13 @@ export function AdaptiveCardRenderer({
 
                 let rendered
                 try {
-                    const context = new SerializationContext()
-                    context.onParseElement = elementParser(result.card)
-                    adaptiveCard.parse(result.card, context)
-                    rendered = adaptiveCard.render()
+                    // Track this render's roots so cleanup can unmount them, even if render() throws.
+                    rendered = trackRootsDuringCardRender(roots, () => {
+                        const context = new SerializationContext()
+                        context.onParseElement = elementParser(result.card)
+                        adaptiveCard.parse(result.card, context)
+                        return adaptiveCard.render()
+                    })
                 } catch (caught) {
                     // onError notifies; setRenderError re-throws during render (below).
                     const renderFailure =
@@ -186,9 +189,6 @@ export function AdaptiveCardRenderer({
                     onError?.({ error: renderFailure })
                     setRenderError(renderFailure)
                 }
-                // Always drain registered roots so cleanup can unmount them,
-                // even if render() threw partway through mounting them.
-                roots.push(...takeRenderedRoots())
                 setCard(rendered ?? undefined)
             })
 

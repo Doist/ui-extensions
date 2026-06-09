@@ -1,6 +1,25 @@
 import { CustomNumberInput, CustomToggleInput } from './input-renderers'
 
 describe('inputRenderers', () => {
+    // Rendering an input alone (no AdaptiveCardRenderer) registers its root outside a render,
+    // so the "root can't be tracked" dev-warning is expected here. Silence it, but assert in
+    // afterEach that nothing else warned.
+    let warnSpy: jest.SpyInstance
+
+    beforeEach(() => {
+        warnSpy = jest.spyOn(console, 'warn').mockImplementation()
+    })
+
+    afterEach(() => {
+        const warnings = warnSpy.mock.calls.map(([message]) => String(message))
+        jest.restoreAllMocks()
+        for (const message of warnings) {
+            expect(message).toMatch(
+                /registerRenderedRoot called outside an AdaptiveCardRenderer render/,
+            )
+        }
+    })
+
     describe('NumberInput', () => {
         it('displays correctly with no min/max set', () => {
             const numberInput = new CustomNumberInput()

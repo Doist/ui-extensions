@@ -1,21 +1,39 @@
 import type { Root } from 'react-dom/client'
 
 /**
- * Internal coordination for `AdaptiveCardRenderer`. Roots created during a
- * synchronous `adaptiveCard.render()` are registered here, then retrieved by
- * `takeRenderedRoots()` so the host can unmount them when the card is replaced.
+ * Tracks the React roots a card render mounts so `AdaptiveCardRenderer` can unmount them
+ * later. Roots registered outside a render (e.g. a clicked `Action.ShowCard`) are dropped,
+ * not mis-attributed to another render.
  *
- * This module is intentionally not re-exported from `utils/index.ts`: it is a
- * private rendering detail and must stay out of the package's public API.
+ * @private
  */
-let pendingRoots: Root[] = []
+let trackedRoots: Root[] | null = null
 
-export function registerRenderedRoot(root: Root): void {
-    pendingRoots.push(root)
+/**
+ * Track the roots registered while `render` runs into `roots`. Safe to nest because it
+ * saves and restores the previous render's array.
+ */
+export function trackRootsDuringCardRender<T>(roots: Root[], render: () => T): T {
+    const previous = trackedRoots
+    trackedRoots = roots
+    try {
+        return render()
+    } finally {
+        trackedRoots = previous
+    }
 }
 
-export function takeRenderedRoots(): Root[] {
-    const roots = pendingRoots
-    pendingRoots = []
-    return roots
+export function registerRenderedRoot(root: Root): void {
+    if (trackedRoots) {
+        trackedRoots.push(root)
+        return
+    }
+    if (process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line no-console
+        console.warn(
+            'registerRenderedRoot called outside an AdaptiveCardRenderer render; the root ' +
+                'will not be tracked for cleanup (e.g. a custom input inside a lazily-expanded ' +
+                'Action.ShowCard, which is unsupported).',
+        )
+    }
 }
