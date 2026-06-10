@@ -313,6 +313,41 @@ describe('AdaptiveCardRenderer', () => {
             expect(screen.queryByPlaceholderText('Search here...')).not.toBeInTheDocument()
         })
 
+        it('keeps typed input values when an inline onError prop changes identity', async () => {
+            const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+            const result: DoistCardResult = { type: 'loaded', card }
+
+            const { rerender } = render(
+                <AdaptiveCardRenderer
+                    result={result}
+                    onAction={emptyOnAction}
+                    onError={() => {}}
+                    errorText={errorText}
+                    clipboardHandler={() => {}}
+                />,
+            )
+
+            const input = await screen.findByPlaceholderText('Search here...')
+            fireEvent.change(input, { target: { value: 'kittens' } })
+
+            // A parent re-render with an inline onError gives the prop a new identity;
+            // the card must not re-render (which would remount inputs and wipe values).
+            await act(async () => {
+                rerender(
+                    <AdaptiveCardRenderer
+                        result={result}
+                        onAction={emptyOnAction}
+                        onError={() => {}}
+                        errorText={errorText}
+                        clipboardHandler={() => {}}
+                    />,
+                )
+                await Promise.resolve()
+            })
+
+            expect(screen.getByPlaceholderText('Search here...')).toHaveValue('kittens')
+        })
+
         it('fires onAction when the inline action button is clicked', async () => {
             const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
             const onAction = jest.fn()

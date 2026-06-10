@@ -160,6 +160,14 @@ export function AdaptiveCardRenderer({
     const [renderError, setRenderError] = useState<Error | null>(null)
     const activeRootsRef = useRef<Root[]>([])
 
+    // Read through a stable callback so an inline `onError` prop doesn't re-trigger
+    // renderCard (which would remount the inputs and wipe their values).
+    const reportRenderError = useRefCallback((renderFailure: Error) => {
+        // onError notifies; setRenderError re-throws during render (below).
+        onError?.({ error: renderFailure })
+        setRenderError(renderFailure)
+    })
+
     useLayoutEffect(
         function renderCard() {
             if (result.type !== 'loaded') {
@@ -192,11 +200,7 @@ export function AdaptiveCardRenderer({
                         return adaptiveCard.render()
                     })
                 } catch (caught) {
-                    // onError notifies; setRenderError re-throws during render (below).
-                    const renderFailure =
-                        caught instanceof Error ? caught : new Error(String(caught))
-                    onError?.({ error: renderFailure })
-                    setRenderError(renderFailure)
+                    reportRenderError(caught instanceof Error ? caught : new Error(String(caught)))
                 }
                 // Swap in this render's roots and retire the previous card's only now,
                 // so the old card stays intact until the new one replaces it.
@@ -209,7 +213,7 @@ export function AdaptiveCardRenderer({
                 cancelled = true
             }
         },
-        [result, adaptiveCard, elementParser, onError],
+        [result, adaptiveCard, elementParser, reportRenderError],
     )
 
     useLayoutEffect(function unmountCardRootsOnUnmount() {
