@@ -9,9 +9,11 @@ import { AdaptiveCard, GlobalRegistry } from 'adaptivecards'
 import { ClipboardAction as ClipboardActionist } from '../../actions'
 import { registerRenderers } from '../../renderers'
 import { getDefaultCard } from '../../test/fixtures'
+import { registerRenderedRoot } from '../../utils/rendered-roots'
 
 import { AdaptiveCardRenderer } from './AdaptiveCardRenderer'
 
+import type { Root } from 'react-dom/client'
 import type { DoistCardResult } from '../../types'
 
 class TestErrorBoundary extends Component<
@@ -338,8 +340,15 @@ describe('AdaptiveCardRenderer', () => {
     describe('render failure', () => {
         afterEach(() => jest.restoreAllMocks())
 
-        it('routes a render failure to onError and the consumer error boundary', async () => {
+        it('routes a render failure to onError and the error boundary, and unmounts partial roots', async () => {
+            const unmountPartialRoot = jest.fn()
+            const partialRoot = {
+                render: jest.fn(),
+                unmount: unmountPartialRoot,
+            } as unknown as Root
             jest.spyOn(AdaptiveCard.prototype, 'render').mockImplementation(() => {
+                // Simulate an input that mounted before the failure.
+                registerRenderedRoot(partialRoot)
                 throw new Error('render exploded')
             })
 
@@ -369,6 +378,12 @@ describe('AdaptiveCardRenderer', () => {
             errorSpy.mockRestore()
 
             expect(onError).toHaveBeenCalledWith({ error: new Error('render exploded') })
+
+            // The boundary unmounted the renderer; flush the deferred teardown microtask.
+            await act(async () => {
+                await Promise.resolve()
+            })
+            expect(unmountPartialRoot).toHaveBeenCalledTimes(1)
         })
     })
 })
