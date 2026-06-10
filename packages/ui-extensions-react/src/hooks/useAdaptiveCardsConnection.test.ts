@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react'
 import { TextBlock } from 'adaptivecards'
 
 import * as adaptiveCardsServer from '../api/adaptive-cards-server'
@@ -26,7 +26,7 @@ async function renderHookAsync(
     callbacks?: BridgeActionCallbacks,
 ) {
     const effectiveCallbacks = callbacks || {}
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
         useAdaptiveCardsConnection({
             version,
             context: context,
@@ -44,7 +44,7 @@ async function renderHookAsync(
         return Promise.resolve()
     })
 
-    return { result, waitForNextUpdate }
+    return { result }
 }
 
 describe('useAdaptiveCardsConnection tests', () => {

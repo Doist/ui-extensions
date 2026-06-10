@@ -1,6 +1,6 @@
 import './AdaptiveCardRenderer.css'
 
-import { useEffect, useMemo } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { Loading, Text } from '@doist/reactist'
 
@@ -16,10 +16,12 @@ import {
 import { ClipboardAction, OpenUrlAction, SubmitActionist } from '../../actions'
 import { useRefCallback } from '../../hooks'
 import { canSetAutoFocus } from '../../utils'
+import { trackRootsDuringCardRender } from '../../utils/rendered-roots'
 
 import { AdaptiveCardCanvas } from './AdaptiveCardCanvas'
 
 import type { DoistCardAction, DoistCardActionData } from '@doist/ui-extensions-core'
+import type { Root } from 'react-dom/client'
 import type { DoistCardResult, ExtensionCard, ExtensionError } from '../../types'
 
 type AdaptiveCardRendererProps = {
@@ -154,16 +156,77 @@ export function AdaptiveCardRenderer({
         return result
     }, [handleAction, hostConfig])
 
-    const card = useMemo(() => {
-        if (result.type !== 'loaded') return undefined
-        const cardData = result.card
+    const [card, setCard] = useState<HTMLElement | undefined>(undefined)
+    const [renderError, setRenderError] = useState<Error | null>(null)
+    const activeRootsRef = useRef<Root[]>([])
 
-        const context = new SerializationContext()
-        context.onParseElement = elementParser(result.card)
+    // Read through a stable callback so an inline `onError` prop doesn't re-trigger
+    // renderCard (which would remount the inputs and wipe their values).
+    const reportRenderError = useRefCallback((renderFailure: Error) => {
+        // onError notifies; setRenderError re-throws during render (below).
+        onError?.({ error: renderFailure })
+        setRenderError(renderFailure)
+    })
 
-        adaptiveCard.parse(cardData, context)
-        return adaptiveCard.render()
-    }, [result, adaptiveCard, elementParser])
+    useLayoutEffect(
+        function renderCard() {
+            if (result.type !== 'loaded') {
+                if (result.type === 'error') {
+                    retireRoots(activeRootsRef.current)
+                    activeRootsRef.current = []
+                    queueMicrotask(() => setCard(undefined))
+                }
+                // While loading, keep the previous card (and its roots) mounted so it
+                // stays visible under the loading overlay.
+                return
+            }
+
+            let cancelled = false
+
+            // adaptiveCard.render() mounts React roots via flushSync, which React forbids
+            // during its render/commit phases, so defer past both with a microtask.
+            queueMicrotask(() => {
+                if (cancelled) return
+
+                const roots: Root[] = []
+                let rendered
+                try {
+                    // Track this render's roots so they can be unmounted later, even if
+                    // render() throws partway.
+                    rendered = trackRootsDuringCardRender(roots, () => {
+                        const context = new SerializationContext()
+                        context.onParseElement = elementParser(result.card)
+                        adaptiveCard.parse(result.card, context)
+                        return adaptiveCard.render()
+                    })
+                } catch (caught) {
+                    reportRenderError(caught instanceof Error ? caught : new Error(String(caught)))
+                }
+                // Swap in this render's roots and retire the previous card's only now,
+                // so the old card stays intact until the new one replaces it.
+                retireRoots(activeRootsRef.current)
+                activeRootsRef.current = roots
+                setCard(rendered ?? undefined)
+            })
+
+            return function cancelPendingRender() {
+                cancelled = true
+            }
+        },
+        [result, adaptiveCard, elementParser, reportRenderError],
+    )
+
+    useLayoutEffect(function unmountCardRootsOnUnmount() {
+        return () => {
+            retireRoots(activeRootsRef.current)
+            activeRootsRef.current = []
+        }
+    }, [])
+
+    // Re-throw the deferred failure so the consumer's error boundary catches it.
+    if (renderError) {
+        throw renderError
+    }
 
     if (error) {
         return (
@@ -179,6 +242,12 @@ export function AdaptiveCardRenderer({
             <AdaptiveCardCanvas card={card} />
         </div>
     )
+}
+
+// Deferred to avoid unmounting a root mid-commit.
+function retireRoots(roots: Root[]) {
+    if (roots.length === 0) return
+    queueMicrotask(() => roots.forEach((root) => root.unmount()))
 }
 
 function LoadingOverlay({ isLoading, loadingText }: { isLoading: boolean; loadingText?: string }) {

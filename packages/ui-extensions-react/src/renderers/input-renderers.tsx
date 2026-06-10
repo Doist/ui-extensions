@@ -1,5 +1,5 @@
-/* eslint-disable import/no-named-as-default-member */
-import ReactDOM from 'react-dom'
+import { flushSync } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 import { CheckboxField, TextField } from '@doist/reactist'
 
@@ -7,6 +7,7 @@ import * as AC from 'adaptivecards'
 
 import { TimePicker } from '../components/time-picker'
 import { TextInputist, ToggleInputist } from '../types/doist-rendering'
+import { registerRenderedRoot } from '../utils/rendered-roots'
 import { createInputContainer } from '../utils/renderer-utils'
 
 import { createActionDiv } from './action-renderers'
@@ -34,48 +35,52 @@ export class CustomTextInput extends TextInputist implements CanHaveAutoFocus {
             }
         }
 
+        const root = createRoot(div)
+        registerRenderedRoot(root)
         if (this.isMultiline) {
-            ReactDOM.render(
-                // ref: https://github.com/Doist/Issues/issues/7406
-                // Temporary fix: replace Rectist's TextArea with standard html textarea
-                <textarea
-                    data-testid={this.id}
-                    id={this.id}
-                    placeholder={this.placeholder}
-                    defaultValue={this.defaultValue}
-                    maxLength={this.maxLength}
-                    onKeyPress={onKeyPress}
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore It should exist as `rows` is a valid property
-                    rows={this.rows}
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore It should exist as `className` is a valid property
-                    className={this.hostConfig.makeCssClassName(
-                        'ac-input',
-                        'ac-textInput',
-                        'ac-textarea',
-                        'reactist_input', // Added to ensure the theming is correctly applied
-                    )}
-                    autoFocus={this.shouldAutoFocus}
-                />,
-                div,
-            )
+            flushSync(() => {
+                root.render(
+                    // ref: https://github.com/Doist/Issues/issues/7406
+                    // Temporary fix: replace Rectist's TextArea with standard html textarea
+                    <textarea
+                        data-testid={this.id}
+                        id={this.id}
+                        placeholder={this.placeholder}
+                        defaultValue={this.defaultValue}
+                        maxLength={this.maxLength}
+                        onKeyPress={onKeyPress}
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore It should exist as `rows` is a valid property
+                        rows={this.rows}
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore It should exist as `className` is a valid property
+                        className={this.hostConfig.makeCssClassName(
+                            'ac-input',
+                            'ac-textInput',
+                            'ac-textarea',
+                            'reactist_input', // Added to ensure the theming is correctly applied
+                        )}
+                        autoFocus={this.shouldAutoFocus}
+                    />,
+                )
+            })
         } else {
-            ReactDOM.render(
-                <TextField
-                    // label is an empty string here because the label is rendered by the Adaptive Card framework
-                    label=""
-                    data-testid={this.id}
-                    id={this.id}
-                    placeholder={this.placeholder}
-                    defaultValue={this.defaultValue}
-                    maxLength={this.maxLength}
-                    onKeyPress={onKeyPress}
-                    autoFocus={this.shouldAutoFocus}
-                    enterKeyHint="enter"
-                />,
-                div,
-            )
+            flushSync(() => {
+                root.render(
+                    <TextField
+                        // label is an empty string here because the label is rendered by the Adaptive Card framework
+                        label=""
+                        data-testid={this.id}
+                        id={this.id}
+                        placeholder={this.placeholder}
+                        defaultValue={this.defaultValue}
+                        maxLength={this.maxLength}
+                        onKeyPress={onKeyPress}
+                        autoFocus={this.shouldAutoFocus}
+                        enterKeyHint="enter"
+                    />,
+                )
+            })
         }
         return div
     }
@@ -146,17 +151,20 @@ export class CustomTimeInput extends AC.TimeInput {
     protected internalRender(): HTMLElement | undefined {
         const div = createInputContainer()
 
-        ReactDOM.render(
-            <TimePicker
-                data-testid={this.id}
-                min={this.min}
-                max={this.max}
-                value={this.defaultValue}
-                className={this.hostConfig.makeCssClassName('ac-input', 'ac-timeInput')}
-                minutesInterval={15}
-            />,
-            div,
-        )
+        const root = createRoot(div)
+        registerRenderedRoot(root)
+        flushSync(() => {
+            root.render(
+                <TimePicker
+                    data-testid={this.id}
+                    min={this.min}
+                    max={this.max}
+                    value={this.defaultValue}
+                    className={this.hostConfig.makeCssClassName('ac-input', 'ac-timeInput')}
+                    minutesInterval={15}
+                />,
+            )
+        })
 
         return div
     }
@@ -177,23 +185,26 @@ export class CustomNumberInput extends AC.NumberInput implements CanHaveAutoFocu
     protected internalRender(): HTMLElement | undefined {
         const div = createInputContainer()
 
-        ReactDOM.render(
-            <TextField
-                data-testid={this.id}
-                // label is an empty string here because the label is rendered by the Adaptive Card framework
-                label=""
-                id={this.id}
-                // @ts-expect-error Until Reactist comes up with a way to deal with number input we need to force the type on the TextField.
-                type="number"
-                placeholder={this.placeholder}
-                min={this.min}
-                max={this.max}
-                defaultValue={this.defaultValue}
-                className={this.hostConfig.makeCssClassName('ac-input', 'ac-numberInput')}
-                autoFocus={this.shouldAutoFocus}
-            />,
-            div,
-        )
+        const root = createRoot(div)
+        registerRenderedRoot(root)
+        flushSync(() => {
+            root.render(
+                <TextField
+                    data-testid={this.id}
+                    // label is an empty string here because the label is rendered by the Adaptive Card framework
+                    label=""
+                    id={this.id}
+                    // @ts-expect-error Until Reactist comes up with a way to deal with number input we need to force the type on the TextField.
+                    type="number"
+                    placeholder={this.placeholder}
+                    min={this.min}
+                    max={this.max}
+                    defaultValue={this.defaultValue}
+                    className={this.hostConfig.makeCssClassName('ac-input', 'ac-numberInput')}
+                    autoFocus={this.shouldAutoFocus}
+                />,
+            )
+        })
 
         return div
     }
@@ -221,15 +232,18 @@ export class CustomToggleInput extends ToggleInputist {
 
         this.valueInternal = this.defaultValue?.toLowerCase() === 'true'
 
-        ReactDOM.render(
-            <CheckboxField
-                label={this.title}
-                defaultChecked={this.valueInternal}
-                onChange={(event) => this.onChange(event)}
-                enterKeyHint="enter"
-            />,
-            div,
-        )
+        const root = createRoot(div)
+        registerRenderedRoot(root)
+        flushSync(() => {
+            root.render(
+                <CheckboxField
+                    label={this.title}
+                    defaultChecked={this.valueInternal}
+                    onChange={(event) => this.onChange(event)}
+                    enterKeyHint="enter"
+                />,
+            )
+        })
 
         return div
     }

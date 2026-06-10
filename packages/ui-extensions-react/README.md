@@ -4,6 +4,10 @@ The library contains the react components required to interact with integrations
 
 Specifically it contains the rendering components for the adaptive cards as well as the communication hook to speak to the respective extension servers.
 
+## Peer dependencies
+
+`ui-extensions-react` does not support `adaptivecards` 2.10 or above, which breaks card rendering.
+
 ## Commands
 
 In a terminal:
