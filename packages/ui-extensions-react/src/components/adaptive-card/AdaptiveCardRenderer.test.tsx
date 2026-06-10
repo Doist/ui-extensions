@@ -266,6 +266,51 @@ describe('AdaptiveCardRenderer', () => {
             errorSpy.mockRestore()
         })
 
+        it('keeps the previous card visible while the next result is loading', async () => {
+            const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+
+            const { rerender } = render(
+                <AdaptiveCardRenderer
+                    result={{ type: 'loaded', card }}
+                    onAction={emptyOnAction}
+                    errorText={errorText}
+                    clipboardHandler={() => {}}
+                />,
+            )
+
+            expect(await screen.findByPlaceholderText('Search here...')).toBeInTheDocument()
+
+            // An action round-trip flips the result to loading while the next card is fetched.
+            await act(async () => {
+                rerender(
+                    <AdaptiveCardRenderer
+                        result={{ type: 'loading' }}
+                        onAction={emptyOnAction}
+                        errorText={errorText}
+                        clipboardHandler={() => {}}
+                    />,
+                )
+                await Promise.resolve()
+            })
+
+            expect(screen.getByTestId(adaptiveLoadingTestId)).toBeInTheDocument()
+            expect(screen.getByPlaceholderText('Search here...')).toBeInTheDocument()
+
+            const nextCard = JSON.parse(
+                JSON.stringify(getDefaultCard()).replace('Search here...', 'Next card...'),
+            ) as DoistCard
+            rerender(
+                <AdaptiveCardRenderer
+                    result={{ type: 'loaded', card: nextCard }}
+                    onAction={emptyOnAction}
+                    errorText={errorText}
+                    clipboardHandler={() => {}}
+                />,
+            )
+            expect(await screen.findByPlaceholderText('Next card...')).toBeInTheDocument()
+            expect(screen.queryByPlaceholderText('Search here...')).not.toBeInTheDocument()
+        })
+
         it('fires onAction when the inline action button is clicked', async () => {
             const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
             const onAction = jest.fn()
