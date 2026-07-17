@@ -1,6 +1,6 @@
 {
     "name": "@doist/ui-extensions-react",
-    "version": "18.1.0",
+    "version": "19.0.0",
     "author": "Doist",
     "license": "MIT",
     "main": "dist/index.js",
@@ -12,7 +12,8 @@
     ],
     "repository": "https://github.com/Doist/ui-extensions",
     "engines": {
-        "node": ">=16"
+        "node": ">=24",
+        "npm": ">=11"
     },
     "scripts": {
         "watch": "npm run build && yalc push && chokidar src -c \"npm run build && yalc push\"",
