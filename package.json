@@ -11,7 +11,7 @@
         "@ariakit/react-core": "0.4.26"
     },
     "devDependencies": {
-        "@doist/eslint-config": "12.0.1",
+        "@doist/eslint-config": "13.1.1",
         "@doist/prettier-config": "4.0.1",
         "@doist/tsconfig": "2.0.1",
         "@rollup/plugin-commonjs": "29.0.3",
