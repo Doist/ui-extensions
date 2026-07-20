@@ -7,7 +7,7 @@
         "packages/ui-extensions-react"
     ],
     "overrides": {
-        "@ariakit/react": "0.4.26",
+        "@ariakit/react": "0.4.34",
         "@ariakit/react-core": "0.4.26"
     },
     "devDependencies": {
