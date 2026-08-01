@@ -61,12 +61,12 @@
 
 .ac-anchor__attention {
     text-decoration: underline;
-    color: var(--reactist-actionable-destructive-idle-fill);
+    color: var(--product-library-actionable-destructive-idle-fill);
 }
 
 .ac-anchor__attention:hover {
     text-decoration: underline;
-    color: var(--reactist-actionable-destructive-hover-fill);
+    color: var(--product-library-actionable-destructive-hover-fill);
 }
 
 .ac-selectable {
