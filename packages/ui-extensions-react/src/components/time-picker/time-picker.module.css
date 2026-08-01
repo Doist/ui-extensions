@@ -1,7 +1,7 @@
 :root {
     --time-picker-option-color: rgba(0, 0, 0, 0.88);
     --time-picker-option-background: rgb(255, 255, 255);
-    --time-picker-clock-color: var(--reactist-content-secondary);
+    --time-picker-clock-color: var(--product-library-display-secondary-idle-tint);
 }
 
 .time_picker {
