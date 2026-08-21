@@ -26,3 +26,34 @@ jobs:
             - name: Integrity Check
               run: npm run integrity-check
               working-directory: packages/ui-extensions-react
+
+    react-19-compatibility:
+        name: React 19 compatibility
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Configure doist package repository
+              uses: actions/setup-node@v6
+              with:
+                  node-version-file: '.nvmrc'
+
+            # This uses npm pkg set to override @storybook/react@7's peer dependency
+            # without --legacy-peer-deps, as that would end up dropping adaptivecards
+            # and react-select, both crucial to the tests and type checks
+            - name: Upgrade to React 19
+              run: |
+                  npm pkg set devDependencies.react=19.2.8 devDependencies.react-dom=19.2.8 devDependencies.react-is=19.2.8 'devDependencies.@types/react=^19' 'devDependencies.@types/react-dom=^19'
+                  npm pkg set overrides.react=19.2.8 overrides.react-dom=19.2.8 overrides.react-is=19.2.8
+                  npm install
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
+
+            - name: Type check
+              run: npm run ts-compile-check
+              working-directory: packages/ui-extensions-react
+
+            - name: Test
+              run: npm run test
+              working-directory: packages/ui-extensions-react
