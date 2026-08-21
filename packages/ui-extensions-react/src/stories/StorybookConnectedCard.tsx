@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { type JSX, useEffect, useState } from 'react'
 
 import { AdaptiveCardRenderer } from '../components'
 import { useAdaptiveCardsConnection } from '../hooks'

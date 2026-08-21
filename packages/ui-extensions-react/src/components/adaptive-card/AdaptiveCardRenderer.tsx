@@ -1,6 +1,6 @@
 import './AdaptiveCardRenderer.css'
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { type JSX, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { Loading, Text } from '@doist/reactist'
 

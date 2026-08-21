@@ -37,9 +37,9 @@
         "@doist/reactist": "^37.0.0",
         "@doist/ui-extensions-core": "^5.0.0",
         "adaptivecards": ">=2.9.0 <2.10.0",
-        "react": "^18.0.0",
+        "react": ">=18.0.0 <20.0.0",
         "react-compiler-runtime": "^1.0.0",
-        "react-dom": "^18.0.0",
+        "react-dom": ">=18.0.0 <20.0.0",
         "react-select": "5.10.2"
     },
     "prettier": "@doist/prettier-config",
