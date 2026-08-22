@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { type JSX, Suspense } from 'react'
 import Select, { components } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 
