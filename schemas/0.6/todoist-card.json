@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-06/schema#",
-    "$id": "https://schemas.doist.com/doist-card.json",
+    "$id": "https://schemas.doist.com/todoist-card.json",
     "definitions": {
         "Action.OpenUrl": {
             "description": "When invoked, show the given url either by launching it in an external web browser or showing within an embedded web browser.",
@@ -80,8 +80,41 @@
                 }
             ]
         },
-        "DoistCard": {
-            "description": "A Doist Card, containing a free-form body of card elements, and an optional set of actions.",
+        "Action.Clipboard": {
+            "description": "When invoked, copy the given text to the clipboard.",
+            "properties": {
+                "type": {
+                    "enum": ["Action.Clipboard"],
+                    "description": "Must be `Action.Clipboard`"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "The text to copy to the clipboard."
+                },
+                "title": {
+                    "type": "string"
+                },
+                "iconUrl": {
+                    "type": "string"
+                },
+                "style": {
+                    "$ref": "#/definitions/ActionStyle"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["text"],
+            "allOf": [
+                {
+                    "$ref": "#/definitions/Extendable.Action"
+                }
+            ]
+        },
+        "TodoistCard": {
+            "description": "A Todoist Card, containing a free-form body of card elements, and an optional set of actions.",
             "properties": {
                 "type": {
                     "enum": ["AdaptiveCard"],
@@ -92,9 +125,14 @@
                     "description": "Adaptive Card schema version that this card requires. NOTE: Version is not required for cards within an `Action.ShowCard`. However, it *is* required for the top-level card.",
                     "examples": ["1.0", "1.1", "1.2"]
                 },
+                "todoistCardVersion": {
+                    "type": "string",
+                    "description": "Todoist Card schema version that this card requires.",
+                    "examples": ["0.1", "0.2", "0.3"]
+                },
                 "doistCardVersion": {
                     "type": "string",
-                    "description": "Doist Card schema version that this card requires.",
+                    "description": "An older name for `todoistCardVersion`, carrying the same value.",
                     "examples": ["0.1", "0.2", "0.3"]
                 },
                 "body": {
@@ -140,7 +178,7 @@
                 "$schema": {
                     "type": "string",
                     "format": "uri",
-                    "description": "The Doist Card schema."
+                    "description": "The Todoist Card schema."
                 },
                 "autoFocusId": {
                     "type": "string"
@@ -562,6 +600,10 @@
                 "value": {
                     "type": "string",
                     "description": "The raw value for the choice. **NOTE:** do not use a `,` in the value, since a `ChoiceSet` with `isMultiSelect` set to `true` returns a comma-delimited string of choice values."
+                },
+                "disabled": {
+                    "type": "boolean",
+                    "description": "Denotes whether the rendered option should be disabled."
                 }
             },
             "type": "object",
@@ -624,11 +666,15 @@
                     "$ref": "#/definitions/Spacing"
                 },
                 "selectAction": {
-                    "$ref": "#/definitions/ImplementationsOf.ISelectAction"
+                    "$ref": "#/definitions/ImplementationsOf.ISelectAction",
+                    "description": "An Action that will be invoked when the selection is changed."
                 },
                 "isSearchable": {
                     "type": "boolean",
                     "description": "Sets whether this list of choices is searchable and the text value can be free-form. When `true` it means that the choices within can be searched by typing."
+                },
+                "orientation": {
+                    "$ref": "#/definitions/Orientation"
                 }
             },
             "type": "object",
@@ -911,6 +957,10 @@
                 },
                 "spacing": {
                     "$ref": "#/definitions/Spacing"
+                },
+                "selectAction": {
+                    "$ref": "#/definitions/ImplementationsOf.ISelectAction",
+                    "description": "Action to invoke when the checked status of the toggle is changed. `Action.ShowCard` is not supported."
                 }
             },
             "type": "object",
@@ -1044,10 +1094,10 @@
         "AssociatedInputs": {
             "anyOf": [
                 {
-                    "enum": ["Auto", "None"]
+                    "enum": ["Auto", "None", "IgnoreValidation"]
                 },
                 {
-                    "pattern": "^([a|A][u|U][t|T][o|O])|([n|N][o|O][n|N][e|E])$",
+                    "pattern": "^([a|A][u|U][t|T][o|O])|([n|N][o|O][n|N][e|E])|([i|I][g|G][n|N][o|O][r|R][e|E][v|V][a|A][l|L][i|I][d|D][a|A][t|T][i|I][o|O][n|N])$",
                     "type": "string"
                 }
             ]
@@ -1184,6 +1234,18 @@
                 },
                 {
                     "pattern": "^([d|D][e|E][f|F][a|A][u|U][l|L][t|T])|([p|P][e|E][r|R][s|S][o|O][n|N])$",
+                    "type": "string"
+                }
+            ]
+        },
+        "Orientation": {
+            "description": "Specifies in what orientation something should be displayed",
+            "anyOf": [
+                {
+                    "enum": ["vertical", "horizontal"]
+                },
+                {
+                    "pattern": "^([v|V][e|E][r|R][t|T][i|I][c|C][a|A][l|L])|([h|H][o|O][r|R][i|I][z|Z][o|O][n|N][t|T][a|A][l|L])$",
                     "type": "string"
                 }
             ]
@@ -1740,7 +1802,7 @@
         {
             "allOf": [
                 {
-                    "$ref": "#/definitions/DoistCard"
+                    "$ref": "#/definitions/TodoistCard"
                 }
             ]
         }

@@ -1,4 +1,4 @@
-import type { DoistContextUser } from './doist'
+import type { BaseContextUser } from './base'
 
 /**
  * Context on which interactions with the adaptive card integration happen.
@@ -59,7 +59,7 @@ export type TwistContextMenuSource = 'message' | 'thread' | 'comment'
 
 /**
  * When a context menu extension is triggered, the data will be sent in the
- * `params` field of the `DoistCardAction`. This type will allow you to
+ * `params` field of the `TodoistCardAction`. This type will allow you to
  * cast that data to something specific.
  */
 export type TwistContextMenuData = {
@@ -95,6 +95,6 @@ export type TwistContextMenuData = {
     postedDate: Date
 }
 
-export type TwistContextUser = DoistContextUser & {
+export type TwistContextUser = BaseContextUser & {
     id: number
 }

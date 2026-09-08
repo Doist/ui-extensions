@@ -1,4 +1,4 @@
-import type { DoistContextUser } from './doist'
+import type { BaseContextUser } from './base'
 
 type TodoistIdAndName = { id: string; name: string }
 
@@ -34,7 +34,7 @@ export type TodoistContext = {
 
 /**
  * When a context menu extension is triggered, the data will be sent in the
- * `params` field of the `DoistCardAction`. This type will allow you to
+ * `params` field of the `TodoistCardAction`. This type will allow you to
  * cast that data to something specific.
  */
 export type TodoistContextMenuData = {
@@ -72,6 +72,6 @@ export type TodoistContextMenuData = {
 
 export type TodoistContextMenuSource = 'project' | 'task'
 
-export type TodoistContextUser = DoistContextUser & {
+export type TodoistContextUser = BaseContextUser & {
     id: string
 }

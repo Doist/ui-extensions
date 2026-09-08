@@ -1,13 +1,13 @@
-import { AdaptiveCardistCard } from '../types/doist-rendering'
+import { AdaptiveCardistCard } from '../types/todoist-rendering'
 
-import type { DoistCardContext } from '@doist/ui-extensions-core'
+import type { TodoistCardContext } from '@doist/ui-extensions-core'
 
 export const DEFAULT_SERVER_ROOT = 'https://server.com'
 export const DEFAULT_SERVER_RELATIVE_PATH = '/process'
 export const DEFAULT_SERVER_ABSOLUTE_PATH = `${DEFAULT_SERVER_ROOT}${DEFAULT_SERVER_RELATIVE_PATH}`
 export const DEFAULT_TOKEN = 'kwijibo'
 
-export const DEFAULT_CONTEXT_V2: DoistCardContext = {
+export const DEFAULT_CONTEXT_V2: TodoistCardContext = {
     user: {
         email: 'my@email.com',
         first_name: 'Mariko',

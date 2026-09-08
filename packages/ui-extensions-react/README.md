@@ -1,6 +1,6 @@
 # UI Extensions - React Components
 
-The library contains the react components required to interact with integrations from within Doist products.
+The library contains the react components required to interact with integrations from within Todoist products.
 
 Specifically it contains the rendering components for the adaptive cards as well as the communication hook to speak to the respective extension servers.
 

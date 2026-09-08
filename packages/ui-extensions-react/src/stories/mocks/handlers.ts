@@ -1,9 +1,9 @@
 import {
     ActionSet,
     ClipboardAction,
-    DoistCard,
     OpenUrlAction,
     TextBlock,
+    TodoistCard,
 } from '@doist/ui-extensions-core'
 
 import { http, HttpResponse } from 'msw'
@@ -15,8 +15,8 @@ export const handlers = [
 ]
 
 function errorCard() {
-    const card = new DoistCard()
-    card.doistCardVersion = '0.6'
+    const card = new TodoistCard()
+    card.todoistCardVersion = '0.6'
 
     card.verticalContentAlignment = 'center'
     card.minHeight = 200
@@ -33,7 +33,7 @@ function errorCard() {
     actions.id = 'Actions'
 
     const urlButton = new OpenUrlAction()
-    urlButton.url = 'https://www.doist.com'
+    urlButton.url = 'https://www.todoist.com'
     urlButton.style = 'positive'
     urlButton.title = 'Open Url'
     actions.addAction(urlButton)

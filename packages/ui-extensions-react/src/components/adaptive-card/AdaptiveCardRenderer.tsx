@@ -20,16 +20,16 @@ import { trackRootsDuringCardRender } from '../../utils/rendered-roots'
 
 import { AdaptiveCardCanvas } from './AdaptiveCardCanvas'
 
-import type { DoistCardAction, DoistCardActionData } from '@doist/ui-extensions-core'
+import type { TodoistCardAction, TodoistCardActionData } from '@doist/ui-extensions-core'
 import type { Root } from 'react-dom/client'
-import type { DoistCardResult, ExtensionCard, ExtensionError } from '../../types'
+import type { ExtensionCard, ExtensionError, TodoistCardResult } from '../../types'
 
 type AdaptiveCardRendererProps = {
-    onAction: (action: DoistCardAction, loadingText?: string) => void
+    onAction: (action: TodoistCardAction, loadingText?: string) => void
     onError?: (error: ExtensionError) => void
     hostConfig?: HostConfig
     errorText: string
-    result: DoistCardResult
+    result: TodoistCardResult
     customElementParse?: (
         element: CardElement,
         source: unknown,
@@ -131,7 +131,7 @@ export function AdaptiveCardRenderer({
                         actionType: 'submit',
                         actionId: action.id,
                         inputs: inputsObject,
-                        data: action.toJSON()?.data as DoistCardActionData,
+                        data: action.toJSON()?.data as TodoistCardActionData,
                     },
                     action.loadingText,
                 )

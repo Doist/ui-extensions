@@ -1,8 +1,10 @@
 :root {
-    --doist-card-color: rgba(0, 0, 0, 0.88);
-    --doist-card-background: rgb(255, 255, 255);
+    /* The `--doist-card-*` names are the previous spelling. Reading through them means a
+       consumer still overriding those keeps their theme. */
+    --todoist-card-color: var(--doist-card-color, rgba(0, 0, 0, 0.88));
+    --todoist-card-background: var(--doist-card-background, rgb(255, 255, 255));
 
-    --doist-card-error-color: red;
+    --todoist-card-error-color: var(--doist-card-error-color, red);
 }
 
 .adaptive-card-container {
@@ -13,8 +15,8 @@
 }
 
 .adaptive-card-container option {
-    color: var(--doist-card-color) !important;
-    background: var(--doist-card-background);
+    color: var(--todoist-card-color) !important;
+    background: var(--todoist-card-background);
 }
 
 .adaptive-card-content {
@@ -28,8 +30,8 @@
 }
 
 .adaptive-card-content option {
-    color: var(--doist-card-color) !important;
-    background: var(--doist-card-background);
+    color: var(--todoist-card-color) !important;
+    background: var(--todoist-card-background);
 }
 
 .adaptive-card-content p {
@@ -56,7 +58,7 @@
     margin-right: auto;
     margin-top: auto;
     margin-bottom: auto;
-    color: var(--doist-card-error-color);
+    color: var(--todoist-card-error-color);
 }
 
 .ac-anchor__attention {

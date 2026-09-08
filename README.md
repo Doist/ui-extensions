@@ -1,4 +1,4 @@
-# Doist UI Extensions
+# Todoist UI Extensions
 
 This monorepo contains the source code for `npm` packages used to develop UI Extensions for [Twist](https://twist.com). You can learn more about building Twist UI Extensions [here](https://developer.twist.com/ui-extensions).
 
@@ -12,10 +12,10 @@ This monorepo comprises of two packages:
 
 ### ui-extensions-core
 
-_DoistCard_ components and _Doist UI Extension Data Exchange Format_ types. You can use this package to construct your integration's UI which will then provide the DoistCards JSON payload to be rendered on our clients.
+_TodoistCard_ components and _Todoist UI Extension Data Exchange Format_ types. You can use this package to construct your integration's UI which will then provide the TodoistCards JSON payload to be rendered on our clients.
 
 You can learn more about building Todoist UI Extensions [here](https://developer.todoist.com/ui-extensions) and Twist UI Extensions [here](https://developer.twist.com/ui-extensions).
 
 ### ui-extensions-react
 
-A library containing card renderer and connector for React apps. This is used internally by Doist projects and not needed to develop an integration.
+A library containing card renderer and connector for React apps. This is used internally by Todoist projects and not needed to develop an integration.

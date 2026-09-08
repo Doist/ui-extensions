@@ -1,6 +1,6 @@
 import { createTextButton } from './button-helpers'
 
-import type { OpenUrlAction, SubmitAction, TextBlock } from '../doist-card'
+import type { OpenUrlAction, SubmitAction, TextBlock } from '../todoist-card'
 
 describe('button-helpers', () => {
     describe('createTextButton', () => {

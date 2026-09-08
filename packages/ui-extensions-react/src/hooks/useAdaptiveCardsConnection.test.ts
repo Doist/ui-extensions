@@ -11,10 +11,10 @@ import {
 
 import { useAdaptiveCardsConnection } from './useAdaptiveCardsConnection'
 
-import type { DoistCardResponse } from '@doist/ui-extensions-core'
+import type { TodoistCardResponse } from '@doist/ui-extensions-core'
 import type { ExtensionResponse } from '..'
 import type { BridgeActionCallbacks, ExtensionContext, ExtensionVersion } from '../types'
-import type { AdaptiveCardistCard } from '../types/doist-rendering'
+import type { AdaptiveCardistCard } from '../types/todoist-rendering'
 
 function getProcessRequestMock() {
     return jest.spyOn(adaptiveCardsServer, 'processRequest')
@@ -146,7 +146,7 @@ describe('useAdaptiveCardsConnection tests', () => {
                             text: expected,
                         },
                     ],
-                } as DoistCardResponse)
+                } as TodoistCardResponse)
             })
 
             let actual: string | undefined = undefined

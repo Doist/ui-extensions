@@ -1,2 +1,2 @@
-export * from './doist-rendering'
+export * from './todoist-rendering'
 export * from './types'

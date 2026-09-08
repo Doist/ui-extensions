@@ -33,4 +33,6 @@ jobs:
 
             - name: Publish
               run: |
-                  aws s3 cp schemas/latest/doist-card.json s3://doist-schemas-us-east-1-011833101604/doist-card.json
+                  aws s3 cp schemas/latest/todoist-card.json s3://doist-schemas-us-east-1-011833101604/todoist-card.json
+                  # Also published under the previous name, which card authors' editors still point at.
+                  aws s3 cp schemas/latest/todoist-card.json s3://doist-schemas-us-east-1-011833101604/doist-card.json

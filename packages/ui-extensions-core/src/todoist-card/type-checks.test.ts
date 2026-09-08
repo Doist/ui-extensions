@@ -6,7 +6,6 @@ import {
     ColumnSet,
     Container,
     DateInput,
-    DoistCard,
     Image,
     NumberInput,
     RichTextBlock,
@@ -14,12 +13,13 @@ import {
     TextInput,
     TextRun,
     TimeInput,
+    TodoistCard,
     ToggleInput,
 } from '.'
 
 describe('types checks', () => {
     test.each([
-        [DoistCard, 'AdaptiveCard'],
+        [TodoistCard, 'AdaptiveCard'],
         [Container, 'Container'],
         [ActionSet, 'ActionSet'],
         [Column, 'Column'],
