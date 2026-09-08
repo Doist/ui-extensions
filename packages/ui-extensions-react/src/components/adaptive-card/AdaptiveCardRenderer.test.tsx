@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, type ReactNode } from 'react'
 
-import { ActionSet, ClipboardAction, DoistCard, TextBlock } from '@doist/ui-extensions-core'
+import { ActionSet, ClipboardAction, TextBlock, TodoistCard } from '@doist/ui-extensions-core'
 
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { AdaptiveCard, GlobalRegistry } from 'adaptivecards'
@@ -14,7 +14,7 @@ import { registerRenderedRoot } from '../../utils/rendered-roots'
 import { AdaptiveCardRenderer } from './AdaptiveCardRenderer'
 
 import type { Root } from 'react-dom/client'
-import type { DoistCardResult } from '../../types'
+import type { TodoistCardResult } from '../../types'
 
 class TestErrorBoundary extends Component<
     { fallback: ReactNode; children: ReactNode },
@@ -42,7 +42,7 @@ describe('AdaptiveCardRenderer', () => {
     const adaptiveCardErrorTestId = 'adaptive-card-error'
 
     it('displays the Loading control when type is loading', () => {
-        const result: DoistCardResult = {
+        const result: TodoistCardResult = {
             type: 'loading',
         }
 
@@ -61,7 +61,7 @@ describe('AdaptiveCardRenderer', () => {
 
     it('displays the error text and invokes onError if type is error', () => {
         const error = { error: new Error('kwijibo') }
-        const result: DoistCardResult = {
+        const result: TodoistCardResult = {
             type: 'error',
             error,
         }
@@ -86,8 +86,8 @@ describe('AdaptiveCardRenderer', () => {
     it('displays the adaptive card if type is loaded', async () => {
         // Serialize to JSON (as the framework receives it from the server) so
         // parse() rebuilds the body; passing the card instance leaves it empty.
-        const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
-        const result: DoistCardResult = {
+        const card = JSON.parse(JSON.stringify(getDefaultCard())) as TodoistCard
+        const result: TodoistCardResult = {
             type: 'loaded',
             card,
         }
@@ -130,7 +130,7 @@ describe('AdaptiveCardRenderer', () => {
             })
 
             // Simulate serialization and de-serialization
-            const card = JSON.parse(JSON.stringify(getErrorCard(clipboardText))) as DoistCard
+            const card = JSON.parse(JSON.stringify(getErrorCard(clipboardText))) as TodoistCard
             const clipboardHandler = jest.fn()
 
             render(
@@ -148,9 +148,9 @@ describe('AdaptiveCardRenderer', () => {
             expect(clipboardHandler).toHaveBeenLastCalledWith(clipboardText)
         })
 
-        function getErrorCard(clipboardText?: string): DoistCard {
-            const card = new DoistCard()
-            card.doistCardVersion = '0.3'
+        function getErrorCard(clipboardText?: string): TodoistCard {
+            const card = new TodoistCard()
+            card.todoistCardVersion = '0.3'
 
             const textBlock = new TextBlock('This is an error card')
             textBlock.id = 'ErrorCard'
@@ -197,7 +197,7 @@ describe('AdaptiveCardRenderer', () => {
         it('renders custom inputs without a flushSync render-phase warning', async () => {
             // Serialize to JSON (as the framework receives it from the server) so parse()
             // rebuilds the elements through the registered custom renderers.
-            const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+            const card = JSON.parse(JSON.stringify(getDefaultCard())) as TodoistCard
             const errorSpy = jest.spyOn(global.console, 'error')
 
             const { unmount } = render(
@@ -228,7 +228,7 @@ describe('AdaptiveCardRenderer', () => {
         })
 
         it('tears down the previous card on swap without a flushSync render-phase warning', async () => {
-            const firstCard = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+            const firstCard = JSON.parse(JSON.stringify(getDefaultCard())) as TodoistCard
 
             const { rerender } = render(
                 <AdaptiveCardRenderer
@@ -244,7 +244,7 @@ describe('AdaptiveCardRenderer', () => {
             // A card swap runs the deferred root teardown mid-commit, not just on unmount.
             const secondCard = JSON.parse(
                 JSON.stringify(getDefaultCard()).replace('TextInput.Search', 'TextInput.Search2'),
-            ) as DoistCard
+            ) as TodoistCard
             // Spy as late as possible: the teardown under test runs during this swap.
             const errorSpy = jest.spyOn(global.console, 'error')
             await act(async () => {
@@ -269,7 +269,7 @@ describe('AdaptiveCardRenderer', () => {
         })
 
         it('keeps the previous card visible while the next result is loading', async () => {
-            const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+            const card = JSON.parse(JSON.stringify(getDefaultCard())) as TodoistCard
 
             const { rerender } = render(
                 <AdaptiveCardRenderer
@@ -300,7 +300,7 @@ describe('AdaptiveCardRenderer', () => {
 
             const nextCard = JSON.parse(
                 JSON.stringify(getDefaultCard()).replace('Search here...', 'Next card...'),
-            ) as DoistCard
+            ) as TodoistCard
             rerender(
                 <AdaptiveCardRenderer
                     result={{ type: 'loaded', card: nextCard }}
@@ -314,8 +314,8 @@ describe('AdaptiveCardRenderer', () => {
         })
 
         it('keeps typed input values when an inline onError prop changes identity', async () => {
-            const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
-            const result: DoistCardResult = { type: 'loaded', card }
+            const card = JSON.parse(JSON.stringify(getDefaultCard())) as TodoistCard
+            const result: TodoistCardResult = { type: 'loaded', card }
 
             const { rerender } = render(
                 <AdaptiveCardRenderer
@@ -349,7 +349,7 @@ describe('AdaptiveCardRenderer', () => {
         })
 
         it('fires onAction when the inline action button is clicked', async () => {
-            const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+            const card = JSON.parse(JSON.stringify(getDefaultCard())) as TodoistCard
             const onAction = jest.fn()
 
             render(
@@ -387,7 +387,7 @@ describe('AdaptiveCardRenderer', () => {
                 throw new Error('render exploded')
             })
 
-            const card = JSON.parse(JSON.stringify(getDefaultCard())) as DoistCard
+            const card = JSON.parse(JSON.stringify(getDefaultCard())) as TodoistCard
             const onError = jest.fn()
 
             render(

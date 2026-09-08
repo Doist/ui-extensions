@@ -1,7 +1,7 @@
 {
     "name": "@doist/ui-extensions-react",
-    "version": "21.1.0",
-    "author": "Doist",
+    "version": "22.0.0",
+    "author": "Todoist",
     "license": "MIT",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -35,7 +35,7 @@
     },
     "peerDependencies": {
         "@doist/reactist": "^37.0.0",
-        "@doist/ui-extensions-core": "^5.0.0",
+        "@doist/ui-extensions-core": "^6.0.0",
         "adaptivecards": ">=2.9.0 <2.10.0",
         "react": ">=18.0.0 <20.0.0",
         "react-compiler-runtime": "^1.0.0",

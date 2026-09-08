@@ -1,13 +1,13 @@
 import { createLogoWithText } from './headers'
 import { HEADER_COLUMN_ID, HEADER_IMAGE_ID, HEADER_TITLE_ID } from './ui-constants'
 
-import type { ColumnSet, SubmitAction } from '../doist-card'
-import type { Image, TextBlock } from '../doist-card/card-elements'
+import type { ColumnSet, SubmitAction } from '../todoist-card'
+import type { Image, TextBlock } from '../todoist-card/card-elements'
 
 describe('headers', () => {
     test('createLogoHeader creates the header items correctly', () => {
         const result = createLogoWithText({
-            logoUrl: 'https://doist.com/images/kwijibo.png',
+            logoUrl: 'https://todoist.com/images/kwijibo.png',
             headerText: 'Login to Kwijibo',
         })
 
@@ -17,7 +17,7 @@ describe('headers', () => {
 
         // Image checks
         expect(headerImage.pixelHeight).toEqual(24)
-        expect(headerImage.url).toEqual('https://doist.com/images/kwijibo.png')
+        expect(headerImage.url).toEqual('https://todoist.com/images/kwijibo.png')
 
         // Title checks
         expect(headerTitle.text).toEqual('Login to Kwijibo')

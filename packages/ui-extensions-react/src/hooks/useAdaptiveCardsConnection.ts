@@ -3,35 +3,35 @@ import { useCallback, useState } from 'react'
 import { processRequest } from '../api/adaptive-cards-server'
 
 import type {
-    DoistCardAction,
-    DoistCardActionParams,
-    DoistCardBridge,
-    DoistCardError,
-    DoistCardExtensionType,
-    DoistCardRequest,
-    DoistCardResponse,
+    TodoistCardAction,
+    TodoistCardActionParams,
+    TodoistCardBridge,
+    TodoistCardError,
+    TodoistCardExtensionType,
+    TodoistCardRequest,
+    TodoistCardResponse,
 } from '@doist/ui-extensions-core'
 import type {
     BridgeActionCallbacks,
-    DoistCardResult,
-    DoistCardsConnection,
     ExtensionCard,
     ExtensionContext,
     ExtensionError,
     ExtensionRequest,
     ExtensionVersion,
+    TodoistCardResult,
+    TodoistCardsConnection,
 } from '../types'
 
 const MAXIMUM_CARDIST_VERSION = 0.6
 
-export type DoistCardConnectionParams = {
+export type TodoistCardConnectionParams = {
     context: ExtensionContext
     bridgeActionCallbacks: BridgeActionCallbacks
     endpointUrl: string
-    extensionType?: DoistCardExtensionType
-    onError?: (error: DoistCardError) => void
+    extensionType?: TodoistCardExtensionType
+    onError?: (error: TodoistCardError) => void
     token: string
-    params?: DoistCardActionParams
+    params?: TodoistCardActionParams
     version: ExtensionVersion
 }
 
@@ -43,8 +43,8 @@ export function useAdaptiveCardsConnection({
     extensionType,
     params,
     version,
-}: DoistCardConnectionParams): DoistCardsConnection {
-    const [result, setResult] = useState<DoistCardResult>({ type: 'loading' })
+}: TodoistCardConnectionParams): TodoistCardsConnection {
+    const [result, setResult] = useState<TodoistCardResult>({ type: 'loading' })
 
     function setLoading(loadingText?: string) {
         setResult({ type: 'loading', loadingText })
@@ -59,7 +59,7 @@ export function useAdaptiveCardsConnection({
     }
 
     const onAction = useCallback(
-        async (action: DoistCardAction, loadingText?: string) => {
+        async (action: TodoistCardAction, loadingText?: string) => {
             setLoading(loadingText)
             const request = createRequest(
                 version,
@@ -69,7 +69,7 @@ export function useAdaptiveCardsConnection({
                 params,
             )
             try {
-                const response = await processRequest<ExtensionRequest, DoistCardResponse>(
+                const response = await processRequest<ExtensionRequest, TodoistCardResponse>(
                     request,
                     endpointUrl,
                     token,
@@ -78,7 +78,7 @@ export function useAdaptiveCardsConnection({
                 const { card, bridges } = response
 
                 if (bridges) {
-                    bridges.forEach((bridge: DoistCardBridge) => {
+                    bridges.forEach((bridge: TodoistCardBridge) => {
                         const callback = bridgeActionCallbacks[bridge.bridgeActionType]
                         callback?.(bridge)
                     })
@@ -110,20 +110,21 @@ export function useAdaptiveCardsConnection({
 function createRequest(
     version: ExtensionVersion,
     context: ExtensionContext,
-    action: DoistCardAction,
-    extensionType?: DoistCardExtensionType,
-    actionParams?: DoistCardActionParams,
+    action: TodoistCardAction,
+    extensionType?: TodoistCardExtensionType,
+    actionParams?: TodoistCardActionParams,
 ): ExtensionRequest {
     switch (version) {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- version check for future extensibility
         case 2: {
-            const requestV2: DoistCardRequest = {
+            const requestV2: TodoistCardRequest = {
                 context,
                 action: {
                     ...action,
                     params: actionParams,
                 },
                 extensionType: extensionType ?? 'composer',
+                maximumTodoistCardVersion: MAXIMUM_CARDIST_VERSION,
                 maximumDoistCardVersion: MAXIMUM_CARDIST_VERSION,
             }
             return requestV2
@@ -139,7 +140,7 @@ function createError(
     switch (version) {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- version check for future extensibility
         case 2: {
-            const errorV2: DoistCardError = {
+            const errorV2: TodoistCardError = {
                 error,
                 request,
             }

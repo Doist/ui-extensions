@@ -1,8 +1,8 @@
-import { CardElement, Column, ColumnSet, Image, SubmitAction, TextBlock } from '../doist-card'
+import { CardElement, Column, ColumnSet, Image, SubmitAction, TextBlock } from '../todoist-card'
 
 import { HEADER_COLUMN_ID, HEADER_IMAGE_ID, HEADER_TITLE_ID, ICON_SIZE } from './ui-constants'
 
-import type { HorizontalAlignment } from '../doist-card'
+import type { HorizontalAlignment } from '../todoist-card'
 
 type HeaderOptions = {
     /**
@@ -99,7 +99,7 @@ type LogoWithTextOptions = {
 /**
  * @summary The creates a clickable card element with an image and text side-by-side
  * @param {LogoWithTextOptions} options - The options for creating this item.
- * @return {CardElement} A Doist Card element that can be added to a card.
+ * @return {CardElement} A Todoist Card element that can be added to a card.
  */
 export function createLogoWithText(options: LogoWithTextOptions): CardElement {
     const {

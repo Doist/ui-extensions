@@ -3,11 +3,11 @@ import { type JSX, useEffect, useState } from 'react'
 import { AdaptiveCardRenderer } from '../components'
 import { useAdaptiveCardsConnection } from '../hooks'
 
-import type { DoistCardContext } from '@doist/ui-extensions-core'
-import type { DoistCardConnectionParams } from '../hooks'
-import type { DoistCardBridge, ExtensionError } from '../types'
+import type { TodoistCardContext } from '@doist/ui-extensions-core'
+import type { TodoistCardConnectionParams } from '../hooks'
+import type { ExtensionError, TodoistCardBridge } from '../types'
 
-const DEFAULT_CONTEXT: DoistCardContext = {
+const DEFAULT_CONTEXT: TodoistCardContext = {
     user: {
         email: 'my@email.com',
         first_name: 'Mariko',
@@ -29,14 +29,14 @@ const DEFAULT_CONTEXT: DoistCardContext = {
 export type StorybookConnectedCardProps = {
     endpointUrl: string
     children?: (
-        configuration: DoistCardConnectionParams,
-        setConfiguration: (newConfig: DoistCardConnectionParams) => void,
+        configuration: TodoistCardConnectionParams,
+        setConfiguration: (newConfig: TodoistCardConnectionParams) => void,
     ) => JSX.Element
 }
 
 export function StorybookConnectedCard(props: StorybookConnectedCardProps): JSX.Element {
-    const [bridgeActions, setBridgeActions] = useState<DoistCardBridge[]>([])
-    const [configuration, setConfiguration] = useState<DoistCardConnectionParams>({
+    const [bridgeActions, setBridgeActions] = useState<TodoistCardBridge[]>([])
+    const [configuration, setConfiguration] = useState<TodoistCardConnectionParams>({
         context: DEFAULT_CONTEXT,
         bridgeActionCallbacks: {
             'composer.append': (x) => setBridgeActions([x, ...bridgeActions]),

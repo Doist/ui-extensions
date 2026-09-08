@@ -1,4 +1,4 @@
-import { JsonProperty, JsonObject } from 'typescript-json-serializer'
+import { JsonObject, JsonProperty } from 'typescript-json-serializer'
 
 import { Action } from './actions'
 import { CardElement } from './card-element'

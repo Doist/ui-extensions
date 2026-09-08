@@ -1,5 +1,5 @@
-import { Column, ColumnSet, Container, Image, TextBlock } from '../doist-card'
-import { Action, OpenUrlAction, SubmitAction } from '../doist-card/actions'
+import { Column, ColumnSet, Container, Image, TextBlock } from '../todoist-card'
+import { Action, OpenUrlAction, SubmitAction } from '../todoist-card/actions'
 
 import { ICON_SIZE } from './ui-constants'
 
@@ -8,7 +8,7 @@ import type {
     HorizontalAlignment,
     TextColor,
     VerticalAlignment,
-} from '../doist-card/types'
+} from '../todoist-card/types'
 
 type CreateIconButtonOptions = {
     /**

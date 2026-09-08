@@ -6,7 +6,7 @@ import { CheckboxField, TextField } from '@doist/reactist'
 import * as AC from 'adaptivecards'
 
 import { TimePicker } from '../components/time-picker'
-import { TextInputist, ToggleInputist } from '../types/doist-rendering'
+import { TextInputist, ToggleInputist } from '../types/todoist-rendering'
 import { registerRenderedRoot } from '../utils/rendered-roots'
 import { createInputContainer } from '../utils/renderer-utils'
 

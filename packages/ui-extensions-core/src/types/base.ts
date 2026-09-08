@@ -1,4 +1,4 @@
-export type DoistContextUser = {
+export type BaseContextUser = {
     short_name: string
     timezone: string
     lang: string

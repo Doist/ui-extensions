@@ -15,7 +15,7 @@ import { polyfillFetch } from '../test/polyfills'
 
 import { processRequest } from './adaptive-cards-server'
 
-import type { DoistCardResponse } from '@doist/ui-extensions-core'
+import type { TodoistCardResponse } from '@doist/ui-extensions-core'
 import type { Scope } from 'nock'
 import type { ExtensionRequest } from '../types'
 
@@ -43,13 +43,15 @@ describe('Tests for adaptive-cards-server', () => {
             actionType: 'initial',
         },
         extensionType: 'composer',
+        maximumTodoistCardVersion: 0.3,
+        // The previous name, still sent so older extension servers keep working.
         maximumDoistCardVersion: 0.3,
     }
 
     it('response contains card and is deserialized into an object', async () => {
         mockOkReplyStrict(nock(DEFAULT_SERVER_ROOT), DEFAULT_CARD)
 
-        const { card } = await processRequest<ExtensionRequest, DoistCardResponse>(
+        const { card } = await processRequest<ExtensionRequest, TodoistCardResponse>(
             defaultRequest,
             DEFAULT_SERVER_ABSOLUTE_PATH,
             DEFAULT_TOKEN,
@@ -71,7 +73,7 @@ describe('Tests for adaptive-cards-server', () => {
             .post(DEFAULT_SERVER_RELATIVE_PATH)
             .reply(429, errorCard, { 'Content-type': 'application/json' })
 
-        const result = await processRequest<ExtensionRequest, DoistCardResponse>(
+        const result = await processRequest<ExtensionRequest, TodoistCardResponse>(
             defaultRequest,
             DEFAULT_SERVER_ABSOLUTE_PATH,
             DEFAULT_TOKEN,
@@ -86,7 +88,7 @@ describe('Tests for adaptive-cards-server', () => {
             .reply(500, 'Internal Server Error', { 'Content-type': 'text/plain' })
 
         await expect(
-            processRequest<ExtensionRequest, DoistCardResponse>(
+            processRequest<ExtensionRequest, TodoistCardResponse>(
                 defaultRequest,
                 DEFAULT_SERVER_ABSOLUTE_PATH,
                 DEFAULT_TOKEN,
@@ -98,7 +100,7 @@ describe('Tests for adaptive-cards-server', () => {
         nock(DEFAULT_SERVER_ROOT).post(DEFAULT_SERVER_RELATIVE_PATH).replyWithError('Network error')
 
         await expect(
-            processRequest<ExtensionRequest, DoistCardResponse>(
+            processRequest<ExtensionRequest, TodoistCardResponse>(
                 defaultRequest,
                 DEFAULT_SERVER_ABSOLUTE_PATH,
                 DEFAULT_TOKEN,

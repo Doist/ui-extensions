@@ -16,6 +16,7 @@ import {
 } from 'adaptivecards'
 
 import type { Orientation } from '@doist/ui-extensions-core'
+import type { PropertyBag, SerializationContext } from 'adaptivecards'
 
 export type AdaptiveCardistVersion = '0.2' | '0.3' | '0.4'
 export type InputStyle = 'text' | 'tel' | 'url' | 'email' | 'search'
@@ -28,16 +29,65 @@ export class AdaptiveCardistCard extends AdaptiveCard {
 
     static readonly doistCardVersionProperty = new StringProperty(Versions.v1_0, 'doistCardVersion')
 
+    static readonly todoistCardVersionProperty = new StringProperty(
+        Versions.v1_0,
+        'todoistCardVersion',
+    )
+
     static readonly autoFocusIdProperty = new StringProperty(Versions.v1_0, 'autoFocusId')
 
+    /** An older name for {@link todoistCardVersion}. Kept in step, and still emitted. */
     @property(AdaptiveCardistCard.adaptiveCardistVersionProperty)
     adaptiveCardistVersion: AdaptiveCardistVersion = '0.3'
 
+    /** An older name for {@link todoistCardVersion}. Kept in step, and still emitted. */
     @property(AdaptiveCardistCard.doistCardVersionProperty)
     doistCardVersion: AdaptiveCardistVersion = '0.3'
 
+    @property(AdaptiveCardistCard.todoistCardVersionProperty)
+    todoistCardVersion: AdaptiveCardistVersion = '0.3'
+
     @property(AdaptiveCardistCard.autoFocusIdProperty)
     autoFocusId?: string
+
+    /**
+     * A schema key of its own. Without it this class shares the `AdaptiveCard` entry in the
+     * schema cache with its base class, and whichever of the two is constructed first decides
+     * the schema both of them use — which silently drops the properties declared here.
+     * A literal rather than `.name`, so a minifier cannot change it.
+     */
+    protected getSchemaKey(): string {
+        return 'TodoistCard'
+    }
+
+    protected internalToJSON(target: PropertyBag, context: SerializationContext): void {
+        super.internalToJSON(target, context)
+
+        // The three fields are independent, so anything that sets one directly would
+        // otherwise emit keys that disagree. The current name is the one that counts.
+        context.serializeValue(target, 'doistCardVersion', this.todoistCardVersion)
+        context.serializeValue(target, 'adaptiveCardistVersion', this.todoistCardVersion)
+    }
+
+    protected internalParse(source: PropertyBag, context: SerializationContext): void {
+        super.internalParse(source, context)
+
+        // A card may arrive carrying any one of the three version keys, so settle on the
+        // newest one present and write it back to all of them. `internalParse` assigns
+        // undefined for every key the payload omits, hence the cast.
+        const parsed = [
+            this.todoistCardVersion,
+            this.doistCardVersion,
+            this.adaptiveCardistVersion,
+        ] as (AdaptiveCardistVersion | undefined)[]
+
+        const version = parsed.find(Boolean)
+        if (version !== undefined) {
+            this.todoistCardVersion = version
+            this.doistCardVersion = version
+            this.adaptiveCardistVersion = version
+        }
+    }
 }
 
 export class TextInputist extends TextInput {

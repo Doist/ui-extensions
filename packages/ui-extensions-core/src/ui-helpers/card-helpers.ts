@@ -1,10 +1,10 @@
-import { DoistCard } from '../doist-card'
+import { TodoistCard } from '../todoist-card'
 
-import type { DoistCardVersion } from '../doist-card'
+import type { TodoistCardVersion } from '../todoist-card'
 
 /**
- * Creates an empty DoistCard
+ * Creates an empty TodoistCard
  */
-export function createEmptyCard(doistCardVersion?: DoistCardVersion): DoistCard {
-    return DoistCard.from({ doistCardVersion: doistCardVersion || '0.5' })
+export function createEmptyCard(todoistCardVersion?: TodoistCardVersion): TodoistCard {
+    return TodoistCard.from({ todoistCardVersion: todoistCardVersion || '0.5' })
 }

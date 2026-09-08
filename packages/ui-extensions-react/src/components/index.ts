@@ -1,4 +1,4 @@
-import './doist-card.css'
+import './todoist-card.css'
 
 export * from './adaptive-card'
 export * from './searchable-select'

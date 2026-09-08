@@ -1,6 +1,6 @@
 import type { SizeAndUnit } from './shared'
 
-export type DoistCardVersion = '0.3' | '0.4' | '0.5' | '0.6'
+export type TodoistCardVersion = '0.3' | '0.4' | '0.5' | '0.6'
 export type ElementHeight = 'auto' | 'stretch'
 
 export type HorizontalAlignment = 'left' | 'center' | 'right'

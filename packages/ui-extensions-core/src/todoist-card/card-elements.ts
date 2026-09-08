@@ -1,4 +1,4 @@
-import { JsonProperty, JsonObject } from 'typescript-json-serializer'
+import { JsonObject, JsonProperty } from 'typescript-json-serializer'
 
 import { Action } from './actions'
 import { CardElement } from './card-element'
@@ -6,7 +6,6 @@ import { ContainerWithNoItems } from './containers'
 
 import type { Props } from './props'
 import type {
-    DoistCardVersion,
     FontSize,
     FontType,
     FontWeight,
@@ -16,41 +15,70 @@ import type {
     ImageWidth,
     TextBlockStyle,
     TextColor,
+    TodoistCardVersion,
 } from './types'
 
+const DEFAULT_CARD_VERSION: TodoistCardVersion = '0.3'
+
 /**
- * The DoistCard is the root object into which all other elements and cards can be added.
+ * The card version is written to every one of these keys, newest first, so that clients
+ * reading any of them keep working. Reading prefers the newest key present.
+ */
+const CARD_VERSION_KEYS = [
+    'todoistCardVersion',
+    'doistCardVersion',
+    'adaptiveCardistVersion',
+] as const
+
+type CardVersionWireFormat = Partial<Record<(typeof CARD_VERSION_KEYS)[number], TodoistCardVersion>>
+
+/**
+ * The TodoistCard is the root object into which all other elements and cards can be added.
  * @extends ContainerWithNoItems
  */
 @JsonObject()
-export class DoistCard extends ContainerWithNoItems {
+export class TodoistCard extends ContainerWithNoItems {
     static readonly schemaUrl = 'http://adaptivecards.io/schemas/adaptive-card.json'
 
-    @JsonProperty('doistCardVersion')
-    private _doistCardVersion: DoistCardVersion = '0.3'
-
-    @JsonProperty('adaptiveCardistVersion')
-    private _adaptiveCardistVersion: DoistCardVersion = '0.3'
+    /**
+     * Emitted as `todoistCardVersion`, and also under the two older key names that
+     * existing clients and extension servers still read. On the way in, the newest
+     * key present wins.
+     */
+    @JsonProperty({
+        name: [...CARD_VERSION_KEYS],
+        afterSerialize: function (version: TodoistCardVersion): CardVersionWireFormat {
+            return {
+                todoistCardVersion: version,
+                doistCardVersion: version,
+                adaptiveCardistVersion: version,
+            }
+        },
+        beforeDeserialize: function (raw: CardVersionWireFormat): TodoistCardVersion {
+            // Must never return undefined: the serializer calls `.toString()` on the result.
+            return (
+                raw.todoistCardVersion ??
+                raw.doistCardVersion ??
+                raw.adaptiveCardistVersion ??
+                DEFAULT_CARD_VERSION
+            )
+        },
+    })
+    private _todoistCardVersion: TodoistCardVersion = DEFAULT_CARD_VERSION
 
     /**
-     * The version of the DoistCard. This version tells the requesting client what version of
-     * DoistCard you require and that lets the client know whether they can render this or not.
+     * The version of the TodoistCard. This version tells the requesting client what version of
+     * TodoistCard you require and that lets the client know whether they can render this or not.
      *
      * If you choose a version that is higher than a supported client, your card may not get rendered
      * properly.
      */
-    get doistCardVersion(): DoistCardVersion {
-        // When we remove `adaptiveCardistVersion` we can remove this line, until then,
-        // we should keep it as it ensures that the _adaptiveCardistVersion field doesn't
-        // get removed by accident.
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        this._adaptiveCardistVersion
-        return this._doistCardVersion
+    get todoistCardVersion(): TodoistCardVersion {
+        return this._todoistCardVersion
     }
 
-    set doistCardVersion(value: DoistCardVersion) {
-        this._doistCardVersion = value
-        this._adaptiveCardistVersion = value
+    set todoistCardVersion(value: TodoistCardVersion) {
+        this._todoistCardVersion = value
     }
 
     /**
@@ -60,7 +88,7 @@ export class DoistCard extends ContainerWithNoItems {
     autoFocusId?: string
 
     @JsonProperty()
-    readonly $schema = DoistCard.schemaUrl
+    readonly $schema = TodoistCard.schemaUrl
 
     /**
      * This is the adaptive card version that we are currently supporting,
@@ -127,13 +155,13 @@ export class DoistCard extends ContainerWithNoItems {
     }
 
     /**
-     * Create an instance of the DoistCard.
-     * @summary Create an instance of the DoistCard and be able to pass items in through an array, as well being
+     * Create an instance of the TodoistCard.
+     * @summary Create an instance of the TodoistCard and be able to pass items in through an array, as well being
      * able to pass in the other properties.
-     * @param props - The properties of the DoistCard and the additional items array.
-     * @return {DoistCard} An instance of {@link DoistCard}.
+     * @param props - The properties of the TodoistCard and the additional items array.
+     * @return {TodoistCard} An instance of {@link TodoistCard}.
      */
-    static fromWithItems<T extends DoistCard>(
+    static fromWithItems<T extends TodoistCard>(
         this: new () => T,
         props: Props<T> & { items?: CardElement[] },
     ): T {

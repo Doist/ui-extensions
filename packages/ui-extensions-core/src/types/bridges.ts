@@ -1,24 +1,24 @@
 /**
  * Types of actions that the server can invoke on the client via a bridge.
  */
-export type DoistCardBridgeActionType = DoistCardBridge['bridgeActionType']
+export type TodoistCardBridgeActionType = TodoistCardBridge['bridgeActionType']
 
 /**
  * The notification display type
  */
-export type DoistCardNotificationType = 'success' | 'error' | 'info'
+export type TodoistCardNotificationType = 'success' | 'error' | 'info'
 
 /**
  * The bridge notification. This should be supplied when the `bridgeActionType` is `display.notification`
  */
-export type DoistCardBridgeNotification = {
+export type TodoistCardBridgeNotification = {
     /**
      * The text that should appear in the notification.
      *
      * NOTE: this should be plain text, Markdown is *not* supported
      */
     text: string
-    type: DoistCardNotificationType
+    type: TodoistCardNotificationType
     /**
      * The action, this should be a URL and is what will be launched when clicked (if provided)
      */
@@ -50,7 +50,7 @@ export type ComposerAppendBridge = {
  */
 export type DisplayNotificationBridge = {
     bridgeActionType: 'display.notification'
-    notification: DoistCardBridgeNotification
+    notification: TodoistCardBridgeNotification
 }
 
 /**
@@ -59,15 +59,15 @@ export type DisplayNotificationBridge = {
  */
 export type RequestTodoistSyncBridge = {
     bridgeActionType: 'request.sync'
-    onSuccessNotification?: DoistCardBridgeNotification
-    onErrorNotification?: DoistCardBridgeNotification
+    onSuccessNotification?: TodoistCardBridgeNotification
+    onErrorNotification?: TodoistCardBridgeNotification
 }
 
 /**
  * The bridge represents actions that the server asks the client to invoke locally,
  * along with necessary parameters to do so.
  */
-export type DoistCardBridge =
+export type TodoistCardBridge =
     | FinishedBridge
     | ComposerAppendBridge
     | DisplayNotificationBridge
