@@ -26,6 +26,17 @@ describe('AdaptiveCardistCard', () => {
             ]).toEqual([expected, expected, expected])
         })
 
+        it('keeps the keys in step when the version is set directly', () => {
+            const card = new AdaptiveCardistCard()
+            card.todoistCardVersion = '0.4'
+
+            expect(card.toJSON()).toMatchObject({
+                todoistCardVersion: '0.4',
+                doistCardVersion: '0.4',
+                adaptiveCardistVersion: '0.4',
+            })
+        })
+
         it('writes the version to every supported key', () => {
             const card = new AdaptiveCardistCard()
             card.parse({ type: 'AdaptiveCard', version: '1.4', todoistCardVersion: '0.4' })

@@ -1,11 +1,12 @@
-:root {
-    /* The `--doist-card-*` names are the previous spelling. Reading through them means a
-       consumer still overriding those keeps their theme. */
-    --todoist-card-color: var(--doist-card-color, rgba(0, 0, 0, 0.88));
-    --todoist-card-background: var(--doist-card-background, rgb(255, 255, 255));
-
-    --todoist-card-error-color: var(--doist-card-error-color, red);
-}
+/*
+ * Theming hooks: --todoist-card-color, --todoist-card-background and
+ * --todoist-card-error-color, each falling back to the previous --doist-card-* spelling.
+ *
+ * The fallback chain is written out at every use site rather than aliased once on :root.
+ * A custom property's var() is substituted where the property is declared, so an alias
+ * defined on :root would freeze the legacy value at document root and ignore any override
+ * scoped below it - `.dark-theme { --doist-card-color: ... }` would stop working.
+ */
 
 .adaptive-card-container {
     white-space: normal;
@@ -15,8 +16,8 @@
 }
 
 .adaptive-card-container option {
-    color: var(--todoist-card-color) !important;
-    background: var(--todoist-card-background);
+    color: var(--todoist-card-color, var(--doist-card-color, rgba(0, 0, 0, 0.88))) !important;
+    background: var(--todoist-card-background, var(--doist-card-background, rgb(255, 255, 255)));
 }
 
 .adaptive-card-content {
@@ -30,8 +31,8 @@
 }
 
 .adaptive-card-content option {
-    color: var(--todoist-card-color) !important;
-    background: var(--todoist-card-background);
+    color: var(--todoist-card-color, var(--doist-card-color, rgba(0, 0, 0, 0.88))) !important;
+    background: var(--todoist-card-background, var(--doist-card-background, rgb(255, 255, 255)));
 }
 
 .adaptive-card-content p {
@@ -58,7 +59,7 @@
     margin-right: auto;
     margin-top: auto;
     margin-bottom: auto;
-    color: var(--todoist-card-error-color);
+    color: var(--todoist-card-error-color, var(--doist-card-error-color, red));
 }
 
 .ac-anchor__attention {

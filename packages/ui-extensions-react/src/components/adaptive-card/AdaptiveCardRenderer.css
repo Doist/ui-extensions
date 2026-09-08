@@ -1,15 +1,13 @@
-:root {
-    /* Reads through the previous spelling so an existing override still applies. */
-    --todoist-card-loading-background: var(--doist-card-loading-background, rgba(0, 0, 0, 0.4));
-}
-
 .adaptive-card-loading-container {
     white-space: normal;
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
-    background: var(--todoist-card-loading-background);
+    background: var(
+        --todoist-card-loading-background,
+        var(--doist-card-loading-background, rgba(0, 0, 0, 0.4))
+    );
     position: absolute;
     z-index: 5;
     overscroll-behavior: contain;

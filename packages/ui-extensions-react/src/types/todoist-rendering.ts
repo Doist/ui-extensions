@@ -60,6 +60,15 @@ export class AdaptiveCardistCard extends AdaptiveCard {
         return 'TodoistCard'
     }
 
+    protected internalToJSON(target: PropertyBag, context: SerializationContext): void {
+        super.internalToJSON(target, context)
+
+        // The three fields are independent, so anything that sets one directly would
+        // otherwise emit keys that disagree. The current name is the one that counts.
+        context.serializeValue(target, 'doistCardVersion', this.todoistCardVersion)
+        context.serializeValue(target, 'adaptiveCardistVersion', this.todoistCardVersion)
+    }
+
     protected internalParse(source: PropertyBag, context: SerializationContext): void {
         super.internalParse(source, context)
 
