@@ -1,6 +1,9 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
+        // `node` resolution ignores `exports` maps, which is all some dependencies ship.
+        // Without this their types silently resolve to `any`.
+        "moduleResolution": "bundler",
         "outDir": "./dist",
         "baseUrl": "./src",
         "rootDir": "./src",
