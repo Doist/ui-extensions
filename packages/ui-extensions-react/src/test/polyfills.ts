@@ -1,5 +1,6 @@
+import { TextDecoder, TextEncoder } from 'util'
+
 import fetch from 'node-fetch'
-import { TextEncoder, TextDecoder } from 'util'
 
 /**
  * Adds missing global access for fetch.
@@ -17,7 +18,7 @@ export function polyfillFetch(): void {
 
     // TextEncoder and TextDecoder are required by node-fetch v3
     if (!('TextEncoder' in globalThis)) {
-        globalThis.TextEncoder = TextEncoder as unknown as typeof globalThis.TextEncoder
+        globalThis.TextEncoder = TextEncoder
     }
     if (!('TextDecoder' in globalThis)) {
         globalThis.TextDecoder = TextDecoder as unknown as typeof globalThis.TextDecoder

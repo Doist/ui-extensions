@@ -5,7 +5,6 @@ import CreatableSelect from 'react-select/creatable'
 import { Loading } from '@doist/reactist'
 
 import type {
-    CSSObjectWithLabel,
     GroupBase,
     InputProps,
     OnChangeValue,
@@ -24,75 +23,65 @@ const basicCSSOverrides = {
 // These styles are required to be set in order for the css values to be adhered to, otherwise
 // it will try and use its base styles
 const styles: StylesConfig<Option, boolean, GroupBase<Option>> = {
-    control: (base, _props) =>
-        ({
-            ...base,
+    control: (base, _props) => ({
+        ...base,
+        ...basicCSSOverrides,
+        boxShadow: 'inherit',
+        ':hover': {
+            borderColor: 'inherit',
+        },
+        ':focus': {
+            borderColor: 'inherit',
+        },
+        display: 'flex',
+    }),
+    singleValue: (base, _props) => ({
+        ...base,
+        ...basicCSSOverrides,
+    }),
+    input: (_base, _props) => ({
+        ...basicCSSOverrides,
+    }),
+    menu: (base, _props) => ({
+        ...base,
+        ...basicCSSOverrides,
+        boxShadow: 'inherit',
+    }),
+    noOptionsMessage: (base, _props) => ({
+        ...base,
+        textAlign: undefined,
+    }),
+    option: (base, _props) => ({
+        ...base,
+        ...basicCSSOverrides,
+        background: undefined,
+        backgroundColor: undefined,
+        ':active': {
             ...basicCSSOverrides,
-            boxShadow: 'inherit',
-            ':hover': {
-                borderColor: 'inherit',
-            },
-            ':focus': {
-                borderColor: 'inherit',
-            },
-            display: 'flex',
-        }) as CSSObjectWithLabel,
-    singleValue: (base, _props) =>
-        ({
-            ...base,
-            ...basicCSSOverrides,
-        }) as CSSObjectWithLabel,
-    input: (_base, _props) =>
-        ({
-            ...basicCSSOverrides,
-        }) as CSSObjectWithLabel,
-    menu: (base, _props) =>
-        ({
-            ...base,
-            ...basicCSSOverrides,
-            boxShadow: 'inherit',
-        }) as CSSObjectWithLabel,
-    noOptionsMessage: (base, _props) =>
-        ({
-            ...base,
-            textAlign: undefined,
-        }) as CSSObjectWithLabel,
-    option: (base, _props) =>
-        ({
-            ...base,
-            ...basicCSSOverrides,
-            background: undefined,
-            backgroundColor: undefined,
-            ':active': {
-                ...basicCSSOverrides,
-            },
-        }) as CSSObjectWithLabel,
+        },
+    }),
     // This hides the default separator
-    indicatorSeparator: (_base, _props) => ({}) as CSSObjectWithLabel,
-    multiValue: (base, _props) =>
-        ({
-            ...base,
-            border: undefined,
-            borderColor: undefined,
-            borderRadius: undefined,
-            backgroundColor: undefined,
-        }) as CSSObjectWithLabel,
-    multiValueLabel: (base, _props) =>
-        ({
-            ...base,
-            color: undefined,
-        }) as CSSObjectWithLabel,
-    multiValueRemove: (base, _props) =>
-        ({
-            ...base,
-            borderRadius: undefined,
-            ':hover': {},
-        }) as CSSObjectWithLabel,
-    valueContainer: (_base, _props) =>
-        ({
-            display: 'flex',
-            marginLeft: '6px',
-        }) as CSSObjectWithLabel,
+    indicatorSeparator: (_base, _props) => ({}),
+    multiValue: (base, _props) => ({
+        ...base,
+        border: undefined,
+        borderColor: undefined,
+        borderRadius: undefined,
+        backgroundColor: undefined,
+    }),
+    multiValueLabel: (base, _props) => ({
+        ...base,
+        color: undefined,
+    }),
+    multiValueRemove: (base, _props) => ({
+        ...base,
+        borderRadius: undefined,
+        ':hover': {},
+    }),
+    valueContainer: (_base, _props) => ({
+        display: 'flex',
+        marginLeft: '6px',
+    }),
 }
 
 type SearchableSelectProps = SelectProps<Option, boolean> & {
