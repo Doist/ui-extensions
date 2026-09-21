@@ -10,7 +10,7 @@
         "@doist/prettier-config": "4.0.1",
         "@doist/tsconfig": "2.0.1",
         "@types/jest": "30.0.0",
-        "@types/node": "24.13.4",
+        "@types/node": "24.13.5",
         "@typescript-eslint/eslint-plugin": "8.70.0",
         "@typescript-eslint/parser": "8.70.0",
         "better-npm-audit": "3.11.0",
