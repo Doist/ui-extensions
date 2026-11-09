@@ -13,7 +13,7 @@
         "@types/node": "24.19.2",
         "@typescript-eslint/eslint-plugin": "8.72.1",
         "@typescript-eslint/parser": "8.72.1",
-        "better-npm-audit": "3.11.0",
+        "better-npm-audit": "3.13.1",
         "chokidar-cli": "3.0.0",
         "eslint": "8.57.1",
         "eslint-config-prettier": "10.1.8",
