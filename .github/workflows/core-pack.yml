@@ -1,0 +1,37 @@
+name: Pack core release artifact
+run-name: ui-extensions-core pack v1 ${{ github.sha }}
+
+on:
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ui-extensions-core-release
+    cancel-in-progress: false
+
+jobs:
+    pack:
+        if: github.repository == 'todoist/ui-extensions' && github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ github.sha }}
+                  persist-credentials: false
+            - uses: actions/setup-node@v6
+              with:
+                  node-version-file: '.nvmrc'
+            - run: npm ci --ignore-scripts
+            - run: npm run test:release
+            - run: npm run integrity-check --workspace=packages/ui-extensions-core
+            - name: Pack once without lifecycle hooks
+              run: node scripts/release.mjs pack release-artifact
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: ui-extensions-core-release
+                  path: release-artifact/
+                  if-no-files-found: error
+                  retention-days: 90

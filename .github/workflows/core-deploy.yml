@@ -1,69 +1,71 @@
-name: Publish core package
+name: Publish retained core artifact
 
 on:
-    push:
-        tags:
-            - 'core-v*'
+    workflow_dispatch:
+        inputs:
+            artifact_run_id:
+                description: Original successful core-pack.yml run ID (never rerun/repack on retry)
+                required: true
+                type: string
+            release_sha:
+                description: Full source SHA from that main pack run
+                required: true
+                type: string
+            release_version:
+                description: Exact manifest version, initially 6.0.1
+                required: true
+                type: string
+            destination:
+                description: Publish both registries or complete one missing mirror
+                type: choice
+                required: true
+                default: both
+                options: [both, npmjs, github]
+            release_tag:
+                description: Use migration-recovery for an older missing mirror
+                type: choice
+                default: latest
+                options: [latest, migration-recovery]
 
 permissions:
-    # Enable reading repository contents (allows checkout without token)
     contents: read
-    # Enable the use of OIDC for trusted publishing and npm provenance
-    id-token: write
-    # Enable the use of GitHub Packages registry
-    packages: write
+
+concurrency:
+    group: ui-extensions-core-release
+    cancel-in-progress: false
 
 jobs:
-    # Publish to GitHub package registry
-    publish-github:
+    publish:
+        if: github.repository == 'todoist/ui-extensions' && github.ref == 'refs/heads/main'
+        environment: npm-release
         runs-on: ubuntu-latest
-        timeout-minutes: 60
+        timeout-minutes: 15
+        permissions:
+            contents: read
+            actions: read
+            packages: write
+            id-token: write
+        env:
+            ARTIFACT_RUN_ID: ${{ inputs.artifact_run_id }}
+            RELEASE_SHA: ${{ inputs.release_sha }}
+            RELEASE_VERSION: ${{ inputs.release_version }}
+            RELEASE_TAG: ${{ inputs.release_tag }}
+            GH_TOKEN: ${{ github.token }}
+            GH_PACKAGES_TOKEN: ${{ github.token }}
         steps:
-            - name: Git checkout
-              uses: actions/checkout@v6
-
-            - name: Configure Doist package repository
-              uses: actions/setup-node@v6
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ github.sha }}
+                  persist-credentials: false
+            - uses: actions/setup-node@v6
               with:
                   node-version-file: '.nvmrc'
-                  registry-url: https://npm.pkg.github.com/
-                  scope: '@doist'
-
-            - name: Install dependencies
-              run: npm run bootstrap-ci:common
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
-
-            - name: Publish package
-              working-directory: ./packages/ui-extensions-core
-              run: npm publish
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
-
-    # Publish to npm package registry
-    publish-npm:
-        runs-on: ubuntu-latest
-        timeout-minutes: 60
-        steps:
-            - name: Git checkout
-              uses: actions/checkout@v6
-
-            - name: Configure Doist package repository
-              uses: actions/setup-node@v6
-              with:
-                  node-version-file: '.nvmrc'
-                  registry-url: https://registry.npmjs.org/
-                  scope: '@doist'
-
-            - name: Install dependencies
-              run: npm run bootstrap-ci:common
-
-            # npm must be upgraded AFTER installing dependencies to avoid package-lock.json
-            # sync errors. Upgrading npm before running npm ci can cause lock file format
-            # mismatches that prevent successful dependency installation.
-            - name: Ensure npm 11.5.1 or later is installed
-              run: npm install -g npm@latest
-
-            - name: Publish package
-              working-directory: ./packages/ui-extensions-core
-              run: npm publish --provenance --access public
+            - run: npm install --global npm@11.19.0
+            # No dependency install, rebuild, version bump or lifecycle invocation here.
+            - run: node scripts/release.mjs download release-artifact
+            - name: Publish npm with configured trusted publishing
+              if: inputs.destination == 'both' || inputs.destination == 'npmjs'
+              run: node scripts/release.mjs publish release-artifact npmjs
+            - name: Publish public GitHub mirror
+              if: inputs.destination == 'both' || inputs.destination == 'github'
+              run: node scripts/release.mjs publish release-artifact github

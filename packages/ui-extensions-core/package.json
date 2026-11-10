@@ -1,6 +1,6 @@
 {
-    "name": "@doist/ui-extensions-core",
-    "version": "6.0.0",
+    "name": "@todoist/ui-extensions-core",
+    "version": "6.0.1",
     "description": "",
     "main": "dist/cjs/index.js",
     "module": "dist/esm/index.js",
@@ -13,7 +13,7 @@
         }
     },
     "type": "module",
-    "repository": "https://github.com/Doist/ui-extensions",
+    "repository": "https://github.com/todoist/ui-extensions",
     "scripts": {
         "watch": "npm run build && yalc push && chokidar src -c \"npm run build && yalc push\"",
         "lint-fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -37,7 +37,7 @@
     "keywords": [],
     "author": "",
     "license": "MIT",
-    "prettier": "@doist/prettier-config",
+    "prettier": "@todoist/prettier-config",
     "files": [
         "dist/cjs/**/*",
         "dist/esm/**/*",

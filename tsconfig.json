@@ -1,5 +1,5 @@
 {
-    "extends": "@doist/tsconfig",
+    "extends": "@todoist/tsconfig",
     "compilerOptions": {
         "target": "es2017",
         "lib": ["dom", "dom.iterable", "esnext"],

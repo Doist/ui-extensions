@@ -5,6 +5,10 @@ on:
             - 'packages/ui-extensions-core/**'
             - 'package.json'
             - 'package-lock.json'
+            - 'scripts/**'
+            - '.github/workflows/**'
+            - '.eslintrc.cjs'
+            - 'tsconfig.json'
 
 jobs:
     ci-core:
@@ -13,10 +17,13 @@ jobs:
         steps:
             - uses: actions/checkout@v6
 
-            - name: Configure doist package repository
+            - name: Configure Node.js
               uses: actions/setup-node@v6
               with:
                   node-version-file: '.nvmrc'
+
+            - name: Release safety checks
+              run: npm run test:release
 
             - name: Bootstrap
               run: npm run bootstrap-ci:common
