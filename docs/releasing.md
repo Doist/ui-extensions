@@ -91,7 +91,10 @@ approved durable storage before the 90-day expiry. Source verification checks th
 successful original run, repository, workflow ID/path, main dispatch, checkout SHA,
 main ancestry, supported schema, archive digest, tarball hash and source manifest.
 Historical workflow bytes need **not** equal a later current-main workflow. A later
-maintenance commit therefore does not invalidate the original artifact. Unsupported
+maintenance commit therefore does not invalidate the original artifact. Schema v1
+validates the original run through `actions/runs/RUN_ID/attempts/1`, including its
+successful conclusion and `run_attempt: 1`. A later failed rerun changes the run's
+latest state but does not invalidate that original successful archive. Unsupported
 schemas or expired hosted artifacts stop for approved recovery of the **original**
 archived bytes; they are never instructions to rebuild an already-published version.
 

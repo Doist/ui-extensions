@@ -104,7 +104,10 @@ async function downloadOriginal(directory) {
     assert.match(runId, /^[1-9][0-9]*$/)
     assert.match(sha, fullSha)
     assert.match(process.env.RELEASE_VERSION || '', stableVersion)
-    const sourceRun = api(`actions/runs/${runId}`)
+    // The run-level endpoint reports the LATEST attempt. A later failed rerun
+    // must not invalidate the successful original pack and its immutable archive.
+    // Schema v1 only packs attempt 1; keep that historical attempt as the authority.
+    const sourceRun = api(`actions/runs/${runId}/attempts/1`)
     assert.equal(String(sourceRun.id), runId)
     const workflow = api('actions/workflows/core-pack.yml')
     await validateSourceRun(sourceRun, workflow.id, sha, async (base, head) =>
