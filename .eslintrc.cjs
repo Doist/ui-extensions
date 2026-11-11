@@ -9,8 +9,8 @@ module.exports = {
         jest: true,
     },
     extends: [
-        '@doist/eslint-config/recommended-type-checked',
-        '@doist/eslint-config/simple-import-sort',
+        '@todoist/eslint-config/eslintrc/recommended-type-checked',
+        '@todoist/eslint-config/eslintrc/simple-import-sort',
     ],
     root: true,
     ignorePatterns: ['scripts/', '.eslintrc.cjs', 'global-setup.js', 'jest.config.js'],

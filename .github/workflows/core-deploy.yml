@@ -1,69 +1,51 @@
 name: Publish core package
 
 on:
-    push:
-        tags:
-            - 'core-v*'
+    workflow_dispatch:
 
 permissions:
-    # Enable reading repository contents (allows checkout without token)
     contents: read
-    # Enable the use of OIDC for trusted publishing and npm provenance
     id-token: write
-    # Enable the use of GitHub Packages registry
     packages: write
 
+concurrency:
+    group: publish-core
+    cancel-in-progress: false
+
 jobs:
-    # Publish to GitHub package registry
-    publish-github:
+    publish:
+        if: github.repository == 'todoist/ui-extensions' && github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
-        timeout-minutes: 60
+        timeout-minutes: 15
         steps:
-            - name: Git checkout
-              uses: actions/checkout@v6
-
-            - name: Configure Doist package repository
-              uses: actions/setup-node@v6
+            - uses: actions/checkout@v6
               with:
-                  node-version-file: '.nvmrc'
-                  registry-url: https://npm.pkg.github.com/
-                  scope: '@doist'
-
-            - name: Install dependencies
-              run: npm run bootstrap-ci:common
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
-
-            - name: Publish package
-              working-directory: ./packages/ui-extensions-core
-              run: npm publish
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
-
-    # Publish to npm package registry
-    publish-npm:
-        runs-on: ubuntu-latest
-        timeout-minutes: 60
-        steps:
-            - name: Git checkout
-              uses: actions/checkout@v6
-
-            - name: Configure Doist package repository
-              uses: actions/setup-node@v6
+                  persist-credentials: false
+            - uses: actions/setup-node@v6
               with:
                   node-version-file: '.nvmrc'
                   registry-url: https://registry.npmjs.org/
-                  scope: '@doist'
-
-            - name: Install dependencies
-              run: npm run bootstrap-ci:common
-
-            # npm must be upgraded AFTER installing dependencies to avoid package-lock.json
-            # sync errors. Upgrading npm before running npm ci can cause lock file format
-            # mismatches that prevent successful dependency installation.
-            - name: Ensure npm 11.5.1 or later is installed
-              run: npm install -g npm@latest
-
-            - name: Publish package
-              working-directory: ./packages/ui-extensions-core
-              run: npm publish --provenance --access public
+                  scope: '@todoist'
+            - run: npm install --global npm@11.19.0
+            - run: npm ci --ignore-scripts
+            - run: npm run integrity-check --workspace=packages/ui-extensions-core
+            - name: Pack once
+              run: |
+                  mkdir -p "$RUNNER_TEMP/core-release"
+                  npm pack --workspace=packages/ui-extensions-core --ignore-scripts --pack-destination="$RUNNER_TEMP/core-release"
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: core-package
+                  path: ${{ runner.temp }}/core-release/*.tgz
+                  if-no-files-found: error
+            - name: Publish to npm
+              run: npm publish "$RUNNER_TEMP/core-release/"*.tgz --ignore-scripts --provenance --access public --registry=https://registry.npmjs.org/
+            - uses: actions/setup-node@v6
+              with:
+                  node-version-file: '.nvmrc'
+                  registry-url: https://npm.pkg.github.com/
+                  scope: '@todoist'
+            - name: Publish to GitHub Packages
+              run: npm publish "$RUNNER_TEMP/core-release/"*.tgz --ignore-scripts --access public --registry=https://npm.pkg.github.com/
+              env:
+                  NODE_AUTH_TOKEN: ${{ github.token }}

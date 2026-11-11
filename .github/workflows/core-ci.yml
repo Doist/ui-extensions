@@ -5,6 +5,9 @@ on:
             - 'packages/ui-extensions-core/**'
             - 'package.json'
             - 'package-lock.json'
+            - '.github/workflows/**'
+            - '.eslintrc.cjs'
+            - 'tsconfig.json'
 
 jobs:
     ci-core:
@@ -13,15 +16,13 @@ jobs:
         steps:
             - uses: actions/checkout@v6
 
-            - name: Configure doist package repository
+            - name: Configure Node.js
               uses: actions/setup-node@v6
               with:
                   node-version-file: '.nvmrc'
 
             - name: Bootstrap
               run: npm run bootstrap-ci:common
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGES_TOKEN}}
 
             - name: Integrity Check
               run: npm run integrity-check

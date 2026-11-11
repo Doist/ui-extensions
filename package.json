@@ -6,9 +6,9 @@
         "packages/ui-extensions-core"
     ],
     "devDependencies": {
-        "@doist/eslint-config": "12.0.1",
-        "@doist/prettier-config": "4.0.1",
-        "@doist/tsconfig": "2.0.1",
+        "@todoist/eslint-config": "13.1.2",
+        "@todoist/prettier-config": "4.0.2",
+        "@todoist/tsconfig": "2.0.2",
         "@types/jest": "30.0.0",
         "@types/node": "24.19.2",
         "@typescript-eslint/eslint-plugin": "8.72.1",
@@ -18,9 +18,9 @@
         "eslint": "8.57.1",
         "eslint-config-prettier": "10.1.8",
         "husky": "9.1.7",
-        "lint-staged": "17.6.0",
         "jest": "30.5.2",
         "jest-environment-jsdom": "30.5.2",
+        "lint-staged": "17.6.0",
         "npm-run-all2": "9.0.4",
         "prettier": "3.8.3",
         "rimraf": "6.1.4",
@@ -28,7 +28,7 @@
         "typescript": "5.9.3",
         "yalc": "1.0.0-pre.53"
     },
-    "prettier": "@doist/prettier-config",
+    "prettier": "@todoist/prettier-config",
     "scripts": {
         "format-check": "npx prettier --check .",
         "format-fix": "npx prettier --write .",
