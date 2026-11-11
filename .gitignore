@@ -70,6 +70,3 @@ config.json
 **/es
 **/lib
 **/styles
-
-# Retained release artifacts
-/release-artifact/

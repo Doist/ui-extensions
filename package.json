@@ -40,8 +40,7 @@
         "reset": "npm run --workspaces reset && rimraf node_modules",
         "test": "npm run --workspaces test",
         "audit": "npx better-npm-audit audit --level=moderate --production",
-        "integrity-check": "npm run --workspaces integrity-check",
-        "test:release": "node --test scripts/*.test.mjs"
+        "integrity-check": "npm run --workspaces integrity-check"
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx,json,css,html,yml,yaml,md}": "prettier --check"

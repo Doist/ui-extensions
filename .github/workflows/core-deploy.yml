@@ -1,71 +1,51 @@
-name: Publish retained core artifact
+name: Publish core package
 
 on:
     workflow_dispatch:
-        inputs:
-            artifact_run_id:
-                description: Original successful core-pack.yml run ID (never rerun/repack on retry)
-                required: true
-                type: string
-            release_sha:
-                description: Full source SHA from that main pack run
-                required: true
-                type: string
-            release_version:
-                description: Exact manifest version, initially 6.0.1
-                required: true
-                type: string
-            destination:
-                description: Publish both registries or complete one missing mirror
-                type: choice
-                required: true
-                default: both
-                options: [both, npmjs, github]
-            release_tag:
-                description: Use migration-recovery for an older missing mirror
-                type: choice
-                default: latest
-                options: [latest, migration-recovery]
 
 permissions:
     contents: read
+    id-token: write
+    packages: write
 
 concurrency:
-    group: ui-extensions-core-release
+    group: publish-core
     cancel-in-progress: false
 
 jobs:
     publish:
         if: github.repository == 'todoist/ui-extensions' && github.ref == 'refs/heads/main'
-        environment: npm-release
         runs-on: ubuntu-latest
         timeout-minutes: 15
-        permissions:
-            contents: read
-            actions: read
-            packages: write
-            id-token: write
-        env:
-            ARTIFACT_RUN_ID: ${{ inputs.artifact_run_id }}
-            RELEASE_SHA: ${{ inputs.release_sha }}
-            RELEASE_VERSION: ${{ inputs.release_version }}
-            RELEASE_TAG: ${{ inputs.release_tag }}
-            GH_TOKEN: ${{ github.token }}
-            GH_PACKAGES_TOKEN: ${{ github.token }}
         steps:
             - uses: actions/checkout@v6
               with:
-                  ref: ${{ github.sha }}
                   persist-credentials: false
             - uses: actions/setup-node@v6
               with:
                   node-version-file: '.nvmrc'
+                  registry-url: https://registry.npmjs.org/
+                  scope: '@todoist'
             - run: npm install --global npm@11.19.0
-            # No dependency install, rebuild, version bump or lifecycle invocation here.
-            - run: node scripts/release.mjs download release-artifact
-            - name: Publish npm with configured trusted publishing
-              if: inputs.destination == 'both' || inputs.destination == 'npmjs'
-              run: node scripts/release.mjs publish release-artifact npmjs
-            - name: Publish public GitHub mirror
-              if: inputs.destination == 'both' || inputs.destination == 'github'
-              run: node scripts/release.mjs publish release-artifact github
+            - run: npm ci --ignore-scripts
+            - run: npm run integrity-check --workspace=packages/ui-extensions-core
+            - name: Pack once
+              run: |
+                  mkdir -p "$RUNNER_TEMP/core-release"
+                  npm pack --workspace=packages/ui-extensions-core --ignore-scripts --pack-destination="$RUNNER_TEMP/core-release"
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: core-package
+                  path: ${{ runner.temp }}/core-release/*.tgz
+                  if-no-files-found: error
+            - name: Publish to npm
+              run: npm publish "$RUNNER_TEMP/core-release/"*.tgz --ignore-scripts --provenance --access public --registry=https://registry.npmjs.org/
+            - uses: actions/setup-node@v6
+              with:
+                  node-version-file: '.nvmrc'
+                  registry-url: https://npm.pkg.github.com/
+                  scope: '@todoist'
+            - name: Publish to GitHub Packages
+              run: npm publish "$RUNNER_TEMP/core-release/"*.tgz --ignore-scripts --access public --registry=https://npm.pkg.github.com/
+              env:
+                  NODE_AUTH_TOKEN: ${{ github.token }}
